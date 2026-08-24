@@ -3,47 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Loop Infinito)</title>
+    <title>Copiador de Script SAP (Detecção Global)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #8a2be2; font-size: 24px; margin-bottom: 5px; }
+        h1 { color: #e15f41; font-size: 24px; margin-bottom: 5px; }
         p { color: #666; margin-bottom: 20px; }
         .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
         pre { margin: 0; }
         code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #8a2be2; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #6a1b9a; }
+        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #e15f41; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-copiar:hover { background: #cd4d31; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Automação SAP - Modo Loop Contínuo</h1>
-        <p>Esta versão limpa a memória após cada confirmação, permitindo bipar infinitos lotes sem precisar colar o código de novo.</p>
+        <h1>Automação SAP - Modo Detecção Global Permanente</h1>
+        <p>Esta versão resolve o problema de elementos destruídos pelo SAP monitorando a página de forma global.</p>
         
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
 <pre><code id="script-sap">(function() {
     let temporizador;
-    let inputEscutado = false;
+    let executandoClique = false;
 
     // Defina aqui o ID do botão de confirmação do seu pop-up
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='COLOQUE_AQUI_O_ID_DO_BOTAO_DE_CONFIRMACAO']";
 
-    console.log("🚀 Automação SAP Contínua Ativada! Pronta para múltiplos lotes.");
+    console.log("🚀 Automação SAP Global Ativada! Monitorando bipes continuamente...");
 
     function dispararCliqueReal(elemento) {
         elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
         elemento.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
         elemento.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    }
-
-    // Função de reset que prepara o script para o próximo lote do ciclo
-    function resetarCicloAutomacao() {
-        console.log("🔄 Processo concluído! Resetando script para o próximo lote...");
-        inputEscutado = false; // Destrava o monitoramento do segundo input
-        clearTimeout(temporizador);
     }
 
     function esperarBotaoConfirmacao() {
@@ -57,26 +50,36 @@
                 dispararCliqueReal(botaoConfirmar);
                 observer.disconnect(); 
                 
-                // Executa o reset logo após clicar na confirmação
-                resetarCicloAutomacao();
+                // Libera o script para aceitar novos bipes após fechar o pop-up
+                setTimeout(() => { 
+                    executandoClique = false; 
+                    console.log("🔄 Pronto para o próximo lote!");
+                }, 1000);
             }
         });
 
         observadorPopup.observe(document.body, { childList: true, subtree: true });
     }
 
-    function iniciarMonitoramentoInput(campo) {
-        if (inputEscutado) return;
-        inputEscutado = true;
-        console.log("🎯 Segundo campo de lote detectado! Monitorando digitação...");
+    // OUVINTE GLOBAL: Captura qualquer digitação na página inteira, independente do elemento sumir ou reaparecer
+    document.body.addEventListener("input", function(evento) {
+        const campo = evento.target;
 
-        campo.addEventListener("input", function() {
+        // Verifica se o campo que disparou o evento é o nosso segundo input de lote
+        if (campo && campo.matches("[id$='LoteInput2-inner']")) {
+            
+            // Bloqueia bipes duplicados enquanto o clique anterior está processando
+            if (executandoClique) return;
+
             clearTimeout(temporizador); 
 
             if (campo.value.trim() !== "") {
-                console.log("✍️ Digitando/Bipando... Aguardando 3 segundos.");
+                console.log("✍️ Bipe detectado no segundo lote. Aguardando 3 segundos...");
 
                 temporizador = setTimeout(function() {
+                    executandoClique = true; // Trava para evitar cliques múltiplos
+
+                    // Avisa o framework SAP que o campo mudou
                     campo.dispatchEvent(new Event('change', { bubbles: true }));
                     campo.dispatchEvent(new Event('liveChange', { bubbles: true }));
 
@@ -88,22 +91,12 @@
                         dispararCliqueReal(botaoProximo);
                     } else {
                         console.error("❌ Erro: O botão 'Próximo' não foi localizado.");
-                        inputEscutado = false; // Permite tentar novamente se falhar aqui
+                        executandoClique = false; // Destrava se houver erro
                     }
                 }, 3000); 
             }
-        });
-    }
-
-    // Observador geral permanente (nunca é desligado)
-    const observadorPrincipal = new MutationObserver(function() {
-        const segundoInput = document.querySelector("[id$='LoteInput2-inner']");
-        if (segundoInput) {
-            iniciarMonitoramentoInput(segundoInput);
         }
     });
-
-    observadorPrincipal.observe(document.body, { childList: true, subtree: true });
 })();</code></pre>
         </div>
     </div>
@@ -117,7 +110,7 @@
                 btn.style.background = "#28a745";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código";
-                    btn.style.background = "#8a2be2";
+                    btn.style.background = "#e15f41";
                 }, 2000);
             });
         }
