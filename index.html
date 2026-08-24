@@ -3,36 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Fluxo Dinâmico)</title>
+    <title>Copiador de Script SAP (Fluxo com Confirmação)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #2b78e4; font-size: 24px; margin-bottom: 5px; }
+        h1 { color: #28a745; font-size: 24px; margin-bottom: 5px; }
         p { color: #666; margin-bottom: 20px; }
         .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
         pre { margin: 0; }
         code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #2b78e4; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #1a5cb8; }
+        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-copiar:hover { background: #218838; }
+        .alerta-id { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-top: 15px; font-size: 14px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Código de Automação SAP (Suporte a Elementos Ocultos)</h1>
-        <p>Esta versão monitora a tela para capturar o segundo input e o botão assim que eles surgirem na página. Copie e cole no Console (F12).</p>
+        <h1>Automação SAP - Fluxo Completo com Confirmação</h1>
+        <p>Esta versão clica no botão "Próximo", aguarda o pop-up de confirmação aparecer na tela e clica nele automaticamente.</p>
         
+        <div class="alerta-id">
+            <strong>⚠️ Atenção:</strong> No código abaixo, substitua o texto <code>COLOQUE_AQUI_O_ID_DO_BOTAO_DE_CONFIRMACAO</code> pelo ID real ou pelo texto do botão de confirmação que aparece no pop-up (ex: "Sim", "OK" ou o ID dele obtido pelo F12).
+        </div>
+        <br>
+
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
 <pre><code id="script-sap">(function() {
     let temporizador;
     let inputEscutado = false;
 
-    console.log("🚀 Automação Dinâmica SAP Iniciada! Monitorando o surgimento dos campos...");
+    // 1. Configure aqui a identificação do botão de confirmação (pode ser o ID ou o texto dele)
+    // Se for usar o ID, mantenha o [id$='...'] como nos outros. Se for texto, use o seletor abaixo.
+    const SELETOR_BOTAO_CONFIRMACAO = "[id$='COLOQUE_AQUI_O_ID_DO_BOTAO_DE_CONFIRMACAO']";
+
+    console.log("🚀 Automação SAP Avançada Iniciada! Monitorando o segundo campo...");
+
+    // Função auxiliar para disparar o clique físico perfeito exigido pelo SAP
+    function dispararCliqueReal(elemento) {
+        elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+        elemento.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
+        elemento.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    }
+
+    // Função que monitora a aparição do botão de confirmação no pop-up
+    function esperarBotaoConfirmacao() {
+        console.log("👀 Aguardando o pop-up de confirmação aparecer...");
+        
+        const observadorPopup = new MutationObserver(function(mutations, observer) {
+            const botaoConfirmar = document.querySelector(SELETOR_BOTAO_CONFIRMACAO);
+            
+            if (botaoConfirmar) {
+                console.log("✅ Botão de confirmação detectado! Clicando...");
+                dispararCliqueReal(botaoConfirmar);
+                observer.disconnect(); // Desliga este observador após clicar para poupar memória
+            }
+        });
+
+        observadorPopup.observe(document.body, { childList: true, subtree: true });
+    }
 
     // Função que aplica os ouvintes de evento assim que o segundo input aparece
     function iniciarMonitoramentoInput(campo) {
-        if (inputEscutado) return; // Evita duplicar o monitoramento
+        if (inputEscutado) return;
         inputEscutado = true;
         console.log("🎯 Segundo campo de lote detectado na tela! Monitorando digitação...");
 
@@ -40,42 +74,39 @@
             clearTimeout(temporizador); 
 
             if (campo.value.trim() !== "") {
-                console.log("✍️ Digitando/Bipando no segundo lote... Aguardando 3 segundos.");
+                console.log("✍️ Digitando/Bipando... Aguardando 3 segundos.");
 
                 temporizador = setTimeout(function() {
-                    // Notifica o framework SAP UI5 que o campo mudou de valor
                     campo.dispatchEvent(new Event('change', { bubbles: true }));
                     campo.dispatchEvent(new Event('liveChange', { bubbles: true }));
 
-                    // Busca o botão que acabou de ficar visível na tela
-                    const botao = document.querySelector("[id$='nextButton-BDI-content']");
+                    const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
-                    if (botao) {
+                    if (botaoProximo) {
                         console.log("⏱️ 3 segundos atingidos! Apertando o botão Próximo...");
-                        // Sequência completa de cliques físicos simulados para o SAP
-                        botao.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
-                        botao.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
-                        botao.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                        
+                        // Liga a vigília pelo pop-up de confirmação ANTES de clicar no primeiro botão
+                        esperarBotaoConfirmacao();
+                        
+                        // Clica no primeiro botão
+                        dispararCliqueReal(botaoProximo);
                     } else {
-                        console.error("❌ Erro: O botão apareceu, mas o ID mudou ou não pôde ser clicado.");
+                        console.error("❌ Erro: O botão 'Próximo' não foi localizado.");
                     }
                 }, 3000); 
             }
         });
     }
 
-    // Criamos um observador que fica olhando a página inteira em tempo real
-    const observador = new MutationObserver(function() {
+    // Observador principal que fica olhando o surgimento do segundo campo de input
+    const observadorPrincipal = new MutationObserver(function() {
         const segundoInput = document.querySelector("[id$='LoteInput2-inner']");
-        
-        // Se encontrar o segundo input na tela, ativa o monitoramento dele
         if (segundoInput) {
             iniciarMonitoramentoInput(segundoInput);
         }
     });
 
-    // Configura o observador para vigiar toda a estrutura do site do SAP
-    observador.observe(document.body, { childList: true, subtree: true });
+    observadorPrincipal.observe(document.body, { childList: true, subtree: true });
 })();</code></pre>
         </div>
     </div>
@@ -86,10 +117,10 @@
             navigator.clipboard.writeText(codigoTexto).then(() => {
                 const btn = document.querySelector(".btn-copiar");
                 btn.innerText = "Copiado!";
-                btn.style.background = "#28a745";
+                btn.style.background = "#218838";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código";
-                    btn.style.background = "#2b78e4";
+                    btn.style.background = "#28a745";
                 }, 2000);
             });
         }
