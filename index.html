@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Detecção Global)</title>
+    <title>Copiador de Script SAP (Rastreador Ativo)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #e15f41; font-size: 24px; margin-bottom: 5px; }
+        h1 { color: #10ac84; font-size: 24px; margin-bottom: 5px; }
         p { color: #666; margin-bottom: 20px; }
         .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
         pre { margin: 0; }
         code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #e15f41; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #cd4d31; }
+        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #10ac84; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-copiar:hover { background: #0f9b75; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Automação SAP - Modo Detecção Global Permanente</h1>
-        <p>Esta versão resolve o problema de elementos destruídos pelo SAP monitorando a página de forma global.</p>
+        <h1>Automação SAP - Modo Rastreador Ativo Permanente</h1>
+        <p>Esta versão ignora os bloqueios de memória do SAP checando os campos de forma independente a cada 500ms.</p>
         
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
 <pre><code id="script-sap">(function() {
-    let temporizador;
-    let executandoClique = false;
+    let temporizadorClique;
+    let executandoFluxo = false;
+    let ultimoConteudo = "";
 
     // Defina aqui o ID do botão de confirmação do seu pop-up
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='COLOQUE_AQUI_O_ID_DO_BOTAO_DE_CONFIRMACAO']";
 
-    console.log("🚀 Automação SAP Global Ativada! Monitorando bipes continuamente...");
+    console.log("🚀 Rastreador Ativo SAP Iniciado! Monitorando em segundo plano...");
 
     function dispararCliqueReal(elemento) {
         elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
@@ -39,64 +40,68 @@
         elemento.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     }
 
-    function esperarBotaoConfirmacao() {
-        console.log("👀 Aguardando o pop-up de confirmação aparecer...");
-        
-        const observadorPopup = new MutationObserver(function(mutations, observer) {
-            const botaoConfirmar = document.querySelector(SELETOR_BOTAO_CONFIRMACAO);
+    function fecharPopupConfirmacao() {
+        const botaoConfirmar = document.querySelector(SELETOR_BOTAO_CONFIRMACAO);
+        if (botaoConfirmar) {
+            console.log("✅ Botão de confirmação detectado! Clicando...");
+            dispararCliqueReal(botaoConfirmar);
             
-            if (botaoConfirmar) {
-                console.log("✅ Botão de confirmação detectado! Clicando...");
-                dispararCliqueReal(botaoConfirmar);
-                observer.disconnect(); 
-                
-                // Libera o script para aceitar novos bipes após fechar o pop-up
-                setTimeout(() => { 
-                    executandoClique = false; 
-                    console.log("🔄 Pronto para o próximo lote!");
-                }, 1000);
-            }
-        });
-
-        observadorPopup.observe(document.body, { childList: true, subtree: true });
+            // Aguarda o SAP processar o fechamento e libera o robô para o próximo lote
+            setTimeout(() => {
+                ultimoConteudo = "";
+                executandoFluxo = false;
+                console.log("🔄 Sistema resetado. Pronto para o próximo ciclo!");
+            }, 1500);
+        } else {
+            // Se o pop-up ainda não apareceu na tela, tenta de novo em 300ms
+            setTimeout(fecharPopupConfirmacao, 300);
+        }
     }
 
-    // OUVINTE GLOBAL: Captura qualquer digitação na página inteira, independente do elemento sumir ou reaparecer
-    document.body.addEventListener("input", function(evento) {
-        const campo = evento.target;
+    // RASTREADOR PRINCIPAL: Roda a cada 500 milissegundos por fora dos eventos do SAP
+    setInterval(function() {
+        // Se já estivermos no meio de um clique/processamento, ignora a checagem temporariamente
+        if (executandoFluxo) return;
 
-        // Verifica se o campo que disparou o evento é o nosso segundo input de lote
-        if (campo && campo.matches("[id$='LoteInput2-inner']")) {
-            
-            // Bloqueia bipes duplicados enquanto o clique anterior está processando
-            if (executandoClique) return;
+        const campo = document.querySelector("[id$='LoteInput2-inner']");
+        
+        if (campo) {
+            const valorAtual = campo.value.trim();
 
-            clearTimeout(temporizador); 
+            // Detecta se algo novo foi digitado ou bipado no campo
+            if (valorAtual !== "" && valorAtual !== ultimoConteudo) {
+                ultimoConteudo = valorAtual; // Atualiza o último texto registrado
+                console.log("✍️ Texto detectado no segundo lote pelo rastreador. Aguardando pausa de 3 segundos...");
 
-            if (campo.value.trim() !== "") {
-                console.log("✍️ Bipe detectado no segundo lote. Aguardando 3 segundos...");
+                // Reseta qualquer contagem anterior para garantir os 3 segundos após o término do bipe
+                clearTimeout(temporizadorClique);
 
-                temporizador = setTimeout(function() {
-                    executandoClique = true; // Trava para evitar cliques múltiplos
+                temporizadorClique = setTimeout(function() {
+                    executandoFluxo = true; // Trava o rastreador para evitar cliques duplos
 
-                    // Avisa o framework SAP que o campo mudou
+                    console.log("⏱️ 3 segundos atingidos! Notificando o framework SAP...");
                     campo.dispatchEvent(new Event('change', { bubbles: true }));
                     campo.dispatchEvent(new Event('liveChange', { bubbles: true }));
 
                     const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
                     if (botaoProximo) {
-                        console.log("⏱️ 3 segundos atingidos! Apertando o botão Próximo...");
-                        esperarBotaoConfirmacao();
+                        console.log("👉 Apertando o botão Próximo...");
                         dispararCliqueReal(botaoProximo);
+                        
+                        // Inicia a busca ativa pelo botão de confirmação que vai surgir
+                        fecharPopupConfirmacao();
                     } else {
-                        console.error("❌ Erro: O botão 'Próximo' não foi localizado.");
-                        executandoClique = false; // Destrava se houver erro
+                        console.error("❌ Erro: O botão 'Próximo' não estava visível ou pronto.");
+                        executandoFluxo = false; // Destrava em caso de falha externa
                     }
-                }, 3000); 
+                }, 3000);
+            } else if (valorAtual === "") {
+                // Se o campo for limpo pelo sistema, reseta o histórico do conteúdo
+                ultimoConteudo = "";
             }
         }
-    });
+    }, 500);
 })();</code></pre>
         </div>
     </div>
@@ -110,7 +115,7 @@
                 btn.style.background = "#28a745";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código";
-                    btn.style.background = "#e15f41";
+                    btn.style.background = "#10ac84";
                 }, 2000);
             });
         }
