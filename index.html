@@ -3,61 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP</title>
+    <title>Copiador de Script SAP (Versão Blindada)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #0076fa; font-size: 24px; margin-bottom: 5px; }
+        h1 { color: #d9383a; font-size: 24px; margin-bottom: 5px; }
         p { color: #666; margin-bottom: 20px; }
         .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
         pre { margin: 0; }
         code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #0076fa; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #005ecb; }
+        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #d9383a; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-copiar:hover { background: #b82c2e; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Código de Automação SAP</h1>
-        <p>Clique no botão azul para copiar o script e cole no Console (F12) da página do SAP.</p>
+        <h1>Código de Automação SAP (Versão Blindada v2)</h1>
+        <p>Esta versão corrige falhas de sincronização e IDs dinâmicos do SAP. Copie e cole no Console (F12).</p>
         
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
 <pre><code id="script-sap">(function() {
-    // IDs exatos do sistema SAP corrigidos com 'application'
-    const idInputSap = "application-ZS_EWM_ENDEREC-manage-component---View1--LoteInput2-inner";
-    const idBotaoSap = "application-ZS_EWM_ENDEREC-manage-component---View1--OrigemDestino-nextButton-BDI-content";
-    
     let temporizador;
-    const campo = document.getElementById(idInputSap);
+
+    // Busca inteligente: procura elementos cujo ID TERMINE com o termo correto (evita problemas se o prefixo mudar)
+    const campo = document.querySelector("[id$='LoteInput2-inner']");
 
     if (!campo) {
-        console.error("⚠️ Erro: O input do lote não foi encontrado na tela. Certifique-se de estar na página correta.");
+        console.error("⚠️ Erro: Campo de lote não encontrado. Verifique se a tela está totalmente carregada.");
         return;
     }
 
-    console.log("🚀 Automação SAP ativada! Monitorando o campo de lote...");
+    console.log("🚀 Automação SAP Blindada Ativada! Monitorando campo...");
 
-    // Escuta a digitação ou a leitura do bipe de código de barras
     campo.addEventListener("input", function() {
-        clearTimeout(temporizador); // Reseta o tempo a cada novo caractere
+        clearTimeout(temporizador); 
 
         if (campo.value.trim() !== "") {
-            console.log("✍️ Digitando/Bipando... Aguardando pausa de 3 segundos.");
+            console.log("✍️ Detectada digitação/bipe. Aguardando 3 segundos...");
 
-            // Aguarda 3 segundos (3000ms) de silêncio antes de agir
             temporizador = setTimeout(function() {
-                const botao = document.getElementById(idBotaoSap);
+                // Força o SAP a reconhecer que o texto foi inserido antes de clicar
+                campo.dispatchEvent(new Event('change', { bubbles: true }));
+                campo.dispatchEvent(new Event('liveChange', { bubbles: true }));
+
+                // Busca inteligente para o botão (procura por ID que termina com o termo do botão)
+                const botao = document.querySelector("[id$='nextButton-BDI-content']");
                 
                 if (botao) {
-                    console.log("⏱️ 3 segundos atingidos! Acionando o botão próximo...");
+                    console.log("⏱️ 3 segundos atingidos! Disparando clique simulado...");
                     
-                    // Dispara um evento de clique real simulando o mouse físico para o SAPUI5
-                    const eventoClique = new MouseEvent('click', { bubbles: true, cancelable: true });
-                    botao.dispatchEvent(eventoClique);
+                    // Simulação profunda de clique físico exigida pelo SAP UI5
+                    botao.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+                    botao.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
+                    botao.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
                 } else {
-                    console.error("❌ Erro: O botão de avançar não foi localizado nesta tela.");
+                    console.error("❌ Erro: O botão 'Próximo' não foi localizado na tela.");
                 }
             }, 3000); 
         }
@@ -67,7 +69,6 @@
     </div>
 
     <script>
-        // Função do botão que copia o texto da tela automaticamente
         function copiarCodigo() {
             const codigoTexto = document.getElementById("script-sap").innerText;
             navigator.clipboard.writeText(codigoTexto).then(() => {
@@ -76,7 +77,7 @@
                 btn.style.background = "#28a745";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código";
-                    btn.style.background = "#0076fa";
+                    btn.style.background = "#d9383a";
                 }, 2000);
             });
         }
@@ -84,4 +85,3 @@
 
 </body>
 </html>
-
