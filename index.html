@@ -11,10 +11,7 @@
         p { color: #515456; margin-bottom: 25px; font-size: 14px; }
         .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
         .btn-copiar:hover { background: #0056a3; }
-        
-        /* Adicionada rolagem horizontal para você ver que o código está todo aqui */
         .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; overflow-x: auto; white-space: pre; }
-        
         .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 25px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
     </style>
 </head>
@@ -22,12 +19,10 @@
 
     <div class="container">
         <h1>Painel de Automação SAP - Klabin</h1>
-        <p>O script abaixo contém a correção de busca profunda para o campo de faixa. Clique no botão azul para copiar tudo perfeitamente.</p>
+        <p>Esta versão força a sincronização profunda do banco de dados do SAP, eliminando o problema do valor padrão antigo retornar na consulta.</p>
         
-        <!-- Botão que copia o código inteiro automaticamente -->
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
-        <!-- Caixa com o código completo -->
         <textarea class="area-codigo" id="script-sap" readonly>(function() {
     let temporizadorClique;
     let executandoFluxo = false;
@@ -35,7 +30,7 @@
 
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
 
-    console.log("🚀 [Automação SAP - Klabin] Inicializado com busca profunda de faixa.");
+    console.log("🚀 [Automação SAP - Klabin] Sincronizador profundo de memória ativado.");
 
     const painel = document.createElement("div");
     painel.id = "painel-automacao-sap";
@@ -62,7 +57,7 @@
                     Ativo
                 </span>
             </div>
-            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
+            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
         </div>
     `;
     
@@ -100,6 +95,7 @@
         }
     }
 
+    // RASTREADOR PRINCIPAL
     setInterval(function() {
         const elementoSeta = document.querySelector("[id$='AjusNlpla-arrow']");
         
@@ -112,10 +108,27 @@
 
             if (campoFaixaSap && valorFaixaDefinida !== "") {
                 if (campoFaixaSap.value !== valorFaixaDefinida) {
-                    campoFaixaSap.value = valorFaixaDefinida;
+                    
+                    // CORREÇÃO PROFUNDA: Foca no campo e simula teclado humano limpo
+                    campoFaixaSap.focus();
+                    campoFaixaSap.value = ""; 
+                    
+                    // Injeta caractere por caractere disparando os gatilhos nativos do SAPUI5
+                    for (let i = 0; i < valorFaixaDefinida.length; i++) {
+                        campoFaixaSap.value += valorFaixaDefinida[i];
+                        campoFaixaSap.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+
+                    // Dispara a cadeia completa de eventos de gravação exigida pelo banco de dados do SAP
                     campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
                     campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
-                    console.log("✏️ [Automação] Campo de texto da faixa corrigido para -> " + valorFaixaDefinida);
+                    campoFaixaSap.dispatchEvent(new Event('selectionChange', { bubbles: true }));
+                    campoFaixaSap.dispatchEvent(new Event('focusout', { bubbles: true }));
+                    
+                    // Devolve o foco para fora para consolidar o dado
+                    document.body.focus();
+                    
+                    console.log("✏️ [Automação] Sincronização de memória concluída -> " + valorFaixaDefinida);
                 }
             }
         }
@@ -143,22 +156,3 @@
                     const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
                     if (botaoProximo) {
-                        console.log("👉 [Automação] Acionando controle de navegação.");
-                        dispararCliqueReal(botaoProximo);
-                        fecharPopupConfirmacao();
-                    } else {
-                        console.error("❌ [Automação] Erro crítico: Controle de navegação ausente.");
-                        executandoFluxo = false;
-                    }
-                }, 3000);
-            } else if (valorAtual === "") {
-                ultimoConteudo = "";
-            }
-        }
-    }, 500);
-})();</textarea>
-
-        <div class="instrucoes">
-            <strong>Procedimento:</strong>
-            <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Salve o arquivo, abra a página e clique no botão azul para copiar todo o script.</li>
