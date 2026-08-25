@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Automação SAP - Klabin</title>
+    <title>Automação SAP - Klabin</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; color: #24272a; display: flex; justify-content: center; }
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; display: flex; justify-content: center; }
         .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
         h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
         p { color: #515456; margin-bottom: 25px; font-size: 14px; }
         .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
         .btn-copiar:hover { background: #0056a3; }
-        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; overflow-x: auto; white-space: pre; }
+        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; }
         .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 25px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
     </style>
 </head>
@@ -19,144 +19,42 @@
 
     <div class="container">
         <h1>Painel de Automação SAP - Klabin</h1>
-        <p>Esta versão força a sincronização profunda do banco de dados do SAP, eliminando o problema do valor padrão antigo retornar na consulta.</p>
+        <p>Clique no botão azul abaixo. O código foi totalmente compactado e revisado para garantir cópia e sincronização perfeitas.</p>
         
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
-        <textarea class="area-codigo" id="script-sap" readonly>(function() {
-    let temporizadorClique;
-    let executandoFluxo = false;
-    let ultimoConteudo = "";
+        <!-- Caixa preta de texto otimizada para nunca sofrer cortes -->
+        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="";const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span><svg width="24" height="24" viewBox="0 0 100 100" style="display:block!important;flex-shrink:0!important;"><polygon points="35,65 15,65 25,45 18,45 28,25 22,25 35,5" fill="#008A45"/><rect x="32" y="65" width="6" height="20" fill="#fff"/><polygon points="50,60 25,60 38,38 30,38 43,16 36,16 50,0 64,16 57,16 70,38 62,38 75,60" fill="#006837"/><rect x="47" y="60" width="6" height="25" fill="#fff"/><polygon points="65,65 48,65 58,45 51,45 61,25 55,25 68,5 81,25 75,25 85,45 78,45 88,65" fill="#11A851"/><rect x="62" y="65" width="6" height="20" fill="#fff"/><path d="M5,85 Q50,80 95,85" stroke="#fff" stroke-width="4" fill="none"/></svg></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px !important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50% !important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false},1500)}else{setTimeout(s,300)}}r.addEventListener("focus",(()=>{r.style.borderColor="#0070d2"}));r.addEventListener("blur", Freemason=>(r.style.borderColor="#435b73"));setInterval((function(){const o=document.querySelector("[id$='AjusNlpla-arrow']");if(o){const t=o.closest(".sapMComboBox, .sapMSelect, .sapMInputBase")||o.parentElement;const a=t?t.querySelector("input"):null;const i=document.getElementById("campo-faixa-fixa");const c=i?i.innerText.trim(): "";if(a&&c!==""&&a.value!==c){a.focus();a.value="";for(let t=0;t<c.length;t++){a.value+=c[t];a.dispatchEvent(new Event("input",{bubbles:true}))}a.dispatchEvent(new Event("change",{bubbles:true}));a.dispatchEvent(new Event("liveChange",{bubbles:true}));a.dispatchEvent(new Event("selectionChange",{bubbles:true}));a.dispatchEvent(new Event("focusout",{bubbles:true}));document.body.focus()}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const t=document.querySelector("[id$='nextButton-BDI-content']");if(t){i(t);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),500)})();</textarea>
 
-    const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
-
-    console.log("🚀 [Automação SAP - Klabin] Sincronizador profundo de memória ativado.");
-
-    const painel = document.createElement("div");
-    painel.id = "painel-automacao-sap";
-    painel.style.cssText = "position: fixed !important; top: 15px !important; right: 15px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 10px 12px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 11px !important; border: 1px solid #293b4c !important; width: 145px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
-    
-    painel.innerHTML = `
-        <div style="font-weight: 600 !important; margin-bottom: 8px !important; color: #ffffff !important; font-size: 11px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
-            <span style="letter-spacing: -0.2px !important; padding-right: 5px !important;">Endereçamento Automático</span>
-            <svg width="24" height="24" viewBox="0 0 100 100" style="display: block !important; flex-shrink: 0 !important;">
-                <polygon points="35,65 15,65 25,45 18,45 28,25 22,25 35,5" fill="#008A45"/>
-                <rect x="32" y="65" width="6" height="20" fill="#ffffff"/>
-                <polygon points="50,60 25,60 38,38 30,38 43,16 36,16 50,0 64,16 57,16 70,38 62,38 75,60" fill="#006837"/>
-                <rect x="47" y="60" width="6" height="25" fill="#ffffff"/>
-                <polygon points="65,65 48,65 58,45 51,45 61,25 55,25 68,5 81,25 75,25 85,45 78,45 88,65" fill="#11A851"/>
-                <rect x="62" y="65" width="6" height="20" fill="#ffffff"/>
-                <path d="M5,85 Q50,80 95,85" stroke="#ffffff" stroke-width="4" fill="none"/>
-            </svg>
+        <div class="instrucoes">
+            <strong>Como prosseguir:</strong>
+            <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
+                <li>Abra a sua página e clique no botão azul para copiar todo o script de forma limpa.</li>
+                <li>Verifique se a caixa preta agora termina certinho com as tags corretas, sem vazar texto para fora.</li>
+                <li>Cole no console (F12) do SAP e faça o teste na operação!</li>
+            </ol>
         </div>
-        <div style="background-color: #243545 !important; padding: 6px 8px !important; border-radius: 6px !important;">
-            <div style="display: flex !important; align-items: center !important; justify-content: space-between !important; margin-bottom: 4px !important;">
-                <label style="color: #abb9c7 !important; font-size: 10px !important; font-weight: 600 !important;">Faixa:</label>
-                <span style="display:flex !important; align-items:center !important; font-size:9px !important; color:#2ed573 !important;">
-                    <span style="display:inline-block !important; width:5px !important; height:5px !important; background:#2ed573 !important; border-radius:50% !important; margin-right:3px !important;"></span>
-                    Ativo
-                </span>
-            </div>
-            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentElement('afterbegin', painel);
+    </div>
 
-    const campoDigitacao = painel.querySelector("#campo-faixa-fixa");
-    campoDigitacao.addEventListener("focus", function() { 
-        this.style.borderColor = "#0070d2"; 
-        this.style.boxShadow = "0 0 0 2px rgba(0,112,210,0.2)"; 
-    });
-    campoDigitacao.addEventListener("blur", function() { 
-        this.style.borderColor = "#435b73"; 
-        this.style.boxShadow = "none"; 
-    });
-
-    function dispararCliqueReal(elemento) {
-        elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
-        elemento.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true }));
-        elemento.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    }
-
-    function fecharPopupConfirmacao() {
-        const botaoConfirmar = document.querySelector(SELETOR_BOTAO_CONFIRMACAO);
-        if (botaoConfirmar) {
-            console.log("✅ [Automação] Botão de confirmação acionado.");
-            dispararCliqueReal(botaoConfirmar);
-            
-            setTimeout(() => {
-                ultimoConteudo = "";
-                executandoFluxo = false;
-                console.log("🔄 [Automação] Ciclo redefinido com sucesso.");
-            }, 1500);
-        } else {
-            setTimeout(fecharPopupConfirmacao, 300);
-        }
-    }
-
-    setInterval(function() {
-        const elementoSeta = document.querySelector("[id$='AjusNlpla-arrow']");
-        
-        if (elementoSeta) {
-            const componentePai = elementoSeta.closest(".sapMComboBox, .sapMSelect, .sapMInputBase") || elementoSeta.parentElement;
-            const campoFaixaSap = componentePai ? componentePai.querySelector("input") : null;
-
-            const divFaixa = document.getElementById("campo-faixa-fixa");
-            const valorFaixaDefinida = divFaixa ? divFaixa.innerText.trim() : "";
-
-            if (campoFaixaSap && valorFaixaDefinida !== "") {
-                if (campoFaixaSap.value !== valorFaixaDefinida) {
-                    campoFaixaSap.focus();
-                    campoFaixaSap.value = ""; 
-                    
-                    for (let i = 0; i < valorFaixaDefinida.length; i++) {
-                        campoFaixaSap.value += valorFaixaDefinida[i];
-                        campoFaixaSap.dispatchEvent(new Event('input', { bubbles: true }));
-                    }
-
-                    campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
-                    campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
-                    campoFaixaSap.dispatchEvent(new Event('selectionChange', { bubbles: true }));
-                    campoFaixaSap.dispatchEvent(new Event('focusout', { bubbles: true }));
-                    
-                    document.body.focus();
-                    console.log("✏️ [Automação] Sincronização de memória concluída -> " + valorFaixaDefinida);
-                }
+    <script>
+        function copiarCodigo() {
+            const campoTexto = document.getElementById("script-sap");
+            campoTexto.select();
+            campoTexto.setSelectionRange(0, 99999);
+            try {
+                document.execCommand('copy');
+                const btn = document.querySelector(".btn-copiar");
+                btn.innerText = "Script Copiado com Sucesso!";
+                btn.style.background = "#2b7c2b";
+                setTimeout(() => {
+                    btn.innerText = "Copiar Código de Automação";
+                    btn.style.background = "#0070d2";
+                }, 2500);
+            } catch (err) {
+                alert("Falha ao copiar automaticamente.");
             }
         }
+    </script>
 
-        if (executandoFluxo) return;
-
-        const campoLote = document.querySelector("[id$='LoteInput2-inner']");
-        
-        if (campoLote) {
-            const valorAtual = campoLote.value.trim();
-
-            if (valorAtual !== "" && valorAtual !== ultimoConteudo) {
-                ultimoConteudo = valorAtual;
-                console.log("✍️ [Automação] Registro identificado no LoteInput2. Processando delay...");
-
-                clearTimeout(temporizadorClique);
-
-                temporizadorClique = setTimeout(function() {
-                    executandoFluxo = true; 
-
-                    console.log("⏱️ [Automação] Sincronizando dados com o sistema...");
-                    campoLote.dispatchEvent(new Event('change', { bubbles: true }));
-                    campoLote.dispatchEvent(new Event('liveChange', { bubbles: true }));
-
-                    const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
-                    
-                    if (botaoProximo) {
-                        console.log("👉 [Automação] Acionando controle de navegação.");
-                        dispararCliqueReal(botaoProximo);
-                        fecharPopupConfirmacao();
-                    } else {
-                        console.error("❌ [Automação] Erro crítico: Controle de navegação ausente.");
-                        executandoFluxo = false;
-                    }
-                }, 3000);
-            } else if (valorAtual === "") {
-                ultimoConteudo = "";
-            }
+</body>
+</html>
