@@ -3,39 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Visualizador Ativado)</title>
+    <title>Copiador Oficial de Script SAP</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #ff9f43; font-size: 24px; margin-bottom: 5px; }
-        p { color: #666; margin-bottom: 20px; }
-        .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
-        pre { margin: 0; }
-        code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #ff9f43; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #ee5253; }
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; }
+        .container { max-width: 700px; width: 100%; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; }
+        h1 { color: #2f3542; font-size: 26px; margin-bottom: 10px; }
+        p { color: #57606f; margin-bottom: 25px; font-size: 15px; }
+        .btn-copiar { background: #1e90ff; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.2s; box-shadow: 0 4px 6px rgba(30, 144, 255, 0.2); }
+        .btn-copiar:hover { background: #3742fa; }
+        .instrucoes { text-align: left; background: #f1f2f6; padding: 15px; border-radius: 6px; margin-top: 25px; font-size: 14px; border-left: 5px solid #1e90ff; }
+        /* Esconde a caixa de texto bruta da tela, mantendo o script intacto para cópia */
+        #script-sap { display: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Automação SAP - Teste de Painel</h1>
-        <p>Clique no botão abaixo para copiar. Quando você colar isso no Console (F12) de qualquer site, o painel preto com a caixa de texto branca surgirá no topo esquerdo da tela instantaneamente.</p>
+        <h1>Automação SAP - Gerador de Código</h1>
+        <p>Clique no botão azul abaixo para copiar o script atualizado com suporte à faixa e loop infinito. Depois, basta colar no Console (F12) do seu navegador.</p>
         
-        <div class="box-codigo">
-            <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
-<pre><code id="script-sap">(function() {
+        <!-- Botão principal de interação -->
+        <button class="btn-copiar" onclick="copiarCodigo()">Copiar Script de Automação</button>
+
+        <div class="instrucoes">
+            <strong>Como testar agora mesmo:</strong>
+            <ol style="margin-top: 8px; padding-left: 20px;">
+                <li>Clique no botão azul acima (ele vai copiar o código automaticamente).</li>
+                <li>Pressione <strong>F12</strong> nesta página e clique na aba <strong>Console</strong>.</li>
+                <li>Cole o código (Ctrl + V) e aperte <strong>Enter</strong>.</li>
+                <li>O painel do Robô SAP com a caixinha branca de digitação aparecerá instantaneamente no topo esquerdo da sua tela!</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Área oculta e protegida contendo o JavaScript puro para cópia limpa -->
+    <textarea id="script-sap">(function() {
     let temporizadorClique;
     let executandoFluxo = false;
     let ultimoConteudo = "";
 
-    // IDs configurados do seu sistema SAP
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
     const SELETOR_CAMPO_FAIXA = "[id$='FaixaInput-inner'], [id$='faixaInput-inner'], input[id*='Faixa']"; 
 
-    console.log("🚀 Rastreador Ativo SAP Iniciado!");
+    console.log("🚀 Rastreador Ativo SAP Iniciado com Sucesso!");
 
-    // 1. CRIA O PAINEL VISUAL FLUTUANTE (FIXADO NO TOPO ESQUERDO DA TELA COM FORÇA MÁXIMA)
+    // 1. CRIA O PAINEL VISUAL FLUTUANTE (FIXADO NO TOPO ESQUERDO DA TELA)
     const painel = document.createElement("div");
     painel.id = "painel-automacao-sap";
     painel.style.cssText = "position: fixed !important; top: 20px !important; left: 20px !important; z-index: 2147483647 !important; background-color: #1e272e !important; color: #ffffff !important; padding: 15px !important; border-radius: 8px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; font-family: Arial, sans-serif !important; font-size: 14px !important; border: 2px solid #ff9f43 !important; width: 160px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
@@ -46,7 +58,6 @@
         <div id="campo-faixa-fixa" contenteditable="true" style="width: 140px !important; height: 24px !important; padding: 6px !important; border-radius: 4px !important; border: 2px solid #ff9f43 !important; background-color: #ffffff !important; color: #000000 !important; font-weight: bold !important; text-align: center !important; font-size: 14px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important;"></div>
     `;
     
-    // Injeta diretamente no início do corpo da página para garantir que apareça na hora
     document.body.insertAdjacentElement('afterbegin', painel);
 
     function dispararCliqueReal(elemento) {
@@ -124,21 +135,28 @@
             }
         }
     }, 500);
-})();</code></pre>
-        </div>
-    </div>
+})();</textarea>
 
     <script>
         function copiarCodigo() {
-            const codigoTexto = document.getElementById("script-sap").innerText;
-            navigator.clipboard.writeText(codigoTexto).then(() => {
+            // Acessa a caixa de texto oculta para extrair o código de forma limpa
+            const campoTextoOculto = document.getElementById("script-sap");
+            campoTextoOculto.style.display = "block"; // Exibe temporariamente para selecionar
+            campoTextoOculto.select();
+            campoTextoOculto.setSelectionRange(0, 99999); // Suporte para dispositivos móveis
+
+            navigator.clipboard.writeText(campoTextoOculto.value).then(() => {
+                campoTextoOculto.style.display = "none"; // Esconde de volta
                 const btn = document.querySelector(".btn-copiar");
-                btn.innerText = "Copiado!";
-                btn.style.background = "#28a745";
+                btn.innerText = "Script Copiado com Sucesso!";
+                btn.style.background = "#2ed573";
                 setTimeout(() => {
-                    btn.innerText = "Copiar Código";
-                    btn.style.background = "#ff9f43";
-                }, 2000);
+                    btn.innerText = "Copiar Script de Automação";
+                    btn.style.background = "#1e90ff";
+                }, 2500);
+            }).catch(err => {
+                campoTextoOculto.style.display = "none";
+                alert("Erro ao copiar automaticamente. Por favor, tente novamente.");
             });
         }
     </script>
