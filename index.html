@@ -12,7 +12,8 @@
         .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
         .btn-copiar:hover { background: #0056a3; }
         
-        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; }
+        /* Adicionada rolagem horizontal para você ver que o código está todo aqui */
+        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; overflow-x: auto; white-space: pre; }
         
         .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 25px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
     </style>
@@ -21,10 +22,12 @@
 
     <div class="container">
         <h1>Painel de Automação SAP - Klabin</h1>
-        <p>Esta versão corrige a injeção da faixa localizando o input correto conectado à seta identificada.</p>
+        <p>O script abaixo contém a correção de busca profunda para o campo de faixa. Clique no botão azul para copiar tudo perfeitamente.</p>
         
+        <!-- Botão que copia o código inteiro automaticamente -->
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
+        <!-- Caixa com o código completo -->
         <textarea class="area-codigo" id="script-sap" readonly>(function() {
     let temporizadorClique;
     let executandoFluxo = false;
@@ -97,13 +100,10 @@
         }
     }
 
-    // RASTREADOR PRINCIPAL
     setInterval(function() {
-        // BUSCA PROFUNDA DA FAIXA: Localiza o elemento da seta enviado por você
         const elementoSeta = document.querySelector("[id$='AjusNlpla-arrow']");
         
         if (elementoSeta) {
-            // Sobe até o bloco principal do componente e localiza a caixa de texto ('input') real ligada a ele
             const componentePai = elementoSeta.closest(".sapMComboBox, .sapMSelect, .sapMInputBase") || elementoSeta.parentElement;
             const campoFaixaSap = componentePai ? componentePai.querySelector("input") : null;
 
@@ -159,6 +159,6 @@
 })();</textarea>
 
         <div class="instrucoes">
-            <strong style="color: #1d2d3e;">Procedimento de Execução Klabin:</strong>
+            <strong>Procedimento:</strong>
             <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Clique no botão azul acima para copiar o código final corrigido.</li>
+                <li>Salve o arquivo, abra a página e clique no botão azul para copiar todo o script.</li>
