@@ -6,37 +6,29 @@
     <title>Painel de Automação SAP</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; color: #24272a; display: flex; justify-content: center; }
-        .container { max-width: 700px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
+        .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
         h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
-        p { color: #515456; margin-bottom: 30px; font-size: 14px; }
-        .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; }
+        p { color: #515456; margin-bottom: 25px; font-size: 14px; }
+        .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
         .btn-copiar:hover { background: #0056a3; }
-        .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 30px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
-        #script-sap { display: none; }
+        
+        /* Caixa de código visível e profissional para garantir que a cópia nunca falhe */
+        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; }
+        
+        .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 25px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Painel de Automação SAP</h1>
-        <p>Clique no botão abaixo para copiar o script atualizado em tamanho reduzido. Depois, cole o código na aba Console (F12) da sua tela do SAP.</p>
+        <p>Clique no botão abaixo para copiar o script. Se o botão falhar, você também pode selecionar todo o texto da caixa preta e copiar manualmente (Ctrl + C).</p>
         
+        <!-- Botão principal de cópia -->
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
-        <div class="instrucoes">
-            <strong style="color: #1d2d3e;">Procedimento de Execução:</strong>
-            <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Acione o botão acima para copiar o código.</li>
-                <li>Abra as Ferramentas do Desenvolvedor pressionando <strong>F12</strong>.</li>
-                <li>Selecione a guia <strong>Console</strong>.</li>
-                <li>Insira o código (Ctrl + V) e pressione <strong>Enter</strong>.</li>
-                <li>O painel integrado surgirá alinhado no <strong>canto superior direito</strong> da tela.</li>
-            </ol>
-        </div>
-    </div>
-
-    <!-- Script contendo a nova interface compacta, em português e com os novos nomes -->
-    <textarea id="script-sap">(function() {
+        <!-- Caixa de texto visível para contornar o bloqueio de segurança do navegador -->
+        <textarea class="area-codigo" id="script-sap" readonly>(function() {
     let temporizadorClique;
     let executandoFluxo = false;
     let ultimoConteudo = "";
@@ -46,14 +38,10 @@
 
     console.log("🚀 [Automação SAP] Rastreador ativo compacto inicializado.");
 
-    // 1. CRIA O PAINEL COMPACTO ALINHADO À DIREITA
     const painel = document.createElement("div");
     painel.id = "painel-automacao-sap";
-    
-    // Largura reduzida para 140px (antes era 180px) e estofamento (padding) reduzido para ficar menor
     painel.style.cssText = "position: fixed !important; top: 15px !important; right: 15px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 10px 12px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 11px !important; border: 1px solid #293b4c !important; width: 140px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
     
-    // Nomenclaturas alteradas para "Endereçamento Automático" e "Faixa"
     painel.innerHTML = `
         <div style="font-weight: 600 !important; margin-bottom: 8px !important; color: #ffffff !important; font-size: 11px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
             <span style="letter-spacing: -0.2px !important;">Endereçamento Automático</span>
@@ -104,7 +92,6 @@
         }
     }
 
-    // RASTREADOR PRINCIPAL
     setInterval(function() {
         const campoFaixaSap = document.querySelector(SELETOR_CAMPO_FAIXA);
         const divFaixa = document.getElementById("campo-faixa-fixa");
@@ -157,23 +144,30 @@
     }, 500);
 })();</textarea>
 
+        <div class="instrucoes">
+            <strong style="color: #1d2d3e;">Procedimento de Execução:</strong>
+            <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
+                <li>Acione o botão azul acima para copiar o código (ou selecione manualmente o texto dentro da caixa preta).</li>
+                <li>Abra as Ferramentas do Desenvolvedor pressionando <strong>F12</strong>.</li>
+                <li>Selecione a guia <strong>Console</strong>.</li>
+                <li>Insira o código (Ctrl + V) e pressione <strong>Enter</strong>.</li>
+                <li>O painel integrado surgirá alinhado no <strong>canto superior direito</strong> da tela.</li>
+            </ol>
+        </div>
+    </div>
+
     <script>
         function copiarCodigo() {
-            const campoTextoOculto = document.getElementById("script-sap");
-            campoTextoOculto.style.display = "block";
-            campoTextoOculto.select();
-            campoTextoOculto.setSelectionRange(0, 99999);
+            const campoTexto = document.getElementById("script-sap");
+            
+            // Método duplo de cópia para garantir compatibilidade total
+            campoTexto.select();
+            campoTexto.setSelectionRange(0, 99999); // Para celulares/coletores modernos
 
-            navigator.clipboard.writeText(campoTextoOculto.value).then(() => {
-                campoTextoOculto.style.display = "none";
-                const btn = document.querySelector(".btn-copiar");
-                btn.innerText = "Código Copiado!";
-                btn.style.background = "#2b7c2b";
-                setTimeout(() => {
-                    btn.innerText = "Copiar Código de Automação";
-                    btn.style.background = "#0070d2";
-                }, 2500);
-            }).catch(err => {
-                campoTextoOculto.style.display = "none";
-                alert("Falha ao copiar automaticamente.");
-            });
+            try {
+                // Tenta copiar pelo método tradicional infalível
+                document.execCommand('copy');
+                atualizarBotaoSucesso();
+            } catch (err) {
+                // Se falhar, tenta pelo método moderno
+                navigator.clipboard.writeText(campoTexto.value).then(() => {
