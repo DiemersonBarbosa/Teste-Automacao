@@ -21,7 +21,7 @@
 
     <div class="container">
         <h1>Painel de Automação SAP - Klabin</h1>
-        <p>Clique no botão abaixo para copiar o script personalizado. O painel do robô agora exibe o logotipo oficial da Klabin no canto superior direito.</p>
+        <p>Clique no botão abaixo para copiar o script personalizado. O robô já está configurado com todos os seletores e IDs corretos do seu processo.</p>
         
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
@@ -31,6 +31,8 @@
     let ultimoConteudo = "";
 
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
+    
+    // ID da faixa atualizado com sucesso para o padrão do seu sistema!
     const SELETOR_CAMPO_FAIXA = "[id$='AjusNlpla-arrow']"; 
 
     console.log("🚀 [Automação SAP - Klabin] Inicializado com sucesso.");
@@ -39,21 +41,16 @@
     painel.id = "painel-automacao-sap";
     painel.style.cssText = "position: fixed !important; top: 15px !important; right: 15px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 10px 12px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 11px !important; border: 1px solid #293b4c !important; width: 145px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
     
-    // Injetado o logotipo vetorial (SVG) oficial da Klabin com as três árvores no canto direito
     painel.innerHTML = `
         <div style="font-weight: 600 !important; margin-bottom: 8px !important; color: #ffffff !important; font-size: 11px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
             <span style="letter-spacing: -0.2px !important; padding-right: 5px !important;">Endereçamento Automático</span>
             <svg width="24" height="24" viewBox="0 0 100 100" style="display: block !important; flex-shrink: 0 !important;">
-                <!-- Árvore Esquerda -->
                 <polygon points="35,65 15,65 25,45 18,45 28,25 22,25 35,5" fill="#008A45"/>
                 <rect x="32" y="65" width="6" height="20" fill="#ffffff"/>
-                <!-- Árvore Central (Maior) -->
                 <polygon points="50,60 25,60 38,38 30,38 43,16 36,16 50,0 64,16 57,16 70,38 62,38 75,60" fill="#006837"/>
                 <rect x="47" y="60" width="6" height="25" fill="#ffffff"/>
-                <!-- Árvore Direita -->
                 <polygon points="65,65 48,65 58,45 51,45 61,25 55,25 68,5 81,25 75,25 85,45 78,45 88,65" fill="#11A851"/>
                 <rect x="62" y="65" width="6" height="20" fill="#ffffff"/>
-                <!-- Base de terra Klabin -->
                 <path d="M5,85 Q50,80 95,85" stroke="#ffffff" stroke-width="4" fill="none"/>
             </svg>
         </div>
@@ -160,3 +157,11 @@
             <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
                 <li>Clique no botão azul acima para copiar o código final.</li>
                 <li>Abra as Ferramentas do Desenvolvedor no SAP da Klabin pressionando <strong>F12</strong>.</li>
+                <li>Mude para a guia <strong>Console</strong>, cole o código (Ctrl + V) e aperte <strong>Enter</strong>.</li>
+                <li>O mini painel corporativo com a marca da Klabin aparecerá fixado no <strong>canto direito superior</strong>.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function copiarCodigo() {
