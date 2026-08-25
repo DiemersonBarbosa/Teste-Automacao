@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAP Fiori - Console Automation Tool</title>
+    <title>Painel de Automação SAP</title>
     <style>
-        body { font-family: "72", "72-Web", Arial, Helvetica, sans-serif; margin: 40px; background-color: #f7f9fa; color: #32363a; display: flex; justify-content: center; }
-        .container { max-width: 700px; width: 100%; background: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; border: 1px solid #dcdfe2; }
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; color: #24272a; display: flex; justify-content: center; }
+        .container { max-width: 700px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
         h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
         p { color: #515456; margin-bottom: 30px; font-size: 14px; }
-        .btn-copiar { background: #085caf; color: white; border: 1px solid #085caf; padding: 14px 28px; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.15s ease; font-family: inherit; }
-        .btn-copiar:hover { background: #064b90; border-color: #064b90; }
-        .instrucoes { text-align: left; background: #edeff0; padding: 18px; border-radius: 4px; margin-top: 30px; font-size: 13px; border-left: 4px solid #085caf; color: #32363a; }
+        .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; }
+        .btn-copiar:hover { background: #0056a3; }
+        .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 30px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
         #script-sap { display: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>SAP Fiori - Console Automation Tool</h1>
-        <p>Clique no botão abaixo para copiar o script de automação no padrão visual SAP Fiori. Depois, cole o código na aba Console (F12) da sua tela do SAP.</p>
+        <h1>Painel de Automação SAP</h1>
+        <p>Clique no botão abaixo para copiar o script de automação no padrão visual moderno da SAP. Depois, cole o código na aba Console (F12) da sua tela do SAP.</p>
         
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
         <div class="instrucoes">
             <strong style="color: #1d2d3e;">Procedimento de Execução:</strong>
             <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Acione o botão acima para transferir o código para a área de transferência.</li>
+                <li>Acione o botão acima para copiar o código.</li>
                 <li>Abra as Ferramentas do Desenvolvedor pressionando <strong>F12</strong>.</li>
                 <li>Selecione a guia <strong>Console</strong>.</li>
                 <li>Insira o código (Ctrl + V) e pressione <strong>Enter</strong>.</li>
-                <li>O painel integrado surgirá alinhado no <strong>canto superior direito</strong> no padrão oficial do sistema.</li>
+                <li>O painel integrado surgirá alinhado no <strong>canto superior direito</strong> da tela.</li>
             </ol>
         </div>
     </div>
 
-    <!-- Script contendo a nova interface com design SAP Fiori e alinhamento à direita -->
+    <!-- Script contendo a nova interface moderna e 100% em português -->
     <textarea id="script-sap">(function() {
     let temporizadorClique;
     let executandoFluxo = false;
@@ -44,30 +44,42 @@
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
     const SELETOR_CAMPO_FAIXA = "[id$='FaixaInput-inner'], [id$='faixaInput-inner'], input[id*='Faixa']"; 
 
-    console.log("🚀 [SAP Automation] Rastreador ativo inicializado no padrão Fiori.");
+    console.log("🚀 [Automação SAP] Rastreador ativo inicializado com sucesso.");
 
-    // 1. CRIA O PAINEL NO PADRÃO DE DESIGN SAP FIORI (ALINHADO À DIREITA)
+    // 1. CRIA O PAINEL NO ESTILO MODERNO SAP HORIZON (DIREITA)
     const painel = document.createElement("div");
     painel.id = "painel-automacao-sap";
     
-    // Alinhamento alterado para 'right: 20px' e cores ajustadas para a paleta oficial da SAP (#1d2d3e)
-    painel.style.cssText = "position: fixed !important; top: 20px !important; right: 20px !important; z-index: 2147483647 !important; background-color: #1d2d3e !important; color: #ffffff !important; padding: 14px 18px !important; border-radius: 6px !important; box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important; font-family: '72', Arial, sans-serif !important; font-size: 13px !important; border: 1px solid #2d4561 !important; width: 170px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
+    // Design moderno atualizado: cantos mais arredondados, sombras leves e cores limpas
+    painel.style.cssText = "position: fixed !important; top: 20px !important; right: 20px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 16px !important; border-radius: 12px !important; box-shadow: 0 12px 32px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 13px !important; border: 1px solid #293b4c !important; width: 180px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
     
+    // Conteúdo 100% em português e visual limpo
     painel.innerHTML = `
-        <div style="font-weight: 600 !important; margin-bottom: 10px !important; color: #ffffff !important; font-size: 13px !important; letter-spacing: 0.3px !important; display: flex !important; align-items: center !important;">
-            <span style="display:inline-block !important; width:8px !important; height:8px !important; background:#2ed573 !important; border-radius:50% !important; margin-right:6px !important;"></span>
-            SAP Automation
+        <div style="font-weight: 600 !important; margin-bottom: 12px !important; color: #ffffff !important; font-size: 13px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
+            <span>Robô de Automação</span>
+            <span style="display:flex !important; align-items:center !important; font-size:10px !important; color:#2ed573 !important; font-weight:normal !important;">
+                <span style="display:inline-block !important; width:6px !important; height:6px !important; background:#2ed573 !important; border-radius:50% !important; margin-right:4px !important;"></span>
+                Ativo
+            </span>
         </div>
-        <label style="display: block !important; margin-bottom: 6px !important; color: #aab5c0 !important; font-size: 11px !important; text-transform: uppercase !important; font-weight: bold !important;">Definir Faixa Fixa</label>
-        <div id="campo-faixa-fixa" contenteditable="true" style="width: 154px !important; height: 22px !important; padding: 5px !important; border-radius: 4px !important; border: 1px solid #4a6585 !important; background-color: #ffffff !important; color: #32363a !important; font-weight: 600 !important; text-align: center !important; font-size: 13px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important;"></div>
+        <div style="background-color: #243545 !important; padding: 10px !important; border-radius: 8px !important;">
+            <label style="display: block !important; margin-bottom: 6px !important; color: #abb9c7 !important; font-size: 11px !important; font-weight: 600 !important;">Definir Faixa Fixa:</label>
+            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 28px !important; padding: 4px 8px !important; border-radius: 6px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 14px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
+        </div>
     `;
     
     document.body.insertAdjacentElement('afterbegin', painel);
 
-    // Adiciona efeito visual de foco azul no campo quando o usuário clicar para digitar (igual ao SAP)
+    // Efeito de foco moderno (borda azul Horizon) ao clicar para digitar
     const campoDigitacao = painel.querySelector("#campo-faixa-fixa");
-    campoDigitacao.addEventListener("focus", function() { this.style.borderColor = "#085caf"; this.style.boxShadow = "0 0 0 2px rgba(8,92,175,0.2)"; });
-    campoDigitacao.addEventListener("blur", function() { this.style.borderColor = "#4a6585"; this.style.boxShadow = "none"; });
+    campoDigitacao.addEventListener("focus", function() { 
+        this.style.borderColor = "#0070d2"; 
+        this.style.boxShadow = "0 0 0 2px rgba(0,112,210,0.2)"; 
+    });
+    campoDigitacao.addEventListener("blur", function() { 
+        this.style.borderColor = "#435b73"; 
+        this.style.boxShadow = "none"; 
+    });
 
     function dispararCliqueReal(elemento) {
         elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
@@ -78,13 +90,13 @@
     function fecharPopupConfirmacao() {
         const botaoConfirmar = document.querySelector(SELETOR_BOTAO_CONFIRMACAO);
         if (botaoConfirmar) {
-            console.log("✅ [SAP Automation] Botão de confirmação acionado.");
+            console.log("✅ [Automação] Botão de confirmação acionado.");
             dispararCliqueReal(botaoConfirmar);
             
             setTimeout(() => {
                 ultimoConteudo = "";
                 executandoFluxo = false;
-                console.log("🔄 [SAP Automation] Ciclo redefinido com sucesso.");
+                console.log("🔄 [Automação] Ciclo redefinido com sucesso.");
             }, 1500);
         } else {
             setTimeout(fecharPopupConfirmacao, 300);
@@ -102,7 +114,7 @@
                 campoFaixaSap.value = valorFaixaDefinida;
                 campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
                 campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
-                console.log("✏️ [SAP Automation] Campo corrigido -> " + valorFaixaDefinida);
+                console.log("✏px [Automação] Campo corrigido -> " + valorFaixaDefinida);
             }
         }
 
@@ -115,25 +127,25 @@
 
             if (valorAtual !== "" && valorAtual !== ultimoConteudo) {
                 ultimoConteudo = valorAtual;
-                console.log("✍️ [SAP Automation] Registro identificado no LoteInput2. Processando delay...");
+                console.log("✍️ [Automação] Registro identificado no LoteInput2. Processando delay...");
 
                 clearTimeout(temporizadorClique);
 
                 temporizadorClique = setTimeout(function() {
                     executandoFluxo = true; 
 
-                    console.log("⏱️ [SAP Automation] Sincronizando dados com o framework...");
+                    console.log("⏱️ [Automação] Sincronizando dados com o sistema...");
                     campoLote.dispatchEvent(new Event('change', { bubbles: true }));
                     campoLote.dispatchEvent(new Event('liveChange', { bubbles: true }));
 
                     const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
                     if (botaoProximo) {
-                        console.log("👉 [SAP Automation] Acionando controle de navegação.");
+                        console.log("👉 [Automação] Acionando controle de navegação.");
                         dispararCliqueReal(botaoProximo);
                         fecharPopupConfirmacao();
                     } else {
-                        console.error("❌ [SAP Automation] Erro crítico: Controle de navegação ausente.");
+                        console.error("❌ [Automação] Erro crítico: Controle de navegação ausente.");
                         executandoFluxo = false;
                     }
                 }, 3000);
@@ -156,11 +168,9 @@
                 const btn = document.querySelector(".btn-copiar");
                 btn.innerText = "Código Copiado!";
                 btn.style.background = "#2b7c2b";
-                btn.style.borderColor = "#2b7c2b";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código de Automação";
-                    btn.style.background = "#085caf";
-                    btn.style.borderColor = "#085caf";
+                    btn.style.background = "#0070d2";
                 }, 2500);
             }).catch(err => {
                 campoTextoOculto.style.display = "none";
