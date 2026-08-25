@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Pronto)</title>
+    <title>Copiador de Script SAP (Modo Faixa Fixa)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: #10ac84; font-size: 24px; margin-bottom: 5px; }
+        h1 { color: #ff9f43; font-size: 24px; margin-bottom: 5px; }
         p { color: #666; margin-bottom: 20px; }
         .box-codigo { position: relative; background: #1e1e1e; border-radius: 6px; padding: 20px; overflow-x: auto; }
         pre { margin: 0; }
         code { font-family: 'Courier New', Courier, monospace; color: #d4d4d4; font-size: 14px; line-height: 1.5; }
-        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #10ac84; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-copiar:hover { background: #0f9b75; }
+        .btn-copiar { position: absolute; top: 10px; right: 10px; background: #ff9f43; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-copiar:hover { background: #ee5253; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Automação SAP - Versão Final Concluída</h1>
-        <p>O código abaixo já está configurado com todos os IDs corretos. Clique no botão para copiar e colar no Console (F12).</p>
+        <h1>Automação SAP - Controle Automático de Faixa</h1>
+        <p>Esta versão cria uma caixa flutuante no topo do SAP para você definir a faixa fixa. Copie e cole no Console (F12).</p>
         
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
@@ -29,10 +29,32 @@
     let executandoFluxo = false;
     let ultimoConteudo = "";
 
-    // ID do seu botão de confirmação configurado com sucesso!
+    // IDs configurados do seu sistema SAP
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
+    const SELETOR_CAMPO_FAIXA = "[id$='FaixaInput-inner'], [id$='faixaInput-inner'], input[id*='Faixa']"; // Busca inteligente para o campo de faixa
 
-    console.log("🚀 Rastreador Ativo SAP Iniciado! Monitorando em segundo plano...");
+    console.log("🚀 Rastreador Ativo SAP com Injeção de Faixa Iniciado!");
+
+    // 1. CRIA O PAINEL VISUAL FLUTUANTE NO TOPO DO SAP
+    const painel = document.createElement("div");
+    painel.id = "painel-automacao-sap";
+    painel.style.position = "fixed";
+    painel.style.top = "10px";
+    painel.style.left = "10px";
+    painel.style.zIndex = "99999";
+    painel.style.backgroundColor = "#2c3e50";
+    painel.style.color = "white";
+    painel.style.padding = "12px";
+    painel.style.borderRadius = "8px";
+    painel.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
+    painel.style.fontFamily = "Arial, sans-serif";
+    painel.style.fontSize = "13px";
+    painel.innerHTML = `
+        <div style="font-weight:bold;margin-bottom:6px;color:#ff9f43;">🤖 Robô Endereçamento</div>
+        <label style="display:block;margin-bottom:4px;">Definir Faixa Fixa:</label>
+        <input type="text" id="campo-faixa-fixa" placeholder="Ex: A-01" style="width:120px;padding:4px;border-radius:4px;border:none;color:black;font-weight:bold;text-align:center;">
+    `;
+    document.body.appendChild(painel);
 
     function dispararCliqueReal(elemento) {
         elemento.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
@@ -46,58 +68,67 @@
             console.log("✅ Botão de confirmação detectado! Clicando...");
             dispararCliqueReal(botaoConfirmar);
             
-            // Aguarda o SAP processar o fechamento e libera o robô para o próximo lote
             setTimeout(() => {
                 ultimoConteudo = "";
                 executandoFluxo = false;
                 console.log("🔄 Sistema resetado. Pronto para o próximo ciclo!");
             }, 1500);
         } else {
-            // Se o pop-up ainda não apareceu na tela, tenta de novo em 300ms
             setTimeout(fecharPopupConfirmacao, 300);
         }
     }
 
-    // RASTREADOR PRINCIPAL: Roda a cada 500 milissegundos por fora dos eventos do SAP
+    // RASTREADOR PRINCIPAL (Roda a cada 500ms)
     setInterval(function() {
-        // Se já estivermos no meio de um clique/processamento, ignora a checagem temporariamente
+        // 2. CORREÇÃO DA FAIXA EM TEMPO REAL
+        // Se o campo de faixa da SAP aparecer na tela, o robô força o valor digitado no painel flutuante
+        const campoFaixaSap = document.querySelector(SELETOR_CAMPO_FAIXA);
+        const valorFaixaDefinida = document.getElementById("campo-faixa-fixa")?.value || "";
+
+        if (campoFaixaSap && valorFaixaDefinida.trim() !== "") {
+            // Se o campo estiver em branco ou diferente do que você definiu no painel, ele corrige na hora
+            if (campoFaixaSap.value !== valorFaixaDefinida) {
+                campoFaixaSap.value = valorFaixaDefinida;
+                // Força o SAP a gravar o valor corrigido da faixa na memória
+                campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
+                campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
+                console.log("✏️ Faixa corrigida automaticamente para: " + valorFaixaDefinida);
+            }
+        }
+
+        // 3. FLUXO DE AVANÇAR DO SEGUNDO LOTE
         if (executandoFluxo) return;
 
-        const campo = document.querySelector("[id$='LoteInput2-inner']");
+        const campoLote = document.querySelector("[id$='LoteInput2-inner']");
         
-        if (campo) {
-            const valorAtual = campo.value.trim();
+        if (campoLote) {
+            const valorAtual = campoLote.value.trim();
 
-            // Detecta se algo novo foi digitado ou bipado no campo
             if (valorAtual !== "" && valorAtual !== ultimoConteudo) {
-                ultimoConteudo = valorAtual; // Atualiza o último texto registrado
-                console.log("✍️ Texto detectado no segundo lote pelo rastreador. Aguardando pausa de 3 segundos...");
+                ultimoConteudo = valorAtual;
+                console.log("✍️ Texto detectado no segundo lote. Aguardando 3 segundos...");
 
-                // Reseta qualquer contagem anterior para garantir os 3 segundos após o término do bipe
                 clearTimeout(temporizadorClique);
 
                 temporizadorClique = setTimeout(function() {
-                    executandoFluxo = true; // Trava o rastreador para evitar cliques duplos
+                    executandoFluxo = true; 
 
-                    console.log("⏱️ 3 segundos atingidos! Notificando o framework SAP...");
-                    campo.dispatchEvent(new Event('change', { bubbles: true }));
-                    campo.dispatchEvent(new Event('liveChange', { bubbles: true }));
+                    console.log("⏱️ 3 segundos atingidos! Confirmando dados no SAP...");
+                    campoLote.dispatchEvent(new Event('change', { bubbles: true }));
+                    campoLote.dispatchEvent(new Event('liveChange', { bubbles: true }));
 
                     const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
                     if (botaoProximo) {
                         console.log("👉 Apertando o botão Próximo...");
                         dispararCliqueReal(botaoProximo);
-                        
-                        // Inicia a busca ativa pelo botão de confirmação que vai surgir
                         fecharPopupConfirmacao();
                     } else {
-                        console.error("❌ Erro: O botão 'Próximo' não estava visível ou pronto.");
-                        executandoFluxo = false; // Destrava em caso de falha externa
+                        console.error("❌ Erro: O botão 'Próximo' não estava visível.");
+                        executandoFluxo = false;
                     }
                 }, 3000);
             } else if (valorAtual === "") {
-                // Se o campo for limpo pelo sistema, reseta o histórico do conteúdo
                 ultimoConteudo = "";
             }
         }
@@ -115,7 +146,7 @@
                 btn.style.background = "#28a745";
                 setTimeout(() => {
                     btn.innerText = "Copiar Código";
-                    btn.style.background = "#10ac84";
+                    btn.style.background = "#ff9f43";
                 }, 2000);
             });
         }
