@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copiador de Script SAP (Rastreador Ativo)</title>
+    <title>Copiador de Script SAP (Pronto)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -19,8 +19,8 @@
 <body>
 
     <div class="container">
-        <h1>Automação SAP - Modo Rastreador Ativo Permanente</h1>
-        <p>Esta versão ignora os bloqueios de memória do SAP checando os campos de forma independente a cada 500ms.</p>
+        <h1>Automação SAP - Versão Final Concluída</h1>
+        <p>O código abaixo já está configurado com todos os IDs corretos. Clique no botão para copiar e colar no Console (F12).</p>
         
         <div class="box-codigo">
             <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código</button>
@@ -29,8 +29,8 @@
     let executandoFluxo = false;
     let ultimoConteudo = "";
 
-    // Defina aqui o ID do botão de confirmação do seu pop-up
-    const SELETOR_BOTAO_CONFIRMACAO = "[id$='COLOQUE_AQUI_O_ID_DO_BOTAO_DE_CONFIRMACAO']";
+    // ID do seu botão de confirmação configurado com sucesso!
+    const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
 
     console.log("🚀 Rastreador Ativo SAP Iniciado! Monitorando em segundo plano...");
 
