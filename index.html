@@ -57,7 +57,7 @@
                     Ativo
                 </span>
             </div>
-            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
+            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
         </div>
     `;
     
@@ -95,7 +95,6 @@
         }
     }
 
-    // RASTREADOR PRINCIPAL
     setInterval(function() {
         const elementoSeta = document.querySelector("[id$='AjusNlpla-arrow']");
         
@@ -108,26 +107,20 @@
 
             if (campoFaixaSap && valorFaixaDefinida !== "") {
                 if (campoFaixaSap.value !== valorFaixaDefinida) {
-                    
-                    // CORREÇÃO PROFUNDA: Foca no campo e simula teclado humano limpo
                     campoFaixaSap.focus();
                     campoFaixaSap.value = ""; 
                     
-                    // Injeta caractere por caractere disparando os gatilhos nativos do SAPUI5
                     for (let i = 0; i < valorFaixaDefinida.length; i++) {
                         campoFaixaSap.value += valorFaixaDefinida[i];
                         campoFaixaSap.dispatchEvent(new Event('input', { bubbles: true }));
                     }
 
-                    // Dispara a cadeia completa de eventos de gravação exigida pelo banco de dados do SAP
                     campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
                     campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
                     campoFaixaSap.dispatchEvent(new Event('selectionChange', { bubbles: true }));
                     campoFaixaSap.dispatchEvent(new Event('focusout', { bubbles: true }));
                     
-                    // Devolve o foco para fora para consolidar o dado
                     document.body.focus();
-                    
                     console.log("✏️ [Automação] Sincronização de memória concluída -> " + valorFaixaDefinida);
                 }
             }
@@ -156,3 +149,14 @@
                     const botaoProximo = document.querySelector("[id$='nextButton-BDI-content']");
                     
                     if (botaoProximo) {
+                        console.log("👉 [Automação] Acionando controle de navegação.");
+                        dispararCliqueReal(botaoProximo);
+                        fecharPopupConfirmacao();
+                    } else {
+                        console.error("❌ [Automação] Erro crítico: Controle de navegação ausente.");
+                        executandoFluxo = false;
+                    }
+                }, 3000);
+            } else if (valorAtual === "") {
+                ultimoConteudo = "";
+            }
