@@ -19,7 +19,7 @@
 
     <div class="container">
         <h1>Painel de Automação SAP</h1>
-        <p>Clique no botão abaixo para copiar o script de automação no padrão visual moderno da SAP. Depois, cole o código na aba Console (F12) da sua tela do SAP.</p>
+        <p>Clique no botão abaixo para copiar o script atualizado em tamanho reduzido. Depois, cole o código na aba Console (F12) da sua tela do SAP.</p>
         
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- Script contendo a nova interface moderna e 100% em português -->
+    <!-- Script contendo a nova interface compacta, em português e com os novos nomes -->
     <textarea id="script-sap">(function() {
     let temporizadorClique;
     let executandoFluxo = false;
@@ -44,33 +44,34 @@
     const SELETOR_BOTAO_CONFIRMACAO = "[id$='_IDGenButton2-BDI-content']";
     const SELETOR_CAMPO_FAIXA = "[id$='FaixaInput-inner'], [id$='faixaInput-inner'], input[id*='Faixa']"; 
 
-    console.log("🚀 [Automação SAP] Rastreador ativo inicializado com sucesso.");
+    console.log("🚀 [Automação SAP] Rastreador ativo compacto inicializado.");
 
-    // 1. CRIA O PAINEL NO ESTILO MODERNO SAP HORIZON (DIREITA)
+    // 1. CRIA O PAINEL COMPACTO ALINHADO À DIREITA
     const painel = document.createElement("div");
     painel.id = "painel-automacao-sap";
     
-    // Design moderno atualizado: cantos mais arredondados, sombras leves e cores limpas
-    painel.style.cssText = "position: fixed !important; top: 20px !important; right: 20px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 16px !important; border-radius: 12px !important; box-shadow: 0 12px 32px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 13px !important; border: 1px solid #293b4c !important; width: 180px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
+    // Largura reduzida para 140px (antes era 180px) e estofamento (padding) reduzido para ficar menor
+    painel.style.cssText = "position: fixed !important; top: 15px !important; right: 15px !important; z-index: 2147483647 !important; background-color: #1a2733 !important; color: #ffffff !important; padding: 10px 12px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important; font-family: Arial, sans-serif !important; font-size: 11px !important; border: 1px solid #293b4c !important; width: 140px !important; text-align: left !important; display: block !important; visibility: visible !important; opacity: 1 !important;";
     
-    // Conteúdo 100% em português e visual limpo
+    // Nomenclaturas alteradas para "Endereçamento Automático" e "Faixa"
     painel.innerHTML = `
-        <div style="font-weight: 600 !important; margin-bottom: 12px !important; color: #ffffff !important; font-size: 13px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
-            <span>Robô de Automação</span>
-            <span style="display:flex !important; align-items:center !important; font-size:10px !important; color:#2ed573 !important; font-weight:normal !important;">
-                <span style="display:inline-block !important; width:6px !important; height:6px !important; background:#2ed573 !important; border-radius:50% !important; margin-right:4px !important;"></span>
-                Ativo
-            </span>
+        <div style="font-weight: 600 !important; margin-bottom: 8px !important; color: #ffffff !important; font-size: 11px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
+            <span style="letter-spacing: -0.2px !important;">Endereçamento Automático</span>
         </div>
-        <div style="background-color: #243545 !important; padding: 10px !important; border-radius: 8px !important;">
-            <label style="display: block !important; margin-bottom: 6px !important; color: #abb9c7 !important; font-size: 11px !important; font-weight: 600 !important;">Definir Faixa Fixa:</label>
-            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 28px !important; padding: 4px 8px !important; border-radius: 6px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 14px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
+        <div style="background-color: #243545 !important; padding: 6px 8px !important; border-radius: 6px !important;">
+            <div style="display: flex !important; align-items: center !important; justify-content: space-between !important; margin-bottom: 4px !important;">
+                <label style="color: #abb9c7 !important; font-size: 10px !important; font-weight: 600 !important;">Faixa:</label>
+                <span style="display:flex !important; align-items:center !important; font-size:9px !important; color:#2ed573 !important;">
+                    <span style="display:inline-block !important; width:5px !important; height:5px !important; background:#2ed573 !important; border-radius:50% !important; margin-right:3px !important;"></span>
+                    Ativo
+                </span>
+            </div>
+            <div id="campo-faixa-fixa" contenteditable="true" style="width: 100% !important; height: 24px !important; padding: 3px !important; border-radius: 4px !important; border: 1px solid #435b73 !important; background-color: #ffffff !important; color: #1a2733 !important; font-weight: bold !important; text-align: center !important; font-size: 12px !important; display: block !important; visibility: visible !important; opacity: 1 !important; outline: none !important; box-sizing: border-box !important; transition: border-color 0.2s !important;"></div>
         </div>
     `;
     
     document.body.insertAdjacentElement('afterbegin', painel);
 
-    // Efeito de foco moderno (borda azul Horizon) ao clicar para digitar
     const campoDigitacao = painel.querySelector("#campo-faixa-fixa");
     campoDigitacao.addEventListener("focus", function() { 
         this.style.borderColor = "#0070d2"; 
@@ -114,7 +115,7 @@
                 campoFaixaSap.value = valorFaixaDefinida;
                 campoFaixaSap.dispatchEvent(new Event('change', { bubbles: true }));
                 campoFaixaSap.dispatchEvent(new Event('liveChange', { bubbles: true }));
-                console.log("✏px [Automação] Campo corrigido -> " + valorFaixaDefinida);
+                console.log("✏️ [Automação] Campo corrigido -> " + valorFaixaDefinida);
             }
         }
 
@@ -176,8 +177,3 @@
                 campoTextoOculto.style.display = "none";
                 alert("Falha ao copiar automaticamente.");
             });
-        }
-    </script>
-
-</body>
-</html>
