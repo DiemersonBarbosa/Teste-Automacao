@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automação SAP - Klabin</title>
+    <title>Acesso Restrito - Automação SAP</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; display: flex; justify-content: center; }
-        .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 40px; background-color: #f5f6f8; color: #24272a; display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        
+        /* Estilo da Caixa de Login */
+        .login-box { max-width: 400px; width: 100%; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e5e9; text-align: center; }
+        .login-box h2 { color: #1d2d3e; margin-bottom: 20px; font-size: 20px; }
+        .input-grupo { text-align: left; margin-bottom: 15px; }
+        .input-grupo label { display: block; font-size: 12px; color: #515456; margin-bottom: 5px; font-weight: bold; }
+        .input-grupo input { width: 100%; padding: 10px; border: 1px solid #abb9c7; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .input-grupo input:focus { border-color: #0070d2; outline: none; }
+        .btn-login { background: #1d2d3e; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; width: 100%; margin-top: 10px; }
+        .btn-login:hover { background: #2c3e50; }
+        .erro-msg { color: #ee5253; font-size: 12px; margin-top: 10px; display: none; font-weight: bold; }
+
+        /* Estilo do Painel Principal (Invisível até logar) */
+        .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; display: none; }
         h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
         p { color: #515456; margin-bottom: 25px; font-size: 14px; }
         .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
@@ -17,44 +30,65 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- 1. TELA DE LOGIN (APARECE PRIMEIRO) -->
+    <div class="login-box" id="caixa-login">
+        <h2>Controle de Acesso Klabin</h2>
+        <div class="input-grupo">
+            <label>Usuário:</label>
+            <input type="text" id="usuario" placeholder="Digite seu usuário">
+        </div>
+        <div class="input-grupo">
+            <label>Senha:</label>
+            <input type="password" id="senha" placeholder="Digite sua senha">
+        </div>
+        <button class="btn-login" onclick="autenticar()">Entrar no Painel</button>
+        <div class="erro-msg" id="erro">Usuário ou senha incorretos!</div>
+    </div>
+
+    <!-- 2. PAINEL DO ROBÔ (SÓ APARECE SE LOGAR COM SUCESSO) -->
+    <div class="container" id="painel-principal">
         <h1>Painel de Automação SAP - Klabin</h1>
-        <p>Versão Final Estabilizada. Agora o robô gerencia a faixa correta e limpa a poluição visual da tela ocultando a lista lateral automaticamente.</p>
+        <p>Acesso autorizado. Clique no botão azul abaixo para obter o script com limpeza profunda de blocos.</p>
         
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
 
-        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="",faixaEmProcesso=false;const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada com ocultador de poluição visual.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px!important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50%!important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false;faixaEmProcesso=false},1500)}else{setTimeout(s,300)}}setInterval((function(){// OCULTADOR DE POLUIÇÃO VISUAL: Procura a lista/tabela lateral do SAP que aparece após o lote 1 e esconde ela da tela
-        const listaLateral=document.querySelector(".sapMList, .sapMTable, [id*='faixasDisponiveis'], .sapMPageScroll");if(listaLateral&&listaLateral.id!=="painel-automacao-sap"){listaLateral.style.setProperty("display","none","important")}const o=document.querySelector("[id$='AjusNlpla-inner']");if(o){const t=document.getElementById("campo-faixa-fixa");const a=t?t.innerText.trim():"";if(a!==""&&o.value!==a&&!faixaEmProcesso){faixaEmProcesso=true;try{let t=null;if(window.sap&&window.sap.ui){const e=o.id.replace("-inner","");t=window.sap.ui.getCore().byId(e)}if(t){if(typeof t.setSelectedKey==="function")t.setSelectedKey(a);if(typeof t.setValue==="function")t.setValue(a);if(typeof t.fireSelectionChange==="function"){const e=t.getItemByKey?t.getItemByKey(a):null;t.fireSelectionChange({selectedItem:e})}const e=t.getBinding("value")||t.getBinding("selectedKey");if(e&&e.setValue)e.setValue(a)}}catch(d){console.error(d)}o.value=a;o.setAttribute("value",a);o.defaultValue=a;o.dispatchEvent(new Event("input",{bubbles:true}));o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));document.body.focus();setTimeout((function(){faixaEmProcesso=false}),1500)}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector("[id$='LoteInput2-inner']");if(!t||t.value.trim()===""){e=false;n="";return}e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const a=document.querySelector("[id$='nextButton-BDI-content']");if(a){i(a);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),300)})();</textarea>
+        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="",faixaEmProcesso=false;const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px!important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50%!important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false;faixaEmProcesso=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const listaLateral=document.querySelector(".sapMList, .sapMTable, [id*='faixasDisponiveis'], .sapMSplitContainerMaster, .sapMPageScroll");if(listaLateral&&listaLateral.id!=="painel-automacao-sap"){listaLateral.style.setProperty("display","none","important");const t=listaLateral.closest(".sapMVBox, .sapMHBox, .sapMFlexBox, .sapMSplitContainerMasterArea");if(t)t.style.setProperty("display","none","important")}const o=document.querySelector("[id$='AjusNlpla-inner']");if(o){const t=document.getElementById("campo-faixa-fixa");const a=t?t.innerText.trim(): "";if(a!==""&&o.value!==a&&!faixaEmProcesso){faixaEmProcesso=true;try{let t=null;if(window.sap&&window.sap.ui){const e=o.id.replace("-inner","");t=window.sap.ui.getCore().byId(e)}if(t){if(typeof t.setSelectedKey==="function")t.setSelectedKey(a);if(typeof t.setValue==="function")t.setValue(a);if(typeof t.fireSelectionChange==="function"){const e=t.getItemByKey?t.getItemByKey(a):null;t.fireSelectionChange({selectedItem:e})}const e=t.getBinding("value")||t.getBinding("selectedKey");if(e&&e.setValue)e.setValue(a)}}catch(d){console.error(d)}o.value=a;o.setAttribute("value",a);o.defaultValue=a;o.dispatchEvent(new Event("input",{bubbles:true}));o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));document.body.focus();setTimeout((function(){faixaEmProcesso=false}),1500)}else if(a&&c!==""&&faixaEmProcesso&&a.value!==c){a.value=c}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector("[id$='LoteInput2-inner']");if(!t||t.value.trim()===""){e=false;n="";return}e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const a=document.querySelector("[id$='nextButton-BDI-content']");if(a){i(a);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),300)})();</textarea>
 
         <div class="instrucoes">
             <strong>Procedimento:</strong>
             <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Atualize seu arquivo local e faça a cópia usando o botão azul.</li>
-                <li>Injete o script no console do SAP.</li>
-                <li>Agora, além de gerenciar a faixa e fazer os cliques automáticos, o robô vai sumir com a lista lateral incômoda assim que ela tentar brotar na tela.</li>
+                <li>Copie o script modificado usando o botão azul.</li>
+                <li>Injete o código no console (F12) do SAP.</li>
             </ol>
         </div>
     </div>
 
     <script>
+        // LÓGICA DE AUTENTICAÇÃO LOCAL
+        function autenticar() {
+            const usuarioInjetado = document.getElementById("usuario").value;
+            const senhaInjetada = document.getElementById("senha").value;
+            const erroDiv = document.getElementById("erro");
+
+            // Configuração das suas credenciais (Altere aqui se quiser)
+            if (usuarioInjetado === "admin" && senhaInjetada === "klabin123") {
+                document.getElementById("caixa-login").style.display = "none";
+                document.getElementById("painel-principal").style.display = "block";
+            } else {
+                erroDiv.style.display = "block";
+                setTimeout(() => { erroDiv.style.display = "none"; }, 3000);
+            }
+        }
+
+        // Permite logar apertando a tecla Enter nos campos de entrada
+        document.getElementById("senha").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") { autenticar(); }
+        });
+
+        // LÓGICA DE CÓPIA DO ROBÔ
         function copiarCodigo() {
             const campoTexto = document.getElementById("script-sap");
             campoTexto.select();
             campoTexto.setSelectionRange(0, 99999);
             try {
                 document.execCommand('copy');
-                const btn = document.querySelector(".btn-copiar");
-                btn.innerText = "Script Final Klabin Copiado!";
-                btn.style.background = "#2b7c2b";
-                setTimeout(() => {
-                    btn.innerText = "Copiar Código de Automação";
-                    btn.style.background = "#0070d2";
-                }, 2500);
-            } catch (err) {
-                alert("Falha ao copiar automaticamente.");
-            }
-        }
-    </script>
-
-</body>
-</html>
