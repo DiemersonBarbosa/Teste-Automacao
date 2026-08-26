@@ -15,7 +15,6 @@
         .btn-login { background: #1d2d3e; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; width: 100%; margin-top: 10px; }
         .btn-login:hover { background: #2c3e50; }
         .erro-msg { color: #ee5253; font-size: 12px; margin-top: 10px; display: none; font-weight: bold; }
-        
         .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; display: none; }
         h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
         p { color: #515456; margin-bottom: 25px; font-size: 14px; }
@@ -27,7 +26,7 @@
 </head>
 <body>
 
-    <!-- TELA DE LOGIN -->
+    <!-- CAIXA DE LOGIN -->
     <div class="login-box" id="caixa-login">
         <h2>Controle de Acesso Klabin</h2>
         <div class="input-grupo">
@@ -42,12 +41,12 @@
         <div class="erro-msg" id="erro">Acesso negado!</div>
     </div>
 
-    <!-- PAINEL DO ROBÔ (SÓ APARECE APÓS LOGIN) -->
+    <!-- PAINEL DO ROBÔ -->
     <div class="container" id="painel-principal">
         <h1>Painel de Automação SAP - Klabin</h1>
         <p>Acesso autorizado. Clique no botão azul abaixo para obter o script com limpeza profunda de blocos.</p>
         <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
-        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="",faixaEmProcesso=false;const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada com limpeza de poluição visual.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px!important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50%!important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false;faixaEmProcesso=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const listaLateral=document.querySelector(".sapMList, .sapMTable, [id*='faixasDisponiveis'], .sapMSplitContainerMaster, .sapMPageScroll");if(listaLateral&&listaLateral.id!=="painel-automacao-sap"){listaLateral.style.setProperty("display","none","important");const t=listaLateral.closest(".sapMVBox, .sapMHBox, .sapMFlexBox, .sapMSplitContainerMasterArea");if(t)t.style.setProperty("display","none","important")}const o=document.querySelector("[id$='AjusNlpla-inner']");if(o){const t=document.getElementById("campo-faixa-fixa");const a=t?t.innerText.trim():"";if(a!==""&&o.value!==a&&!faixaEmProcesso){faixaEmProcesso=true;try{let t=null;if(window.sap&&window.sap.ui){const e=o.id.replace("-inner","");t=window.sap.ui.getCore().byId(e)}if(t){if(typeof t.setSelectedKey==="function")t.setSelectedKey(a);if(typeof t.setValue==="function")t.setValue(a);if(typeof t.fireSelectionChange==="function"){const e=t.getItemByKey?t.getItemByKey(a):null;t.fireSelectionChange({selectedItem:e})}const e=t.getBinding("value")||t.getBinding("selectedKey");if(e&&e.setValue)e.setValue(a)}}catch(d){console.error(d)}o.value=a;o.setAttribute("value",a);o.defaultValue=a;o.dispatchEvent(new Event("input",{bubbles:true}));o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));document.body.focus();setTimeout((function(){faixaEmProcesso=false}),1500)}else if(a&&o.value!==a&&faixaEmProcesso){o.value=a}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector("[id$='LoteInput2-inner']");if(!t||t.value.trim()===""){e=false;n="";return}e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const a=document.querySelector("[id$='nextButton-BDI-content']");if(a){i(a);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),300)})();</textarea>
+        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="",faixaEmProcesso=false;const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px!important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50%!important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false;faixaEmProcesso=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const listaLateral=document.querySelector(".sapMList, .sapMTable, [id*='faixasDisponiveis'], .sapMSplitContainerMaster, .sapMPageScroll");if(listaLateral&&listaLateral.id!=="painel-automacao-sap"){listaLateral.style.setProperty("display","none","important");const t=listaLateral.closest(".sapMVBox, .sapMHBox, .sapMFlexBox, .sapMSplitContainerMasterArea");if(t)t.style.setProperty("display","none","important")}const o=document.querySelector("[id$='AjusNlpla-inner']");if(o){const t=document.getElementById("campo-faixa-fixa");const a=t?t.innerText.trim():"";if(a!==""&&o.value!==a&&!faixaEmProcesso){faixaEmProcesso=true;try{let t=null;if(window.sap&&window.sap.ui){const e=o.id.replace("-inner","");t=window.sap.ui.getCore().byId(e)}if(t){if(typeof t.setSelectedKey==="function")t.setSelectedKey(a);if(typeof t.setValue==="function")t.setValue(a);if(typeof t.fireSelectionChange==="function"){const e=t.getItemByKey?t.getItemByKey(a):null;t.fireSelectionChange({selectedItem:e})}const e=t.getBinding("value")||t.getBinding("selectedKey");if(e&&e.setValue)e.setValue(a)}}catch(d){console.error(d)}o.value=a;o.setAttribute("value",a);o.defaultValue=a;o.dispatchEvent(new Event("input",{bubbles:true}));o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));document.body.focus();setTimeout((function(){faixaEmProcesso=false}),1500)}else if(a&&o.value!==a&&faixaEmProcesso){o.value=a}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector("[id$='LoteInput2-inner']");if(!t||t.value.trim()===""){e=false;n="";return}e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const a=document.querySelector("[id$='nextButton-BDI-content']");if(a){i(a);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),300)})();</textarea>
         <div class="instrucoes">
             <strong>Procedimento:</strong>
             <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
@@ -57,35 +56,39 @@
         </div>
     </div>
 
+    <!-- SCRIPT DE LOGIN E GERENCIAMENTO -->
     <script>
-        // FUNÇÃO DE LOGIN CORRIGIDA E SEM CONFLITOS DE COMPRESSÃO
         function autenticar() {
-            const usuarioDigitado = document.getElementById("usuario").value;
-            const senhaDigitada = document.getElementById("senha").value;
-            const msgErro = document.getElementById("erro");
+            var user = document.getElementById("usuario").value;
+            var pass = document.getElementById("senha").value;
+            var erro = document.getElementById("erro");
             
-            // Valida as chaves criptografadas (admin / klabin123)
-            if (btoa(usuarioDigitado) === "YWRtaW4=" && btoa(senhaDigitada) === "a2xhYmluMTIz") {
+            if (btoa(user) === "YWRtaW4=" && btoa(pass) === "a2xhYmluMTIz") {
                 document.getElementById("caixa-login").style.display = "none";
                 document.getElementById("painel-principal").style.display = "block";
             } else {
-                msgErro.style.display = "block";
-                setTimeout(function() { msgErro.style.display = "none"; }, 3000);
+                erro.style.display = "block";
+                setTimeout(function() { erro.style.display = "none"; }, 3000);
             }
         }
 
-        // Permite logar acionando o Enter no teclado
         document.getElementById("senha").addEventListener("keyup", function(event) {
             if (event.key === "Enter") { autenticar(); }
         });
 
-        // SISTEMA DE CÓPIA DO ROBÔ
         function copiarCodigo() {
-            const campoTexto = document.getElementById("script-sap");
-            campoTexto.select();
-            campoTexto.setSelectionRange(0, 99999);
+            var campo = document.getElementById("script-sap");
+            campo.select();
+            campo.setSelectionRange(0, 99999);
             try {
                 document.execCommand('copy');
-                const btn = document.querySelector(".btn-copiar");
+                var btn = document.querySelector(".btn-copiar");
                 btn.innerText = "Script Copiado!";
-btn.style.background = "#2b7c2b";setTimeout(function() {btn.innerText = "Copiar Código de Automação";btn.style.background = "#0070d2";}, 2500);} catch (err) {alert("Falha ao copiar automaticamente.");}}
+                btn.style.background = "#2b7c2b";
+                setTimeout(function() {
+                    btn.innerText = "Copiar Código de Automação";
+                    btn.style.background = "#0070d2";
+                }, 2500);
+            } catch (err) {
+                alert("Falha ao copiar automaticamente.");
+            }
