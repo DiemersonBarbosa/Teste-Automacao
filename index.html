@@ -2,59 +2,46 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automação SAP - Klabin</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f6f8; display: flex; justify-content: center; }
-        .container { max-width: 750px; width: 100%; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); text-align: center; border: 1px solid #e2e5e9; }
-        h1 { color: #1d2d3e; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
-        p { color: #515456; margin-bottom: 25px; font-size: 14px; }
-        .btn-copiar { background: #0070d2; color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; width: 100%; transition: background 0.2s ease; margin-bottom: 20px; }
-        .btn-copiar:hover { background: #0056a3; }
-        .area-codigo { width: 100%; height: 250px; background-color: #1a2733; color: #abb9c7; font-family: 'Courier New', Courier, monospace; font-size: 13px; padding: 15px; border-radius: 8px; border: 1px solid #293b4c; resize: none; box-sizing: border-box; line-height: 1.5; overflow-x: auto; white-space: pre; }
-        .instrucoes { text-align: left; background: #f8fafb; padding: 18px; border-radius: 8px; margin-top: 25px; font-size: 13px; border-left: 4px solid #0070d2; color: #32363a; }
-    </style>
+    <title>Instalador de Um Clique</title>
 </head>
-<body>
+<body style="background:#0f172a;color:#fff;font-family:Arial,sans-serif;padding:40px;text-align:center;">
 
-    <div class="container">
-        <h1>Painel de Automação SAP - Klabin</h1>
-        <p>Versão Limpeza Profunda. O robô agora remove a lista e o retângulo de fundo branco do SAP, deixando a tela 100% livre.</p>
+    <div style="background:#1e293b;max-width:400px;margin:40px auto;padding:25px;border-radius:12px;border:1px solid #334155;box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+        <h3 style="color:#38bdf8;margin-top:0;">Painel de Instalação v2.1</h3>
+        <p style="color:#94a3b8;font-size:14px;">Clique no botão abaixo para copiar o script do robô compactado para a barra de favoritos.</p>
         
-        <button class="btn-copiar" onclick="copiarCodigo()">Copiar Código de Automação</button>
+        <button id="bt" style="background:#0070d2;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:15px;width:100%;margin:15px 0;" onclick="cp()">Copiar Script do Robô</button>
 
-        <textarea class="area-codigo" id="script-sap" readonly>(function(){let t,e=false,n="",faixaEmProcesso=false;const o="[id$='_IDGenButton2-BDI-content']";console.log("🚀 [Automação Klabin] Ativada com limpeza profunda de blocos.");const a=document.createElement("div");a.id="painel-automacao-sap";a.style.cssText="position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background-color:#1a2733!important;color:#fff!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;font-family:Arial,sans-serif!important;font-size:11px!important;border:1px solid #293b4c!important;width:145px!important;text-align:left!important;";a.innerHTML=`<div style="font-weight:600!important;margin-bottom:8px!important;color:#fff!important;font-size:11px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;"><span style="letter-spacing:-.2px!important;">Endereçamento Automático</span></div><div style="background-color:#243545!important;padding:6px 8px!important;border-radius:6px!important;"><div style="display:flex!important;align-items:center!important;justify-content:space-between!important;margin-bottom:4px!important;"><label style="color:#abb9c7!important;font-size:10px!important;font-weight:600!important;">Faixa:</label><span style="display:flex!important;align-items:center!important;font-size:9px!important;color:#2ed573!important;"><span style="display:inline-block!important;width:5px!important;height:5px!important;background:#2ed573!important;border-radius:50%!important;margin-right:3px!important;"></span>Ativo</span></div><div id="campo-faixa-fixa" contenteditable="true" style="width:100%!important;height:24px!important;padding:3px!important;border-radius:4px!important;border:1px solid #435b73!important;background-color:#fff!important;color:#1a2733!important;font-weight:bold!important;text-align:center!important;font-size:12px!important;display:block!important;outline:none!important;box-sizing:border-box!important;"></div></div>`;document.body.insertAdjacentElement("afterbegin",a);const r=a.querySelector("#campo-faixa-fixa");function i(t){t.dispatchEvent(new MouseEvent("mousedown",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("mouseup",{bubbles:true,cancelable:true}));t.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}))}function s(){const t=document.querySelector(o);if(t){console.log("✅ Confirmado.");i(t);setTimeout(()=>{n="";e=false;faixaEmProcesso=false},1500)}else{setTimeout(s,300)}}setInterval((function(){// LIMPEZA PROFUNDA DE RETÂNGULOS BRANCOS: Caça a tabela lateral e remove o bloco de fundo/layout inteiro que sobrou
-        const listaLateral=document.querySelector(".sapMList, .sapMTable, [id*='faixasDisponiveis'], .sapMSplitContainerMaster, .sapMPageScroll");if(listaLateral&&listaLateral.id!=="painel-automacao-sap"){listaLateral.style.setProperty("display","none","important");const t=listaLateral.closest(".sapMVBox, .sapMHBox, .sapMFlexBox, .sapMSplitContainerMasterArea");if(t)t.style.setProperty("display","none","important")}const o=document.querySelector("[id$='AjusNlpla-inner']");if(o){const t=document.getElementById("campo-faixa-fixa");const a=t?t.innerText.trim():"";if(a!==""&&o.value!==a&&!faixaEmProcesso){faixaEmProcesso=true;try{let t=null;if(window.sap&&window.sap.ui){const e=o.id.replace("-inner","");t=window.sap.ui.getCore().byId(e)}if(t){if(typeof t.setSelectedKey==="function")t.setSelectedKey(a);if(typeof t.setValue==="function")t.setValue(a);if(typeof t.fireSelectionChange==="function"){const e=t.getItemByKey?t.getItemByKey(a):null;t.fireSelectionChange({selectedItem:e})}const e=t.getBinding("value")||t.getBinding("selectedKey");if(e&&e.setValue)e.setValue(a)}}catch(d){console.error(d)}o.value=a;o.setAttribute("value",a);o.defaultValue=a;o.dispatchEvent(new Event("input",{bubbles:true}));o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));document.body.focus();setTimeout((function(){faixaEmProcesso=false}),1500)}}if(!e){const o=document.querySelector("[id$='LoteInput2-inner']");if(o){const a=o.value.trim();if(a!==""&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector("[id$='LoteInput2-inner']");if(!t||t.value.trim()===""){e=false;n="";return}e=true;o.dispatchEvent(new Event("change",{bubbles:true}));o.dispatchEvent(new Event("liveChange",{bubbles:true}));const a=document.querySelector("[id$='nextButton-BDI-content']");if(a){i(a);s()}else{e=false}}),3000)}else if(a===""){n=""}}}}),300)})();</textarea>
-
-        <div class="instrucoes">
-            <strong>Procedimento:</strong>
-            <ol style="margin-top: 8px; padding-left: 20px; line-height: 1.6;">
-                <li>Atualize seu arquivo local e utilize o botão azul para copiar o script limpo.</li>
-                <li>Injete o código no console do SAP.</li>
-                <li>O robô agora fará o efeito dominó: ao sumir com a lista, ele puxará o retângulo de fundo branco junto, limpando totalmente a área lateral do monitor.</li>
+        <div style="text-align:left;background:#0f172a;padding:12px;border-radius:6px;font-size:12px;color:#cbd5e1;border-left:4px solid #38bdf8;">
+            <strong>📌 Como adicionar no Edge:</strong>
+            <ol style="margin:5px 0 0 0;padding-left:18px;line-height:1.5;">
+                <li>Clique no botão azul acima para copiar o código.</li>
+                <li>Exiba a barra de favoritos apertando <strong>Ctrl + Shift + B</strong>.</li>
+                <li>Clique com o botão direito na barra e vá em <strong>Adicionar página</strong>.</li>
+                <li>Mude o nome para "Automação" e dê <strong>Ctrl + V</strong> no campo URL.</li>
             </ol>
         </div>
     </div>
 
     <script>
-        function copiarCodigo() {
-            const campoTexto = document.getElementById("script-sap");
-            campoTexto.select();
-            campoTexto.setSelectionRange(0, 99999);
+        function cp() {
+            var c = "javascript:(function(){let t,e=false,n='',fx=false,cL=0;const o='[id$=\\'_IDGenButton2-BDI-content\\']';const a=document.createElement('div');a.id='painel-automacao-sap';a.style.cssText='position:fixed!important;top:15px!important;right:15px!important;z-index:2147483647!important;background:#1e293b!important;color:#fff!important;padding:10px!important;border-radius:8px!important;font-family:Arial!important;font-size:11px!important;width:160px!important;box-sizing:border-box!important;';a.innerHTML='<div style=\"font-weight:bold!important;margin-bottom:8px!important;border-bottom:1px solid #475569!important;padding-bottom:4px!important;\">ENDEREÇAMENTO</div><div style=\"margin-bottom:6px!important;\"><select id=\"sap-sel-faixa\" style=\"width:100%!important;height:24px!important;font-weight:bold!important;\"><option value=\"001-01-090\">001-01-090</option><option value=\"001-01-011\">001-01-011</option><option value=\"001-01-012\">001-01-012</option><option value=\"LOBO\">LOBO</option><option value=\"STAGE1\">STAGE1</option><option value=\"STAGE2\">STAGE2</option><option value=\"STAGE3\">STAGE3</option></select></div><div style=\"background:#0f172a!important;padding:5px!important;border-radius:6px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;\"><div><span style=\"color:#cbd5e1!important;font-size:9px!important;\">QTD:</span><span id=\"sap-cnt\" style=\"font-size:13px!important;font-weight:bold!important;color:#38bdf8!important;margin-left:4px!important;\">00</span></div><button id=\"sap-rz\" style=\"background:#ef4444!important;color:#fff!important;border:none!important;padding:2px 6px!important;border-radius:4px!important;font-weight:bold!important;cursor:pointer!important;font-size:9px!important;height:18px!important;\">ZERAR</button></div>';document.body.insertAdjacentElement('afterbegin',a);const sel=a.querySelector('#sap-sel-faixa');a.querySelector('#sap-rz').onclick=()=>{cL=0;a.querySelector('#sap-cnt').innerText='00'};function i(t){t.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));t.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}function s(){const t=document.querySelector(o);if(t){i(t);cL++;a.querySelector('#sap-cnt').innerText=cL<10?'0'+cL:cL;setTimeout(()=>{n='';e=false;fx=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const lL=document.querySelector('.sapMList, .sapMTable, [id*=\\'faixasDisponiveis\\'], .sapMSplitContainerMaster');if(lL&&lL.id!=='painel-automacao-sap'){lL.style.setProperty('display','none','important');const t=lL.closest('.sapMVBox, .sapMHBox, .sapMFlexBox');if(t)t.style.setProperty('display','none','important')}const o=document.querySelector('[id$=\\'AjusNlpla-inner\\']');if(o){const a=sel.value;if(a!==''&&o.value!==a&&!fx){fx=true;try{let t=null;if(window.sap&&window.sap.ui){t=window.sap.ui.getCore().byId(o.id.replace('-inner',''))}if(t){if(typeof t.setSelectedKey==='function')t.setSelectedKey(a);if(typeof t.setValue==='function')t.setValue(a);const e=t.getBinding('value')||t.getBinding('selectedKey');if(e&&e.setValue)e.setValue(a)}}catch(d){}o.value=a;o.setAttribute('value',a);o.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{fx=false},1500)}}if(!e){const o=document.querySelector('[id$=\\'LoteInput2-inner\\']');if(o){const a=o.value.trim();if(a!==''&&a!==n){n=a;clearTimeout(t);t=setTimeout((function(){const t=document.querySelector('[id$=\\'LoteInput2-inner\\']');if(!t||t.value.trim()===''){e=false;n='';return}e=true;o.dispatchEvent(new Event('change',{bubbles:true}));const a=document.querySelector('[id$=\\'nextButton-BDI-content\\']');if(a){i(a);s()}else{e=false}}),3000)}else if(a===''){n='';e=false;}}}}),300);})();";
+            
+            var t = document.createElement("textarea");
+            t.value = c;
+            document.body.appendChild(t);
+            t.select();
             try {
-                document.execCommand('copy');
-                const btn = document.querySelector(".btn-copiar");
-                btn.innerText = "Script Klabin Limpo!";
-                btn.style.background = "#2b7c2b";
-                setTimeout(() => {
-                    btn.innerText = "Copiar Código de Automação";
-                    btn.style.background = "#0070d2";
-                }, 2500);
+                document.execCommand("copy");
+                var b = document.getElementById("bt");
+                b.innerText = "Script Copiado!";
+                b.style.background = "#2b7c2b";
+                setTimeout(function() { b.innerText = "Copiar Script do Robô"; b.style.background = "#0070d2" }, 2500);
             } catch (err) {
-                alert("Falha ao copiar automaticamente.");
+                alert("Falha ao copiar.");
             }
+            document.body.removeChild(t);
         }
     </script>
-
 </body>
 </html>
