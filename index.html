@@ -2,21 +2,70 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Instalador Clássico v33.0</title>
+    <title>Gerador de Arquivos Sem Limite v1.0</title>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 30px; text-align: center; }
+        .box { background: #1e293b; max-width: 650px; margin: 0 auto; padding: 25px; border-radius: 8px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        h3 { color: #38bdf8; margin-top: 0; font-size: 18px; }
+        p { color: #94a3b8; font-size: 13px; margin-bottom: 15px; }
+        textarea { width: 100%; height: 250px; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 4px; padding: 12px; font-family: monospace; font-size: 12px; box-sizing: border-box; resize: vertical; outline: none; }
+        .row { display: flex; gap: 10px; margin-top: 15px; }
+        input { flex-grow: 1; height: 38px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 4px; padding: 0 10px; box-sizing: border-box; font-size: 13px; }
+        button { background: #2563eb; color: #fff; border: none; padding: 0 20px; height: 38px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; transition: background 0.2s; }
+        button:hover { background: #1d4ed8; }
+        .hint { text-align: left; background: rgba(56,189,248,0.05); padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 12px; color: #cbd5e1; border-left: 4px solid #38bdf8; line-height: 1.5; }
+    </style>
 </head>
-<body style="background:#222;color:#fff;font-family:sans-serif;padding:20px;text-align:center;">
-    <h3>Instalador do Robô v33.0</h3>
-    <button id="bt" style="padding:10px 20px;cursor:pointer;font-weight:bold;" onclick="cp()">Copiar Script do Robô</button>
+<body>
+
+    <div class="box">
+        <h3>Gerador Local de Arquivos</h3>
+        <p>Cole seu código ou texto abaixo, defina o nome e salve diretamente no computador.</p>
+        
+        <textarea id="txt" placeholder="Cole seu texto ou código aqui..."></textarea>
+        
+        <div class="row">
+            <input id="nome" type="text" value="instalador.html" placeholder="Nome do arquivo (ex: instalador.html)">
+            <button onclick="salvarArquivo()">Salvar Arquivo</button>
+        </div>
+
+        <div class="hint">
+            <strong>💡 Como usar para os seus scripts:</strong><br>
+            1. Cole o código HTML ou JavaScript dentro da caixa escura acima.<br>
+            2. Deixe o nome como <strong>instalador.html</strong> (ou mude se quiser salvar um .txt).<br>
+            3. Clique em "Salvar Arquivo". Ele irá direto para a sua pasta de Downloads.
+        </div>
+    </div>
+
     <script>
-    function cp() {
-        var r = "javascript:(function(){if(document.getElementById('painel-automacao-sap'))return;const s=document.createElement('style');s.innerHTML='#sap-menu-list::-webkit-scrollbar{display:none!important;}#sap-menu-list{scrollbar-width:none!important;}';document.head.appendChild(s);const a=document.createElement('div');a.id='painel-automacao-sap';a.style.cssText='position:fixed!important;top:65px!important;right:0!important;z-index:2147483647!important;background:#1e293b!important;color:#fff!important;padding:8px!important;font-family:sans-serif!important;font-size:11px!important;width:160px!important;box-sizing:border-box!important;border:1px solid #4b5563!important;display:flex!important;flex-direction:column!important;gap:4px!important;cursor:move!important;user-select:none!important;-webkit-user-select:none!important;';let h1='<b>ENDEREÇAMENTO</b><div style=\"position:relative;font-size:9px;\">FAIXA:<br><div style=\"display:flex;height:24px;\"><input id=\"sap-sel-faixa\" type=\"text\" placeholder=\"Escolha...\" style=\"width:110px;background:#0f172a;border:1px solid #4b5563;color:#fff;font-size:11px;text-align:center;\"><button id=\"sap-btn-menu\" style=\"width:22px;background:#374151;color:#38bdf8;border:none;\">▼</button></div><div id=\"sap-menu-list\" style=\"display:none;position:absolute;background:#1f2937;border:1px solid #4b5563;width:132px;max-height:100px;overflow-y:auto;z-index:9999;\"><div class=\"sap-opt\" style=\"padding:3px;cursor:pointer;\">001-01-090</div><div class=\"sap-opt\" style=\"padding:3px;cursor:pointer;\">001-01-011</div><div class='sap-opt' style='padding:3px;cursor:pointer;'>001-01-012</div><div class='sap-opt' style='padding:3px;cursor:pointer;'>LOBO</div><div class='sap-opt' style='padding:3px;cursor:pointer;'>STAGE1</div><div class='sap-opt' style='padding:3px;cursor:pointer;'>STAGE2</div><div class='sap-opt' style='padding:3px;cursor:pointer;'>STAGE3</div></div></div>';let h2='<div style=\"display:flex;justify-content:space-between;font-size:8px;\"><span>QUANTIDADE:</span><span>TIMER:</span></div><div style=\"display:flex;justify-content:space-between;align-items:center;\"><div style=\"background:#111827;border:1px solid #4b5563;padding:0 4px;display:flex;align-items:center;justify-content:space-between;height:24px;box-sizing:border-box;width:96px;\"><span id=\"sap-cnt\" style=\"font-weight:bold;color:#22c55e;\">00</span><button id=\"sap-rz\" style=\"font-size:8px;cursor:pointer;height:16px;padding:0 2px;\">ZERAR</button></div><input id=\"sap-timer-sec\" type=\"number\" value=\"3\" min=\"1\" max=\"10\" style=\"width:42px;height:24px;background:#111827;border:1px solid #4b5563;color:#38bdf8;text-align:center;box-sizing:border-box;\"></div>';a.innerHTML=h1+h2;document.body.insertAdjacentElement('afterbegin',a);const sI=a.querySelector('#sap-sel-faixa');const tI=a.querySelector('#sap-timer-sec');const mB=a.querySelector('#sap-btn-menu');const mL=a.querySelector('#sap-menu-list');let isOpen=false;mB.onclick=(e)=>{e.stopPropagation();isOpen=!isOpen;mL.style.display=isOpen?'block':'none';};document.addEventListener('click',()=>{isOpen=false;mL.style.display='none';});a.querySelectorAll('.sap-opt').forEach(opt=>{opt.onclick=(e)=>{e.stopPropagation();sI.value=e.target.innerText;isOpen=false;mL.style.display='none';sI.dispatchEvent(new Event('input',{bubbles:true}))}});a.querySelector('#sap-rz').onclick=()=>{cL=0;a.querySelector('#sap-cnt').innerText='00'};let iD=false,startX,startY,initialLeft,initialTop;a.addEventListener('mousedown',(e)=>{if(e.target===sI||e.target===mB||e.target===tI||e.target.id==='sap-rz')return;iD=true;startX=e.clientX;startY=e.clientY;const rect=a.getBoundingClientRect();initialLeft=rect.left;initialTop=rect.top;});document.addEventListener('mousemove',(e)=>{if(!iD)return;a.style.left=(initialLeft+(e.clientX-startX))+'px';a.style.top=(initialTop+(e.clientY-startY))+'px';a.style.right='auto';});document.addEventListener('mouseup',()=>{iD=false});function i(t){t.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));t.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}function s(){const targetBtn=document.querySelector('[id$=\"_IDGenButton2-BDI-content\"]');if(targetBtn){let c1=document.querySelector('[id*=\"LoteInput1-inner\"]'),c2=document.querySelector('[id*=\"LoteInput2-inner\"]'),sM=0;if(c1&&c1.value.trim()!=='')sM++;if(c2&&c2.value.trim()!=='')sM++;i(targetBtn);cL+=sM;a.querySelector('#sap-cnt').innerText=cL<10?'0'+cL:cL;setTimeout(()=>{n='';e=false;fx=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const lL=document.querySelector('.sapMList, .sapMTable, [id*=\"faixasDisponiveis\"], .sapMSplitContainerMaster');if(lL&&lL.id!=='painel-automacao-sap'){lL.style.setProperty('display','none','important');const g=lL.closest('.sapMVBox, .sapMHBox, .sapMFlexBox');if(g)g.style.setProperty('display','none','important')}const oField=document.querySelector('[id$=\"AjusNlpla-inner\"]');if(oField){const val=sI.value;if(val!==''&&oField.value!===val&&!fx){fx=true;try{let t=null;if(window.sap&&window.sap.ui){t=window.sap.ui.getCore().byId(oField.id.replace('-inner',''))}if(t){if(typeof t.setSelectedKey==='function')t.setSelectedKey(val);if(typeof t.setValue==='function')t.setValue(val);const b=t.getBinding('value')||t.getBinding('selectedKey');if(b&&b.setValue)b.setValue(val)}}catch(d){}oField.value=val;oField.setAttribute('value',val);oField.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{fx=false},1500)}}if(!e){const oInput2=document.querySelector('[id$=\"LoteInput2-inner\"]');if(oInput2){const val2=oInput2.value.trim();if(val2!=='Relative'&&val2!===n){n=val2;clearTimeout(t);let sec=parseInt(tI.value)||3;if(sec<1)sec=1;t=setTimeout((function(){const tF=document.querySelector('[id$=\"LoteInput2-inner\"]');if(!tF||tF.value.trim()===''){e=false;n='';return}e=true;oInput2.dispatchEvent(new Event('change',{bubbles:true}));const bNext=document.querySelector('[id$=\"nextButton-BDI-content\"]');if(bNext){i(bNext);s()}else{e=false}}),sec*1000)}else if(val2===''){n='';e=false;}}}}}),300);})();";
-        var tArea = document.createElement("textarea"); tArea.value = r; document.body.appendChild(tArea); tArea.select();
-        try {
-            document.execCommand("copy");
-            document.getElementById("bt").innerText = "SCRIPT COPIADO COM SUCESSO!";
-        } catch (err) { alert("Erro ao copiar."); }
-        document.body.removeChild(tArea);
+    function salvarArquivo() {
+        var conteudo = document.getElementById("txt").value;
+        var nomeArquivo = document.getElementById("nome").value.trim();
+        
+        if (!conteudo) {
+            alert("Por favor, cole algum texto antes de salvar!");
+            return;
+        }
+        if (!nomeArquivo) {
+            nomeArquivo = "arquivo.html";
+        }
+
+        // Cria o arquivo na memória usando o método Blob nativo (sem limite de tamanho)
+        var blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+        var link = document.createElement("a");
+        
+        // Gera o link local seguro para o navegador efetuar a gravação física
+        link.href = URL.createObjectURL(blob);
+        link.download = nomeArquivo;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Limpa a memória para liberar espaço no sistema
+        URL.revokeObjectURL(link.href);
     }
     </script>
+
 </body>
 </html>
