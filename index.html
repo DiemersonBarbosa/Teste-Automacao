@@ -2,68 +2,90 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Gerador de Arquivos Sem Limite v1.0</title>
+    <title>Salvador na Nuvem Sem Cadastro</title>
     <style>
         body { background: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 30px; text-align: center; }
         .box { background: #1e293b; max-width: 650px; margin: 0 auto; padding: 25px; border-radius: 8px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         h3 { color: #38bdf8; margin-top: 0; font-size: 18px; }
         p { color: #94a3b8; font-size: 13px; margin-bottom: 15px; }
         textarea { width: 100%; height: 250px; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 4px; padding: 12px; font-family: monospace; font-size: 12px; box-sizing: border-box; resize: vertical; outline: none; }
-        .row { display: flex; gap: 10px; margin-top: 15px; }
-        input { flex-grow: 1; height: 38px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 4px; padding: 0 10px; box-sizing: border-box; font-size: 13px; }
-        button { background: #2563eb; color: #fff; border: none; padding: 0 20px; height: 38px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; transition: background 0.2s; }
+        button { background: #2563eb; color: #fff; border: none; padding: 0 25px; height: 42px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 15px; width: 100%; transition: background 0.2s; }
         button:hover { background: #1d4ed8; }
+        .resultado { display: none; margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 4px; border: 1px solid #22c55e; text-align: left; }
+        .resultado h4 { margin: 0 0 5px 0; color: #22c55e; font-size: 14px; }
+        .link-nuvem { color: #38bdf8; font-weight: bold; font-family: monospace; word-break: break-all; text-decoration: underline; cursor: pointer; }
         .hint { text-align: left; background: rgba(56,189,248,0.05); padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 12px; color: #cbd5e1; border-left: 4px solid #38bdf8; line-height: 1.5; }
     </style>
 </head>
 <body>
 
     <div class="box">
-        <h3>Gerador Local de Arquivos</h3>
-        <p>Cole seu código ou texto abaixo, defina o nome e salve diretamente no computador.</p>
+        <h3>Salvador de Texto na Nuvem</h3>
+        <p>Cole o código abaixo para enviá-lo a um servidor online temporário seguro.</p>
         
-        <textarea id="txt" placeholder="Cole seu texto ou código aqui..."></textarea>
+        <textarea id="txt" placeholder="Cole o script do robô ou texto longo aqui..."></textarea>
         
-        <div class="row">
-            <input id="nome" type="text" value="instalador.html" placeholder="Nome do arquivo (ex: instalador.html)">
-            <button onclick="salvarArquivo()">Salvar Arquivo</button>
+        <button id="btn-envia" onclick="salvarNaNuvem()">Hospedar Texto na Nuvem</button>
+
+        <div id="res-box" class="resultado">
+            <h4>✔ Texto Hospedado com Sucesso!</h4>
+            <p style="color:#94a3b8; font-size:12px; margin: 0 0 8px 0;">Copie e abra o endereço abaixo em qualquer dispositivo para acessar seu texto:</p>
+            <div id="lnk" class="link-nuvem">Aguardando endereço...</div>
         </div>
 
         <div class="hint">
-            <strong>💡 Como usar para os seus scripts:</strong><br>
-            1. Cole o código HTML ou JavaScript dentro da caixa escura acima.<br>
-            2. Deixe o nome como <strong>instalador.html</strong> (ou mude se quiser salvar um .txt).<br>
-            3. Clique em "Salvar Arquivo". Ele irá direto para a sua pasta de Downloads.
+            <strong>☁ Vantagens de salvar na Nuvem:</strong><br>
+            • <b>Acesso Remoto:</b> Você pode colar o código no computador e abrir o link gerado direto no Tablet ou coletor de dados.<br>
+            • <b>Sem Limites:</b> Aceita blocos massivos de códigos JavaScript sem quebrar ou corromper os caracteres.
         </div>
     </div>
 
     <script>
-    function salvarArquivo() {
-        var conteudo = document.getElementById("txt").value;
-        var nomeArquivo = document.getElementById("nome").value.trim();
-        
+    function salvarNaNuvem() {
+        var conteudo = document.getElementById("txt").value.trim();
+        var btn = document.getElementById("btn-envia");
+        var resBox = document.getElementById("res-box");
+        var lnkDiv = document.getElementById("lnk");
+
         if (!conteudo) {
-            alert("Por favor, cole algum texto antes de salvar!");
+            alert("Por favor, cole algum texto antes de hospedar!");
             return;
         }
-        if (!nomeArquivo) {
-            nomeArquivo = "arquivo.html";
-        }
 
-        // Cria o arquivo na memória usando o método Blob nativo (sem limite de tamanho)
-        var blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-        var link = document.createElement("a");
-        
-        // Gera o link local seguro para o navegador efetuar a gravação física
-        link.href = URL.createObjectURL(blob);
-        link.download = nomeArquivo;
-        
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Limpa a memória para liberar espaço no sistema
-        URL.revokeObjectURL(link.href);
+        btn.innerText = "Enviando para a Nuvem...";
+        btn.disabled = true;
+
+        // Criando formulário multipart/form-data compatível com servidores anônimos de texto
+        var formData = new FormData();
+        formData.append("f:1", conteudo);
+
+        // Dispara o envio HTTP POST assíncrono para o nó público ix.io
+        fetch("https://ix.io", {
+            method: "POST",
+            body: formData
+        })
+        .then(function(response) {
+            if (!response.ok) throw new Error("Erro na rede.");
+            return response.text();
+        })
+        .then(function(urlGerada) {
+            btn.innerText = "Hospedar Texto na Nuvem";
+            btn.disabled = false;
+            resBox.style.display = "block";
+            
+            var urlFinal = urlGerada.trim();
+            lnkDiv.innerText = urlFinal;
+            
+            // Permite clicar no link para abrir a aba correspondente
+            lnkDiv.onclick = function() {
+                window.open(urlFinal, "_blank");
+            };
+        })
+        .catch(function(error) {
+            btn.innerText = "Hospedar Texto na Nuvem";
+            btn.disabled = false;
+            alert("Falha ao salvar na nuvem. Verifique o firewall ou a conexão de internet.");
+        });
     }
     </script>
 
