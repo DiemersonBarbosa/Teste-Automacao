@@ -2,92 +2,22 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Salvador na Nuvem Sem Cadastro</title>
-    <style>
-        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 30px; text-align: center; }
-        .box { background: #1e293b; max-width: 650px; margin: 0 auto; padding: 25px; border-radius: 8px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        h3 { color: #38bdf8; margin-top: 0; font-size: 18px; }
-        p { color: #94a3b8; font-size: 13px; margin-bottom: 15px; }
-        textarea { width: 100%; height: 250px; background: #0f172a; color: #38bdf8; border: 1px solid #334155; border-radius: 4px; padding: 12px; font-family: monospace; font-size: 12px; box-sizing: border-box; resize: vertical; outline: none; }
-        button { background: #2563eb; color: #fff; border: none; padding: 0 25px; height: 42px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 15px; width: 100%; transition: background 0.2s; }
-        button:hover { background: #1d4ed8; }
-        .resultado { display: none; margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 4px; border: 1px solid #22c55e; text-align: left; }
-        .resultado h4 { margin: 0 0 5px 0; color: #22c55e; font-size: 14px; }
-        .link-nuvem { color: #38bdf8; font-weight: bold; font-family: monospace; word-break: break-all; text-decoration: underline; cursor: pointer; }
-        .hint { text-align: left; background: rgba(56,189,248,0.05); padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 12px; color: #cbd5e1; border-left: 4px solid #38bdf8; line-height: 1.5; }
-    </style>
+    <title>Instalador Corporativo v41.0</title>
 </head>
-<body>
-
-    <div class="box">
-        <h3>Salvador de Texto na Nuvem</h3>
-        <p>Cole o código abaixo para enviá-lo a um servidor online temporário seguro.</p>
-        
-        <textarea id="txt" placeholder="Cole o script do robô ou texto longo aqui..."></textarea>
-        
-        <button id="btn-envia" onclick="salvarNaNuvem()">Hospedar Texto na Nuvem</button>
-
-        <div id="res-box" class="resultado">
-            <h4>✔ Texto Hospedado com Sucesso!</h4>
-            <p style="color:#94a3b8; font-size:12px; margin: 0 0 8px 0;">Copie e abra o endereço abaixo em qualquer dispositivo para acessar seu texto:</p>
-            <div id="lnk" class="link-nuvem">Aguardando endereço...</div>
-        </div>
-
-        <div class="hint">
-            <strong>☁ Vantagens de salvar na Nuvem:</strong><br>
-            • <b>Acesso Remoto:</b> Você pode colar o código no computador e abrir o link gerado direto no Tablet ou coletor de dados.<br>
-            • <b>Sem Limites:</b> Aceita blocos massivos de códigos JavaScript sem quebrar ou corromper os caracteres.
-        </div>
-    </div>
-
+<body style="background:#111;color:#fff;font-family:sans-serif;padding:20px;text-align:center;">
+    <h3>Instalador do Robô v41.0</h3>
+    <p>Clique no botão abaixo para copiar o script completo:</p>
+    <button id="bt" style="padding:10px 20px;font-weight:bold;cursor:pointer;" onclick="cp()">Copiar Script do Robô</button>
     <script>
-    function salvarNaNuvem() {
-        var conteudo = document.getElementById("txt").value.trim();
-        var btn = document.getElementById("btn-envia");
-        var resBox = document.getElementById("res-box");
-        var lnkDiv = document.getElementById("lnk");
-
-        if (!conteudo) {
-            alert("Por favor, cole algum texto antes de hospedar!");
-            return;
-        }
-
-        btn.innerText = "Enviando para a Nuvem...";
-        btn.disabled = true;
-
-        // Criando formulário multipart/form-data compatível com servidores anônimos de texto
-        var formData = new FormData();
-        formData.append("f:1", conteudo);
-
-        // Dispara o envio HTTP POST assíncrono para o nó público ix.io
-        fetch("https://ix.io", {
-            method: "POST",
-            body: formData
-        })
-        .then(function(response) {
-            if (!response.ok) throw new Error("Erro na rede.");
-            return response.text();
-        })
-        .then(function(urlGerada) {
-            btn.innerText = "Hospedar Texto na Nuvem";
-            btn.disabled = false;
-            resBox.style.display = "block";
-            
-            var urlFinal = urlGerada.trim();
-            lnkDiv.innerText = urlFinal;
-            
-            // Permite clicar no link para abrir a aba correspondente
-            lnkDiv.onclick = function() {
-                window.open(urlFinal, "_blank");
-            };
-        })
-        .catch(function(error) {
-            btn.innerText = "Hospedar Texto na Nuvem";
-            btn.disabled = false;
-            alert("Falha ao salvar na nuvem. Verifique o firewall ou a conexão de internet.");
-        });
+    function cp() {
+        var r = "javascript:(function(){if(document.getElementById('painel-automacao-sap'))return;let t,e=false,n='',fx=false,cL=0;const o='[id$=\"_IDGenButton2-BDI-content\"]';const sStyle=document.createElement('style');sStyle.innerHTML='#sap-menu-list::-webkit-scrollbar{display:none!important;}#sap-menu-list{scrollbar-width:none!important;}';document.head.appendChild(sStyle);const a=document.createElement('div');a.id='painel-automacao-sap';a.style.cssText='position:fixed!important;top:65px!important;right:0!important;z-index:2147483647!important;background:linear-gradient(135deg,#1e293b,#0f172a)!important;color:#fff!important;padding:12px!important;border-radius:0 0 0 12px!important;font-family:Arial,sans-serif!important;font-size:11px!important;width:165px!important;box-sizing:border-box!important;border:1px solid #334155!important;border-right:none!important;box-shadow:-5px 10px 20px rgba(0,0,0,0.3)!important;display:flex!important;flex-direction:column!important;gap:8px!important;cursor:move!important;user-select:none!important;-webkit-user-select:none!important;';let h1=\"<div style='font-weight:bold!important;letter-spacing:0.5px!important;border-bottom:2px solid #38bdf8!important;padding-bottom:5px!important;color:#38bdf8!important;font-size:10px!important;text-align:center!important;'>ENDEREÇAMENTO</div><div style='position:relative!important;width:100%;'><span style='color:#94a3b8!important;font-size:8px!important;display:block!important;font-weight:bold!important;margin-bottom:2px!important;'>FAIXA DESTINO:</span><div style='display:flex!important;width:100%;height:26px;background:#0f172a!important;border:1px solid #334155!important;border-radius:4px!important;overflow:hidden;'><input id='sap-sel-faixa' type='text' placeholder='Escolha...' style='flex-grow:1!important;width:10px!important;height:100%;background:transparent!important;border:none!important;color:#fff!important;font-size:11px!important;font-weight:bold!important;padding:0 4px!important;outline:none!important;box-sizing:border-box!important;text-align:center!important;'><button id='sap-btn-menu' style='width:22px!important;height:100%;background:#1e293b!important;color:#38bdf8!important;border:none;border-left:1px solid #334155!important;cursor:pointer!important;font-size:9px!important;font-weight:bold!important;'>▼</button></div><div id='sap-menu-list' style='display:none!important;position:absolute!important;top:38px!important;left:0!important;width:100%;background:#1e293b!important;border:1px solid #334155!important;border-radius:4px!important;max-height:130px!important;overflow-y:auto!important;z-index:2147483647!important;box-shadow:0 5px 15px rgba(0,0,0,0.5)!important;'><div class='sap-opt' style='padding:5px 0!important;cursor:pointer!important;border-bottom:1px solid #0f172a!important;text-align:center!important;'>001-01-090</div><div class='sap-opt' style='padding:5px 0!important;cursor:pointer!important;border-bottom:1px solid #0f172a!important;text-align:center!important;'>001-01-011</div><div class='sap-opt' style='padding:5px 0!important;cursor:pointer!important;border-bottom:1px solid #0f172a!important;text-align:center!important;'>001-01-012</div><div class='sap-opt' style='padding:5px 0!important;border-bottom:1px solid #0f172a!important;cursor:pointer!important;text-align:center!important;'>LOBO</div><div class='sap-opt' style='padding:5px 0!important;border-bottom:1px solid #0f172a!important;cursor:pointer!important;text-align:center!important;'>STAGE1</div><div class='sap-opt' style='padding:5px 0!important;border-bottom:1px solid #0f172a!important;cursor:pointer!important;text-align:center!important;'>STAGE2</div><div class='sap-opt' style='padding:5px 0!important;cursor:pointer!important;'>STAGE3</div></div></div><div style='width:100%!important;'><span style='color:#94a3b8!important;font-size:8px!important;display:block!important;font-weight:bold!important;margin-bottom:2px!important;'>FILTRAR MAT:</span><input id='sap-filtro-mat' type='text' placeholder='Todos' style='width:100%!important;height:24px!important;background:#0f172a!important;border:1px solid #334155!important;border-radius:4px!important;color:#cbd5e1!important;font-size:11px!important;padding:0 4px!important;box-sizing:border-box!important;outline:none!important;text-align:center!important;'></div>\";";
+        var s1 = "let h2=\"<div style='display:flex!important;gap:6px!important;width:100%!important;box-sizing:border-box!important;flex-direction:column!important;gap:2px!important;'><div style='display:flex!important;width:100%!important;gap:6px!important;'><span style='flex-grow:1;color:#94a3b8!important;font-size:8px!important;font-weight:bold!important;'>QUANTIDADE:</span><span style='width:40px!important;color:#94a3b8!important;font-size:8px!important;font-weight:bold!important;text-align:center!important;'>TIMER:</span></div><div style='display:flex!important;gap:6px!important;width:100%!important;align-items:center!important;'><div style='flex-grow:1!important;background:rgba(15,23,42,0.6);padding:0 4px;border-radius:4px;border:1px solid #334155;display:flex;align-items:center;justify-content:space-between;height:24px;box-sizing:border-box;'><span id='sap-cnt' style='font-size:14px!important;font-weight:900!important;color:#22c55e!important;line-height:22px!important;'>00</span><button id='sap-rz' style='background:#ef4444!important;color:#fff!important;border:none;padding:1px 5px;border-radius:3px;font-weight:bold;cursor:pointer;font-size:8px;height:16px;letter-spacing:0.3px;'>ZERAR</button></div><input id='sap-timer-sec' type='number' value='3' min='1' max='10' style='width:40px!important;height:24px!important;background:#0f172a!important;border:1px solid #334155!important;border-radius:4px!important;color:#38bdf8!important;font-weight:bold!important;font-size:11px!important;text-align:center!important;outline:none!important;box-sizing:border-box!important;'></div></div>\";a.innerHTML=h1+h2;document.body.insertAdjacentElement('afterbegin',a);const selInput=a.querySelector('#sap-sel-faixa');const matFiltroInput=a.querySelector('#sap-filtro-mat');const timerInput=a.querySelector('#sap-timer-sec');const menuBtn=a.querySelector('#sap-btn-menu');const menuList=a.querySelector('#sap-menu-list');let isOpen=false;menuBtn.onclick=(e)=>{e.stopPropagation();isOpen=!isOpen;menuList.style.cssText=isOpen?'position:absolute!important;top:38px!important;left:0!important;width:100%!important;background:#1e293b!important;border:1px solid #334155!important;border-radius:4px!important;max-height:130px!important;overflow-y:auto!important;z-index:2147483647!important;box-shadow:0 5px 15px rgba(0,0,0,0.5)!important;display:block!important;':'display:none!important;';};document.addEventListener('click',()=>{isOpen=false;menuList.style.cssText='display:none!important;';});a.querySelectorAll('.sap-opt').forEach(opt=>{opt.onclick=(e)=>{e.stopPropagation();selInput.value=e.target.innerText;isOpen=false;menuList.style.cssText='display:none!important;';selInput.dispatchEvent(new Event('input',{bubbles:true}))}});a.querySelector('#sap-rz').onclick=()=>{cL=0;a.querySelector('#sap-cnt').innerText='00'};let isDragging=false,startX,startY,initialLeft,initialTop;const startDrag=(e)=>{if(e.target===selInput||e.target===menuBtn||e.target===matFiltroInput||e.target===timerInput||e.target.classList.contains('sap-opt')||e.target.id==='sap-rz')return;isDragging=true;startX=e.clientX;startY=e.clientY;const rect=a.getBoundingClientRect();initialLeft=rect.left;initialTop=rect.top;};const doDrag=(e)=>{if(!isDragging)return;const dx=e.clientX-startX;const dy=e.clientY-startY;a.style.setProperty('left',(initialLeft+dx)+'px','important');a.style.setProperty('top',(initialTop+dy)+'px','important');a.style.setProperty('right','auto','important')};const endDrag=()=>{isDragging=false};a.addEventListener('mousedown',startDrag);document.addEventListener('mousemove',doDrag);document.addEventListener('mouseup',endDrag);";
+        var s2 = "function i(t){t.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));t.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}function s(){const targetBtn=document.querySelector(o);if(targetBtn){let c1=document.querySelector('[id*=\"LoteInput1-inner\"]'),c2=document.querySelector('[id*=\"LoteInput2-inner\"]'),sM=0;if(c1&&c1.value.trim()!=='')sM++;if(c2&&c2.value.trim()!=='')sM++;i(targetBtn);cL+=sM;a.querySelector('#sap-cnt').innerText=cL<10?'0'+cL:cL;setTimeout(()=>{n='';e=false;fx=false},1500)}else{setTimeout(s,300)}}setInterval((function(){const lL=document.querySelector('.sapMList, .sapMTable, [id*=\"faixasDisponiveis\"], .sapMSplitContainerMaster');if(lL&&lL.id!=='painel-automacao-sap'){lL.style.setProperty('display','none','important');const g=lL.closest('.sapMVBox, .sapMHBox, .sapMFlexBox');if(g)g.style.setProperty('display','none','important')}const oField=document.querySelector('[id$=\"AjusNlpla-inner\"]');if(oField){const val=selInput.value;if(val!==''&&oField.value!==val&&!fx){let pass=true;const filterValue=matFiltroInput.value.trim();if(filterValue!==''){pass=false;const allowedMats=filterValue.split(',').map(m=>m.trim().toUpperCase());const matElements=document.querySelectorAll('.sapMInputBaseInner, .sapMText');for(let el of matElements){const text=(el.value||el.innerText||'').trim().toUpperCase();if(allowedMats.some(m=>text.includes(m))){pass=true;break}}}if(pass){fx=true;try{let t=null;if(window.sap&&window.sap.ui){t=window.sap.ui.getCore().byId(oField.id.replace('-inner',''))}if(t){if(typeof t.setSelectedKey==='function')t.setSelectedKey(val);if(typeof t.setValue==='function')t.setValue(val);const b=t.getBinding('value')||t.getBinding('selectedKey');if(b&&b.setValue)b.setValue(val)}}catch(d){}oField.value=val;oField.setAttribute('value',val);oField.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{fx=false},1500)}}}if(!e){const oInput2=document.querySelector('[id$=\"LoteInput2-inner\"]');if(oInput2){const val2=oInput2.value.trim();if(val2!=='Relative'&&val2!==n){n=val2;clearTimeout(t);let sec=parseInt(timerInput.value)||3;if(sec<1)sec=1;t=setTimeout((function(){const tF=document.querySelector('[id$=\"LoteInput2-inner\"]');if(!tF||tF.value.trim()===''){e=false;n='';return}let pass=true;const fv=matFiltroInput.value.trim();if(fv!==''){pass=false;const am=fv.split(',').map(m=>m.trim().toUpperCase());const me=document.querySelectorAll('.sapMInputBaseInner, .sapMText');for(let el of me){const text=(el.value||el.innerText||'').trim().toUpperCase();if(am.some(m=>text.includes(m))){pass=true;break}}}if(pass){e=true;oInput2.dispatchEvent(new Event('change',{bubbles:true}));const bNext=document.querySelector('[id$=\"nextButton-BDI-content\"]');if(bNext){i(bNext);s()}else{e=false}}else{e=false;n=''}}),sec*1000)}else if(val2===''){n='';e=false;}}}}}),300);})();";
+        var full = r + s1 + s2;
+        var tArea = document.createElement("textarea"); tArea.value = full; document.body.appendChild(tArea); tArea.select();
+        try { document.execCommand("copy"); document.getElementById("bt").innerText = "SCRIPT COPIADO COM SUCESSO!"; } catch (err) { alert("Erro ao copiar."); }
+        document.body.removeChild(tArea);
     }
     </script>
-
 </body>
 </html>
