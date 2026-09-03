@@ -6,22 +6,20 @@
   <title>Bookmarklet - Automação SAP EWM</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --border: #334155;
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: #1e293b;
       --primary: #38bdf8;
       --primary-hover: #0284c7;
       --text: #f8fafc;
-      --muted: #94a3b8;
-      --success: #22c55e;
-      --warning: #eab308;
-      --danger: #ef4444;
+      --muted: #64748b;
+      --success: #10b981;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       display: flex;
@@ -34,23 +32,23 @@
     .container {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 32px;
       max-width: 600px;
       width: 100%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
 
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--primary);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     p {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--muted);
       margin-bottom: 24px;
       line-height: 1.5;
@@ -63,30 +61,31 @@
     }
 
     .btn-copy {
-      background-color: var(--primary);
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #0f172a;
-      font-weight: bold;
+      font-weight: 700;
       font-size: 0.95rem;
-      padding: 12px 20px;
+      padding: 14px 20px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      gap: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
     }
 
     .btn-copy:hover {
-      background-color: var(--primary-hover);
-      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.35);
     }
 
-    .btn-copy:active { transform: scale(0.98); }
+    .btn-copy:active { transform: translateY(0); }
 
     .btn-copy.copied {
-      background-color: var(--success);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #fff;
     }
 
@@ -97,7 +96,7 @@
       height: 90px;
       background-color: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--muted);
       font-family: monospace;
       font-size: 0.75rem;
@@ -127,16 +126,16 @@
 <body>
 
   <div class="container">
-    <h1>Painel de Automação SAP</h1>
-    <p>Painel atualizado com controles de Timer, Pausa/Retomada e botão Zerar na mesma linha.</p>
+    <h1>Painel Automação SAP</h1>
+    <p>Novo design ultra-moderno, compacto e responsivo.</p>
 
     <div class="action-area">
       <button id="copy-btn" class="btn-copy">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
-        Copiar Bookmarklet
+        Copiar Bookmarklet Novo Visual
       </button>
 
       <div class="textarea-container">
@@ -145,18 +144,17 @@
     </div>
 
     <div class="instructions">
-      <strong>Recursos adicionados na barra inferior:</strong>
+      <strong>Melhorias do novo design:</strong>
       <ul>
-        <li>**OK [00]:** Exibição do contador acumulado.</li>
-        <li>**Zerar (🗑️):** Reseta a contagem para zero.</li>
-        <li>**Timer (⏱️):** Escolha o tempo de resposta da varredura (`0.3s`, `0.5s`, `1.0s`, `2.0s`).</li>
-        <li>**Pausar/Play (⏯️):** Interrompe ou retoma a leitura automática do robô.</li>
+        <li>**Interface Glassmorphism:** Fundo escuro elegante com contrastes em azul neon.</li>
+        <li>**Ícones de Ação SVG:** Botões limpos para Zerar, Timer e Pausar/Play.</li>
+        <li>**Barra de Status:** Exibição clara de estado (Ativo/Pausado) no cabeçalho.</li>
       </ul>
     </div>
   </div>
 
   <script>
-    const bookmarkletCode = "javascript:(function(){if(document.getElementById('p-sap'))return;var t,e=false,n='',fx=false,cL=0,isAutoProcessing=false,isPaused=false,timerInterval=300,loopHandler=null;var st=document.createElement('style');st.innerHTML='#p-sap{position:fixed;top:65px;right:0;z-index:999999;background:#1e293b;color:#fff;padding:8px;border-radius:0 0 0 10px;font:11px Arial;width:190px;box-shadow:-4px 8px 16px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:6px;cursor:move;user-select:none}#p-sap *{box-sizing:border-box}#p-sap input,#p-sap button,#p-sap select{background:#0f172a;border:1px solid #334155;color:#fff;border-radius:4px;text-align:center;font-size:10px;outline:0}#p-sap input{height:24px;width:100%}#p-sap .ttl{font-weight:700;color:#38bdf8;border-bottom:2px solid #38bdf8;padding-bottom:3px;text-align:center;font-size:10px}#p-sap .lbl{color:#94a3b8;font-size:8px;font-weight:700;display:block;margin-top:2px}#p-sap .m-lst{display:none;position:absolute;top:38px;left:0;width:100%;background:#1e293b;border:1px solid #334155;border-radius:4px;max-height:120px;overflow-y:auto;z-index:1000000}#p-sap .opt{padding:4px;cursor:pointer;border-bottom:1px solid #0f172a;text-align:center}#p-sap .opt:hover{background:#334155}#sap-menu-list::-webkit-scrollbar{display:none}#p-sap .ctrl-row{background:#0f172a;padding:4px;border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:3px}#p-sap .btn-act{padding:2px 4px;cursor:pointer;font-weight:700;height:22px;line-height:16px}';document.head.appendChild(st);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class=\"ttl\">ENDEREÇAMENTO <span id=\"s-st\" style=\"font-size:8px;color:#22c55e\">(ATIVO)</span></div><div style=\"position:relative\"><span class=\"lbl\">FAIXA DESTINO:</span><div style=\"display:flex;height:26px\"><input id=\"s-fx\" type=\"text\" placeholder=\"Escolha...\" style=\"flex-grow:1;font-weight:700\"><button id=\"s-btn\" style=\"width:22px;color:#38bdf8;cursor:pointer\">▼</button></div><div id=\"sap-menu-list\" class=\"m-lst\"><div class=\"opt\">001-01-090</div><div class=\"opt\">001-01-011</div><div class=\"opt\">001-01-012</div><div class=\"opt\">LOBO</div><div class=\"opt\">STAGE1</div><div class=\"opt\">STAGE2</div><div class=\"opt\">STAGE3</div></div></div><div><span class=\"lbl\">FILTRAR MAT:</span><input id=\"s-mat\" type=\"text\" placeholder=\"Todos\"></div><div class=\"ctrl-row\"><div><span class=\"lbl\" style=\"margin:0;display:inline\">OK:</span><span id=\"s-cnt\" style=\"font-size:14px;font-weight:900;color:#22c55e\">00</span></div><button id=\"s-rz\" class=\"btn-act\" style=\"background:#ef4444\" title=\"Zerar Contador\">🗑️</button><select id=\"s-tm\" style=\"height:22px;cursor:pointer\" title=\"Tempo de Varredura\"><option value=\"300\">0.3s</option><option value=\"500\">0.5s</option><option value=\"1000\">1.0s</option><option value=\"2000\">2.0s</option></select><button id=\"s-ps\" class=\"btn-act\" style=\"background:#0284c7\" title=\"Pausar/Retomar\">⏯️</button></div>';document.body.appendChild(a);var selInput=a.querySelector('#s-fx'),matFiltroInput=a.querySelector('#s-mat'),menuBtn=a.querySelector('#s-btn'),menuList=a.querySelector('#sap-menu-list'),stLbl=a.querySelector('#s-st'),psBtn=a.querySelector('#s-ps'),tmSel=a.querySelector('#s-tm');var isOpen=false;menuBtn.onclick=function(e){e.stopPropagation();isOpen=!isOpen;menuList.style.display=isOpen?'block':'none'};document.addEventListener('click',function(e){if(!a.contains(e.target)){isOpen=false;menuList.style.display='none'}});a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();selInput.value=e.target.innerText.trim();isOpen=false;menuList.style.display='none';selInput.dispatchEvent(new Event('input',{bubbles:true}))}});function updateCnt(v){cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psBtn.onclick=function(){isPaused=!isPaused;if(isPaused){stLbl.innerText='(PAUSADO)';stLbl.style.color='#eab308';psBtn.style.background='#eab308'}else{stLbl.innerText='(ATIVO)';stLbl.style.color='#22c55e';psBtn.style.background='#0284c7'}};tmSel.onchange=function(){timerInterval=parseInt(tmSel.value,10);restartLoop()};var isD=false,sX,sY,iL,iT;var stD=function(e){if(['s-fx','s-btn','s-mat','s-rz','s-ps','s-tm'].includes(e.target.id)||e.target.classList.contains('opt'))return;isD=true;var c=e.touches?e.touches[0]:e;sX=c.clientX;sY=c.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top};var doD=function(e){if(!isD)return;var c=e.touches?e.touches[0]:e;a.style.left=(iL+c.clientX-sX)+'px';a.style.top=(iT+c.clientY-sY)+'px';a.style.right='auto'};var enD=function(){isD=false};a.addEventListener('mousedown',stD);document.addEventListener('mousemove',doD);document.addEventListener('mouseup',enD);a.addEventListener('touchstart',stD,{passive:true});document.addEventListener('touchmove',doD,{passive:true});document.addEventListener('touchend',enD);function trg(el){['mousedown','mouseup','click'].forEach(function(evt){el.dispatchEvent(new MouseEvent(evt,{bubbles:true}))})}document.addEventListener('click',function(evt){if(isAutoProcessing||isPaused)return;var el=evt.target;if(el&&!a.contains(el)){var id=(el.id||'').toLowerCase();if(id.includes('nextbutton')||id.includes('button2')){updateCnt(1)}}},true);document.addEventListener('keydown',function(evt){if(isAutoProcessing||isPaused)return;if(evt.key==='Enter'){var active=document.activeElement;if(active&&active.id&&active.id.toLowerCase().includes('loteinput')){updateCnt(1)}}},true);function chkMat(){var fV=matFiltroInput.value.trim();if(!fV)return true;var targets=fV.split(',').map(function(m){return m.trim().toUpperCase()}).filter(Boolean);var selectors=['[id*=\"Mat\"]','[id*=\"MAT\"]','[id*=\"Product\"]','[id*=\"Produto\"]','.sapMText','.sapMInputBaseInner','.sapMLabel','span','div'];for(var i=0;i<selectors.length;i++){var els=document.querySelectorAll(selectors[i]);for(var j=0;j<els.length;j++){var el=els[j];if(el.id==='s-mat'||el.closest('#p-sap'))continue;var val=(el.value||el.innerText||el.textContent||'').trim().toUpperCase();if(val&&targets.some(function(t){return val.includes(t)}))return true}}return false}function mainTask(){if(isPaused)return;var lL=document.querySelector('.sapMList, .sapMTable, [id*=\"faixasDisponiveis\"], .sapMSplitContainerMaster');if(lL&&lL.id!=='p-sap'){lL.style.setProperty('display','none','important');var p=lL.closest('.sapMVBox, .sapMHBox, .sapMFlexBox');if(p)p.style.setProperty('display','none','important')}var oF=document.querySelector('[id$=\"AjusNlpla-inner\"]');if(oF){var v=selInput.value;if(v&&oF.value!==v&&!fx){if(chkMat()){fx=true;try{if(window.sap&&window.sap.ui){var sC=window.sap.ui.getCore().byId(oF.id.replace('-inner',''));if(sC&&sC.setSelectedKey)sC.setSelectedKey(v);if(sC&&sC.setValue)sC.setValue(v);var bnd=sC?(sC.getBinding('value')||sC.getBinding('selectedKey')):null;if(bnd&&bnd.setValue)bnd.setValue(v)}}catch(c){}oF.value=v;oF.setAttribute('value',v);oF.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(function(){fx=false},1500)}}}if(!e){var oI2=document.querySelector('[id$=\"LoteInput2-inner\"]');if(oI2){var val2=oI2.value.trim();if(val2&&val2!=='Relative'&&val2!==n){n=val2;clearTimeout(t);t=setTimeout(function(){var tI=document.querySelector('[id$=\"LoteInput2-inner\"]');if(!tI||!tI.value.trim()){e=false;n='';return}if(chkMat()){e=true;isAutoProcessing=true;oI2.dispatchEvent(new Event('change',{bubbles:true}));var bN=document.querySelector('[id$=\"nextButton-BDI-content\"]');if(bN){trg(bN);var b2=document.querySelector('[id$=\"_IDGenButton2-BDI-content\"]');if(b2)trg(b2);updateCnt(2);setTimeout(function(){n='';e=false;fx=false;isAutoProcessing=false},2000)}else{e=false;isAutoProcessing=false}}else{e=false;n='';isAutoProcessing=false}},1000)}else if(!val2){n='';e=false}}}}function restartLoop(){if(loopHandler)clearInterval(loopHandler);loopHandler=setInterval(mainTask,timerInterval)}restartLoop();})();";
+    const bookmarkletCode = "javascript:(function(){if(document.getElementById('p-sap'))return;var t,e=false,n='',fx=false,cL=0,isAutoProcessing=false,isPaused=false,timerInterval=300,loopHandler=null;var st=document.createElement('style');st.innerHTML='#p-sap{position:fixed;top:60px;right:15px;z-index:999999;background:#0f172a;color:#f8fafc;padding:12px;border-radius:12px;font-family:system-ui,-apple-system,sans-serif;width:210px;box-shadow:0 10px 25px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1);display:flex;flex-direction:column;gap:8px;cursor:move;user-select:none}#p-sap *{box-sizing:border-box}#p-sap input,#p-sap select{background:#1e293b;border:1px solid #334155;color:#f8fafc;border-radius:6px;text-align:center;font-size:11px;outline:0;transition:all .2s}#p-sap input:focus{border-color:#38bdf8}#p-sap input{height:28px;width:100%}#p-sap .hdr{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:6px}#p-sap .ttl{font-weight:700;color:#38bdf8;font-size:11px;letter-spacing:.5px}#p-sap .st-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}#p-sap .lbl{color:#94a3b8;font-size:9px;font-weight:600;display:block;margin-bottom:3px}#p-sap .m-lst{display:none;position:absolute;top:42px;left:0;width:100%;background:#1e293b;border:1px solid #334155;border-radius:6px;max-height:120px;overflow-y:auto;z-index:1000000;box-shadow:0 8px 16px rgba(0,0,0,.4)}#p-sap .opt{padding:6px;cursor:pointer;border-bottom:1px solid #0f172a;text-align:center;font-size:11px}#p-sap .opt:hover{background:#334155;color:#38bdf8}#sap-menu-list::-webkit-scrollbar{display:none}#p-sap .ctrl-box{background:#1e293b;padding:6px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;border:1px solid #334155}#p-sap .btn-icon{background:#0f172a;border:1px solid #334155;color:#94a3b8;border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}#p-sap .btn-icon:hover{color:#fff;border-color:#38bdf8;background:#38bdf822}#p-sap .btn-icon:active{transform:scale(.92)}';document.head.appendChild(st);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class=\"hdr\"><span class=\"ttl\">ENDEREÇAMENTO</span><span id=\"s-st\" class=\"st-badge\">ONLINE</span></div><div style=\"position:relative\"><span class=\"lbl\">FAIXA DESTINO</span><div style=\"display:flex;gap:4px;height:28px\"><input id=\"s-fx\" type=\"text\" placeholder=\"Escolha...\" style=\"font-weight:700;flex-grow:1\"><button id=\"s-btn\" class=\"btn-icon\" style=\"width:28px;height:28px;color:#38bdf8\">▼</button></div><div id=\"sap-menu-list\" class=\"m-lst\"><div class=\"opt\">001-01-090</div><div class=\"opt\">001-01-011</div><div class=\"opt\">001-01-012</div><div class=\"opt\">LOBO</div><div class=\"opt\">STAGE1</div><div class=\"opt\">STAGE2</div><div class=\"opt\">STAGE3</div></div></div><div><span class=\"lbl\">FILTRAR MATERIAL</span><input id=\"s-mat\" type=\"text\" placeholder=\"Todos\"></div><div class=\"ctrl-box\"><div><span class=\"lbl\" style=\"margin:0\">OK</span><span id=\"s-cnt\" style=\"font-size:15px;font-weight:900;color:#38bdf8\">00</span></div><button id=\"s-rz\" class=\"btn-icon\" title=\"Zerar Contador\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"></path></svg></button><select id=\"s-tm\" style=\"height:26px;cursor:pointer;padding:0 2px\" title=\"Intervalo\"><option value=\"300\">0.3s</option><option value=\"500\">0.5s</option><option value=\"1000\">1.0s</option><option value=\"2000\">2.0s</option></select><button id=\"s-ps\" class=\"btn-icon\" title=\"Pausar/Retomar\" style=\"color:#38bdf8\"><svg id=\"s-ps-ic\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><rect x=\"6\" y=\"4\" width=\"4\" height=\"16\"></rect><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\"></rect></svg></button></div>';document.body.appendChild(a);var selInput=a.querySelector('#s-fx'),matFiltroInput=a.querySelector('#s-mat'),menuBtn=a.querySelector('#s-btn'),menuList=a.querySelector('#sap-menu-list'),stBadge=a.querySelector('#s-st'),psBtn=a.querySelector('#s-ps'),psIc=a.querySelector('#s-ps-ic'),tmSel=a.querySelector('#s-tm');var isOpen=false;menuBtn.onclick=function(e){e.stopPropagation();isOpen=!isOpen;menuList.style.display=isOpen?'block':'none'};document.addEventListener('click',function(e){if(!a.contains(e.target)){isOpen=false;menuList.style.display='none'}});a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();selInput.value=e.target.innerText.trim();isOpen=false;menuList.style.display='none';selInput.dispatchEvent(new Event('input',{bubbles:true}))}});function updateCnt(v){cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psBtn.onclick=function(){isPaused=!isPaused;if(isPaused){stBadge.innerText='PAUSADO';stBadge.style.background='rgba(234,179,8,.15)';stBadge.style.color='#eab308';stBadge.style.borderColor='rgba(234,179,8,.3)';psIc.innerHTML='<polygon points=\"5 3 19 12 5 21 5 3\"></polygon>';psBtn.style.color='#eab308'}else{stBadge.innerText='ONLINE';stBadge.style.background='rgba(34,197,94,.15)';stBadge.style.color='#22c55e';stBadge.style.borderColor='rgba(34,197,94,.3)';psIc.innerHTML='<rect x=\"6\" y=\"4\" width=\"4\" height=\"16\"></rect><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\"></rect>';psBtn.style.color='#38bdf8'}};tmSel.onchange=function(){timerInterval=parseInt(tmSel.value,10);restartLoop()};var isD=false,sX,sY,iL,iT;var stD=function(e){if(['s-fx','s-btn','s-mat','s-rz','s-ps','s-tm'].includes(e.target.id)||e.target.closest('.btn-icon')||e.target.classList.contains('opt'))return;isD=true;var c=e.touches?e.touches[0]:e;sX=c.clientX;sY=c.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top};var doD=function(e){if(!isD)return;var c=e.touches?e.touches[0]:e;a.style.left=(iL+c.clientX-sX)+'px';a.style.top=(iT+c.clientY-sY)+'px';a.style.right='auto'};var enD=function(){isD=false};a.addEventListener('mousedown',stD);document.addEventListener('mousemove',doD);document.addEventListener('mouseup',enD);a.addEventListener('touchstart',stD,{passive:true});document.addEventListener('touchmove',doD,{passive:true});document.addEventListener('touchend',enD);function trg(el){['mousedown','mouseup','click'].forEach(function(evt){el.dispatchEvent(new MouseEvent(evt,{bubbles:true}))})}document.addEventListener('click',function(evt){if(isAutoProcessing||isPaused)return;var el=evt.target;if(el&&!a.contains(el)){var id=(el.id||'').toLowerCase();if(id.includes('nextbutton')||id.includes('button2')){updateCnt(1)}}},true);document.addEventListener('keydown',function(evt){if(isAutoProcessing||isPaused)return;if(evt.key==='Enter'){var active=document.activeElement;if(active&&active.id&&active.id.toLowerCase().includes('loteinput')){updateCnt(1)}}},true);function chkMat(){var fV=matFiltroInput.value.trim();if(!fV)return true;var targets=fV.split(',').map(function(m){return m.trim().toUpperCase()}).filter(Boolean);var selectors=['[id*=\"Mat\"]','[id*=\"MAT\"]','[id*=\"Product\"]','[id*=\"Produto\"]','.sapMText','.sapMInputBaseInner','.sapMLabel','span','div'];for(var i=0;i<selectors.length;i++){var els=document.querySelectorAll(selectors[i]);for(var j=0;j<els.length;j++){var el=els[j];if(el.id==='s-mat'||el.closest('#p-sap'))continue;var val=(el.value||el.innerText||el.textContent||'').trim().toUpperCase();if(val&&targets.some(function(t){return val.includes(t)}))return true}}return false}function mainTask(){if(isPaused)return;var lL=document.querySelector('.sapMList, .sapMTable, [id*=\"faixasDisponiveis\"], .sapMSplitContainerMaster');if(lL&&lL.id!=='p-sap'){lL.style.setProperty('display','none','important');var p=lL.closest('.sapMVBox, .sapMHBox, .sapMFlexBox');if(p)p.style.setProperty('display','none','important')}var oF=document.querySelector('[id$=\"AjusNlpla-inner\"]');if(oF){var v=selInput.value;if(v&&oF.value!==v&&!fx){if(chkMat()){fx=true;try{if(window.sap&&window.sap.ui){var sC=window.sap.ui.getCore().byId(oF.id.replace('-inner',''));if(sC&&sC.setSelectedKey)sC.setSelectedKey(v);if(sC&&sC.setValue)sC.setValue(v);var bnd=sC?(sC.getBinding('value')||sC.getBinding('selectedKey')):null;if(bnd&&bnd.setValue)bnd.setValue(v)}}catch(c){}oF.value=v;oF.setAttribute('value',v);oF.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(function(){fx=false},1500)}}}if(!e){var oI2=document.querySelector('[id$=\"LoteInput2-inner\"]');if(oI2){var val2=oI2.value.trim();if(val2&&val2!=='Relative'&&val2!==n){n=val2;clearTimeout(t);t=setTimeout(function(){var tI=document.querySelector('[id$=\"LoteInput2-inner\"]');if(!tI||!tI.value.trim()){e=false;n='';return}if(chkMat()){e=true;isAutoProcessing=true;oI2.dispatchEvent(new Event('change',{bubbles:true}));var bN=document.querySelector('[id$=\"nextButton-BDI-content\"]');if(bN){trg(bN);var b2=document.querySelector('[id$=\"_IDGenButton2-BDI-content\"]');if(b2)trg(b2);updateCnt(2);setTimeout(function(){n='';e=false;fx=false;isAutoProcessing=false},2000)}else{e=false;isAutoProcessing=false}}else{e=false;n='';isAutoProcessing=false}},1000)}else if(!val2){n='';e=false}}}}function restartLoop(){if(loopHandler)clearInterval(loopHandler);loopHandler=setInterval(mainTask,timerInterval)}restartLoop();})();";
 
     const codeBox = document.getElementById('code-box');
     const copyBtn = document.getElementById('copy-btn');
@@ -172,11 +170,11 @@
         setTimeout(() => {
           copyBtn.classList.remove('copied');
           copyBtn.innerHTML = `
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
-            Copiar Bookmarklet
+            Copiar Bookmarklet Novo Visual
           `;
         }, 2000);
       } catch (err) {
