@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bookmarklet Panel SAP</title>
+  <title>Bookmarklet Panel SAP - Autônomo</title>
   <style>
     :root {
       --bg: #0b1120;
@@ -15,14 +15,10 @@
       --success: #10b981;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       display: flex;
@@ -55,7 +51,6 @@
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--accent);
-      letter-spacing: 0.5px;
     }
 
     .copy-btn {
@@ -68,9 +63,6 @@
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .copy-btn:hover {
@@ -88,17 +80,16 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 16px;
-      max-height: 350px;
+      max-height: 250px;
       overflow-y: auto;
     }
 
     pre {
       white-space: pre-wrap;
       word-break: break-all;
-      font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+      font-family: monospace;
       font-size: 0.8rem;
       color: #94a3b8;
-      line-height: 1.5;
     }
 
     .instructions {
@@ -107,38 +98,32 @@
       color: #64748b;
       line-height: 1.5;
     }
-
-    .instructions strong {
-      color: var(--accent);
-    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <div class="header">
-      <h1 class="title">Painel SAP Bookmarklet (Corrigido)</h1>
+      <h1 class="title">Bookmarklet SAP (100% Local / Otimizado)</h1>
       <button class="copy-btn" id="btnCopy" onclick="copyScript()">
-        📋 Copiar Código Completo
+        📋 Copiar Código
       </button>
     </div>
 
     <div class="code-box">
-      <pre id="codeBlock"></pre>
+      <pre id="codeBlock">javascript:(function(){if(document.getElementById('p-sap'))return;var n1='',n2='',fx=!1,cL=0,p=!1,tI=1500,lH,iAP=!1,lCT=0,m='FARDO',s=document.createElement('style');s.innerHTML='#p-sap{position:fixed;top:20px;right:20px;z-index:999999;background:#0b1120;color:#fff;padding:12px;border-radius:12px;font-family:sans-serif;width:180px;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 35px rgba(0,0,0,.7);user-select:none}#p-sap .hd{text-align:center;cursor:move}#p-sap input,#p-sap select,#p-sap button{background:#111927;border:1px solid #1e2d4a;color:#e2e8f0;border-radius:6px;text-align:center;font-size:10px;font-weight:700;height:26px;width:100%}#p-sap select{color:#00f0ff}#p-sap .m-btn{color:#64748b;cursor:pointer}#p-sap .m-btn.act{background:#00f0ff;color:#050811;font-weight:900}#p-sap .lst{display:none;position:absolute;top:28px;left:0;width:100%;background:#0b1120;border:1px solid #00f0ff;border-radius:8px;max-height:110px;overflow-y:auto;z-index:100}#p-sap .opt{padding:6px;cursor:pointer;font-size:10px;color:#00f0ff;text-align:center}#p-sap .opt:hover{background:#00f0ff;color:#050811}#p-sap .bc{cursor:pointer;color:#fff;font-weight:800}';document.head.appendChild(s);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class="hd" id="s-hdr"><span id="s-st" style="font-size:10px;font-weight:900;color:#00f0ff">● ATIVADO</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><button id="b-frd" class="m-btn act">Fardo</button><button id="b-bob" class="m-btn">Bobina</button></div><div style="position:relative"><div style="display:flex;gap:4px"><input id="s-fx" placeholder="Destino"><button id="s-btn" style="width:28px;background:#1e2d4a;color:#00f0ff">▼</button></div><div id="s-lst" class="lst"><div class="opt">001-01-090</div><div class="opt">001-01-011</div><div class="opt">001-01-012</div><div class="opt">LOBO</div><div class="opt">STAGE1</div><div class="opt">STAGE2</div><div class="opt">STAGE3</div></div></div><input id="s-mat" placeholder="Filtro Material"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><select id="s-tm"><option value="1500">⚡ 1.5s</option><option value="2000">⏱️ 2.0s</option><option value="3000">🐢 3.0s</option></select><button id="s-ps" class="bc" style="background:#10b981">Pausar</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center"><span id="s-cnt" style="font-size:13px;font-weight:800;color:#00f0ff;background:#111927;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(0,240,255,.3)">00</span><button id="s-rz" class="bc" style="background:#ff2a2a">Zerar</button></div>';document.body.appendChild(a);var fxI=a.querySelector('#s-fx'),mtI=a.querySelector('#s-mat'),mB=a.querySelector('#s-btn'),mL=a.querySelector('#s-lst'),psB=a.querySelector('#s-ps'),tmS=a.querySelector('#s-tm'),stT=a.querySelector('#s-st'),bFrd=a.querySelector('#b-frd'),bBob=a.querySelector('#b-bob'),hdr=a.querySelector('#s-hdr'),op=!1,isD=!1,sX=0,sY=0,iL=0,iT=0;function sDrg(e){var v=e.touches?e.touches[0]:e;isD=!0;sX=v.clientX;sY=v.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top;a.style.right='auto';a.style.left=iL+'px';a.style.top=iT+'px'}function mDrg(e){if(!isD)return;var v=e.touches?e.touches[0]:e;a.style.left=Math.min(Math.max(10,iL+(v.clientX-sX)),window.innerWidth-a.offsetWidth-10)+'px';a.style.top=Math.min(Math.max(10,iT+(v.clientY-sY)),window.innerHeight-a.offsetHeight-10)+'px'}function eDrg(){isD=!1}hdr.addEventListener('mousedown',sDrg);document.addEventListener('mousemove',mDrg);document.addEventListener('mouseup',eDrg);hdr.addEventListener('touchstart',sDrg,{passive:!0});document.addEventListener('touchmove',mDrg,{passive:!0});document.addEventListener('touchend',eDrg);bFrd.onclick=function(){m='FARDO';bFrd.classList.add('act');bBob.classList.remove('act')};bBob.onclick=function(){m='BOBINA';bBob.classList.add('act');bFrd.classList.remove('act')};mB.onclick=function(e){e.stopPropagation();op=!op;mL.style.display=op?'block':'none'};document.onclick=function(e){a.contains(e.target)||(op=!1,mL.style.display='none')};a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();fxI.value=o.innerText.trim();op=!1;mL.style.display='none';fxI.dispatchEvent(new Event('input',{bubbles:!0}))}});function uC(v){var n=Date.now();if(n-lCT<1500)return;lCT=n;cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psB.onclick=function(){p=!p;if(p){psB.innerText='Play';psB.style.background='#ff6600';stT.innerText='● DESATIVADO';stT.style.color='#ff2a2a'}else{psB.innerText='Pausar';psB.style.background='#10b981';stT.innerText='● ATIVADO';stT.style.color='#00f0ff'}};tmS.onchange=function(){tI=parseInt(tmS.value,10);rL()};function trg(e){['mousedown','mouseup','click'].forEach(function(t){e.dispatchEvent(new MouseEvent(t,{bubbles:!0}))})}document.addEventListener('keydown',function(e){p||iAP||('Enter'===e.key&&document.activeElement&&!a.contains(document.activeElement)&&uC('BOBINA'===m?1:2))},!0);function cM(){var f=mtI.value.trim();if(!f)return!0;var t=f.split(',').map(function(k){return k.trim().toUpperCase()}).filter(Boolean),s=['[id*="Mat"]','[id*="MAT"]','[id*="Product"]','.sapMText','.sapMInputBaseInner','span'];for(var i=0;i<s.length;i++){var el=document.querySelectorAll(s[i]);for(var j=0;j<el.length;j++){if(el[j].id==='s-mat'||el[j].closest('#p-sap'))continue;var v=(el[j].value||el[j].innerText||'').trim().toUpperCase();if(v&&t.some(function(x){return v.includes(x)}))return!0}}return!1}function run(){if(p||iAP)return;var lL=document.querySelector('.sapMList, .sapMTable, [id*="faixasDisponiveis"]');if(lL&&lL.id!=='p-sap'){lL.style.setProperty('display','none','important');var pE=lL.closest('.sapMVBox, .sapMHBox');pE&&pE.style.setProperty('display','none','important')}var oF=document.querySelector('[id$="AjusNlpla-inner"]');if(oF&&fxI.value&&oF.value!==fxI.value&&!fx){if(cM()){fx=!0;try{var sC=window.sap.ui.getCore().byId(oF.id.replace('-inner',''));sC&&(sC.setSelectedKey&&sC.setSelectedKey(fxI.value),sC.setValue&&sC.setValue(fxI.value))}catch(e){}oF.value=fxI.value;oF.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(function(){fx=!1},1500)}}var b='BOBINA'===m,i2=document.querySelector('[id$="LoteInput2-inner"]'),i1=document.querySelector('[id$="LoteInput1-inner"]')||document.querySelector('[id*="LoteInput"]');function proc(el,ref,inc){var v=el.value.trim();v&&'Relative'!==v&&v!==ref&&(ref=v,setTimeout(function(){el.value.trim()&&cM()?(iAP=!0,el.dispatchEvent(new Event('change',{bubbles:!0})),(function(){var bn=document.querySelector('[id$="nextButton-BDI-content"]');if(bn){trg(bn);var b2=document.querySelector('[id$="_IDGenButton2-BDI-content"]');b2&&trg(b2);uC(inc);setTimeout(function(){fx=!1;iAP=!1},2000)}else iAP=!1})()):iAP=!1},1000))}i2&&!b?proc(i2,n2,2):i1&&(b||!i2)&&proc(i1,n1,1)}function rL(){lH&&clearInterval(lH);lH=setInterval(run,tI)}rL();})();</pre>
     </div>
 
     <p class="instructions">
-      <strong>Correção aplicada:</strong> O script do bookmarklet agora é gerado via runtime para evitar falhas de interpretação de aspas ou caracteres especiais pelo navegador no HTML.
+      <strong>Instruções de uso:</strong><br>
+      1. Clique no botão acima para copiar o código.<br>
+      2. No seu navegador, crie um novo Favorito/Bookmark.<br>
+      3. No campo <strong>URL / Endereço</strong>, cole o código copiado.<br>
+      4. O código foi reduzido e unificado para não estourar o limite de caracteres locais do navegador.
     </p>
   </div>
 
   <script>
-    const rawJS = `if(document.getElementById('p-sap'))return;var n1='',n2='',fx=!1,cL=0,p=!1,tI=1500,lH,iAP=!1,lCT=0,m='FARDO',s=document.createElement('style');s.innerHTML='@keyframes dSB{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}#p-sap{position:fixed;top:20px;right:20px;z-index:999999;background:linear-gradient(145deg,#0b1120,#050811);color:#fff;padding:12px;border-radius:12px;font-family:sans-serif;width:180px;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 35px rgba(0,0,0,.7);box-sizing:border-box;touch-action:none;user-select:none}#p-sap *::-webkit-scrollbar,#p-sap::-webkit-scrollbar{display:none}#p-sap *{-ms-overflow-style:none;scrollbar-width:none}#p-sap .b-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}#p-sap .b-rect-bg{fill:none;stroke:rgba(0,240,255,.12);stroke-width:2;rx:12}#p-sap .b-rect-anim{fill:none;stroke:#00f0ff;stroke-width:2;stroke-linecap:round;rx:12;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 4px #00f0ff);transition:stroke .5s,filter .5s}#p-sap.active .b-rect-anim{animation:dSB 2.4s cubic-bezier(.2,.8,.2,1) forwards}#p-sap.paused .b-rect-anim{stroke:#ff2a2a;filter:drop-shadow(0 0 4px #ff2a2a);animation:dSB 2.4s cubic-bezier(.2,.8,.2,1) forwards}#p-sap .hd{display:flex;justify-content:center;align-items:center;position:relative;z-index:2;cursor:move;touch-action:none}#p-sap input,#p-sap select,#p-sap button{background:#111927;border:1px solid #1e2d4a;color:#e2e8f0;border-radius:6px;text-align:center;font-size:10px;font-weight:700;outline:0;height:26px;width:100%;position:relative;z-index:2;box-sizing:border-box;transition:all .2s ease;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}#p-sap select{cursor:pointer;background-image:linear-gradient(135deg,#111927 0%,#1e2d4a 100%);color:#00f0ff;border-color:rgba(0,240,255,.3)}#p-sap select:hover{border-color:#00f0ff;box-shadow:0 0 8px rgba(0,240,255,.3)}#p-sap input:focus,#p-sap select:focus{border-color:#00f0ff;box-shadow:0 0 8px rgba(0,240,255,.5)}#p-sap .m-btn{background:#111927;border:1px solid #1e2d4a;color:#64748b;cursor:pointer;font-weight:700}#p-sap .m-btn.act{background:linear-gradient(135deg,#00f0ff,#0077aa);color:#050811;border-color:#00f0ff;font-weight:900;box-shadow:0 0 10px rgba(0,240,255,.4)}#p-sap .lst{display:none;position:absolute;top:28px;left:0;width:100%;background:#0b1120;border:1px solid #00f0ff;border-radius:8px;max-height:110px;overflow-y:auto;z-index:100;box-shadow:0 8px 25px rgba(0,240,255,.25)}#p-sap .opt{padding:6px;cursor:pointer;font-size:10px;color:#00f0ff;text-align:center;font-weight:700;transition:all .2s;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}#p-sap .opt:hover{background:#00f0ff;color:#050811;font-weight:900}#p-sap .bc{border:0;cursor:pointer;color:#fff;font-weight:800;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.3)}#p-sap .bc:hover{filter:brightness(1.2);transform:translateY(-1px)}#p-sap .bc:active{transform:translateY(0)}';document.head.appendChild(s);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<svg class="b-svg"><rect class="b-rect-bg" x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"></rect><rect id="b-path" class="b-rect-anim" x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"></rect></svg><div class="hd" id="s-hdr"><span id="s-st" style="font-size:10px;font-weight:900;color:#00f0ff;letter-spacing:1px;text-shadow:0 0 6px rgba(0,240,255,0.6);pointer-events:none"> ● ATIVADO</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2"><button id="b-frd" class="m-btn act">Fardo</button><button id="b-bob" class="m-btn">Bobina</button></div><div style="position:relative;z-index:20"><div style="display:flex;gap:4px"><input id="s-fx" placeholder="Destino" autocomplete="off"><button id="s-btn" style="width:28px;cursor:pointer;background:#1e2d4a;border-color:#2a3b5c;color:#00f0ff">▼</button></div><div id="s-lst" class="lst"><div class="opt">001-01-090</div><div class="opt">001-01-011</div><div class="opt">001-01-012</div><div class="opt">LOBO</div><div class="opt">STAGE1</div><div class="opt">STAGE2</div><div class="opt">STAGE3</div></div></div><input id="s-mat" placeholder="Filtro Material" autocomplete="off"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2"><select id="s-tm"><option value="1500">⚡ 1.5s</option><option value="2000">⏱️ 2.0s</option><option value="3000">🐢 3.0s</option></select><button id="s-ps" class="bc" style="background:linear-gradient(135deg,#10b981,#047857)">Pausar</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2;align-items:center"><span id="s-cnt" style="font-size:13px;font-weight:800;color:#00f0ff;background:#111927;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(0,240,255,0.3);box-sizing:border-box">00</span><button id="s-rz" class="bc" style="background:linear-gradient(135deg,#ff2a2a,#b30000)">Zerar</button></div>';document.body.appendChild(a);function tB(){a.classList.remove('active');void a.offsetWidth;a.classList.add('active')}tB();var fxI=a.querySelector('#s-fx'),mtI=a.querySelector('#s-mat'),mB=a.querySelector('#s-btn'),mL=a.querySelector('#s-lst'),psB=a.querySelector('#s-ps'),tmS=a.querySelector('#s-tm'),stT=a.querySelector('#s-st'),bFrd=a.querySelector('#b-frd'),bBob=a.querySelector('#b-bob'),hdr=a.querySelector('#s-hdr'),op=!1,isD=!1,sX=0,sY=0,iL=0,iT=0;function sDrg(e){var v=e.touches?e.touches[0]:e;isD=!0;sX=v.clientX;sY=v.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top;a.style.right='auto';a.style.bottom='auto';a.style.left=iL+'px';a.style.top=iT+'px'}function mDrg(e){if(!isD)return;var v=e.touches?e.touches[0]:e;a.style.left=Math.min(Math.max(10,iL+(v.clientX-sX)),window.innerWidth-a.offsetWidth-10)+'px';a.style.top=Math.min(Math.max(10,iT+(v.clientY-sY)),window.innerHeight-a.offsetHeight-10)+'px'}function eDrg(){isD=!1}hdr.addEventListener('mousedown',sDrg);document.addEventListener('mousemove',mDrg);document.addEventListener('mouseup',eDrg);hdr.addEventListener('touchstart',sDrg,{passive:!0});document.addEventListener('touchmove',mDrg,{passive:!0});document.addEventListener('touchend',eDrg);bFrd.onclick=function(){m='FARDO';bFrd.classList.add('act');bBob.classList.remove('act')};bBob.onclick=function(){m='BOBINA';bBob.classList.add('act');bFrd.classList.remove('act')};mB.onclick=function(e){e.stopPropagation();op=!op;mL.style.display=op?'block':'none'};document.onclick=function(e){a.contains(e.target)||(op=!1,mL.style.display='none')};a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();fxI.value=o.innerText.trim();op=!1;mL.style.display='none';fxI.dispatchEvent(new Event('input',{bubbles:!0}))}});function uC(v){var n=Date.now();if(n-lCT<1500)return;lCT=n;cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psB.onclick=function(){p=!p;if(p){psB.innerText='Play';psB.style.background='linear-gradient(135deg,#ff6600,#cc5200)';stT.innerText=' ● DESATIVADO';stT.style.color='#ff2a2a';stT.style.textShadow='0 0 6px rgba(255,42,42,0.6)';a.classList.remove('active');a.classList.add('paused');void a.offsetWidth;a.classList.add('active')}else{psB.innerText='Pausar';psB.style.background='linear-gradient(135deg,#10b981,#047857)';stT.innerText=' ● ATIVADO';stT.style.color='#00f0ff';stT.style.textShadow='0 0 6px rgba(0,240,255,0.6)';a.classList.remove('paused');tB()}};tmS.onchange=function(){tI=parseInt(tmS.value,10);rL()};function trg(e){['mousedown','mouseup','click'].forEach(function(t){e.dispatchEvent(new MouseEvent(t,{bubbles:!0}))})}document.addEventListener('keydown',function(e){p||iAP||('Enter'===e.key&&document.activeElement&&!a.contains(document.activeElement)&&uC('BOBINA'===m?1:2))},!0);function cM(){var f=mtI.value.trim();if(!f)return!0;var t=f.split(',').map(function(k){return k.trim().toUpperCase()}).filter(Boolean),s=['[id*="Mat"]','[id*="MAT"]','[id*="Product"]','.sapMText','.sapMInputBaseInner','span'];for(var i=0;i<s.length;i++){var el=document.querySelectorAll(s[i]);for(var j=0;j<el.length;j++){if(el[j].id==='s-mat'||el[j].closest('#p-sap'))continue;var v=(el[j].value||el[j].innerText||'').trim().toUpperCase();if(v&&t.some(function(x){return v.includes(x)}))return!0}}return!1}function run(){if(p||iAP)return;var lL=document.querySelector('.sapMList, .sapMTable, [id*="faixasDisponiveis"]');if(lL&&lL.id!=='p-sap'){lL.style.setProperty('display','none','important');var pE=lL.closest('.sapMVBox, .sapMHBox');pE&&pE.style.setProperty('display','none','important')}var oF=document.querySelector('[id$="AjusNlpla-inner"]');if(oF&&fxI.value&&oF.value!==fxI.value&&!fx){if(cM()){fx=!0;try{var sC=window.sap.ui.getCore().byId(oF.id.replace('-inner',''));sC&&(sC.setSelectedKey&&sC.setSelectedKey(fxI.value),sC.setValue&&sC.setValue(fxI.value))}catch(e){}oF.value=fxI.value;oF.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(function(){fx=!1},1500)}}var b='BOBINA'===m,i2=document.querySelector('[id$="LoteInput2-inner"]'),i1=document.querySelector('[id$="LoteInput1-inner"]')||document.querySelector('[id*="LoteInput"]');function proc(el,ref,inc){var v=el.value.trim();v&&'Relative'!==v&&v!==ref&&(ref=v,setTimeout(function(){el.value.trim()&&cM()?(iAP=!0,el.dispatchEvent(new Event('change',{bubbles:!0})),(function(){var bn=document.querySelector('[id$="nextButton-BDI-content"]');if(bn){trg(bn);var b2=document.querySelector('[id$="_IDGenButton2-BDI-content"]');b2&&trg(b2);uC(inc);setTimeout(function(){fx=!1;iAP=!1},2000)}else iAP=!1})()):iAP=!1},1000))}i2&&!b?proc(i2,n2,2):i1&&(b||!i2)&&proc(i1,n1,1)}function rL(){lH&&clearInterval(lH);lH=setInterval(run,tI)}rL();`;
-
-    const bookmarkletCode = "javascript:(function(){var s=document.createElement('script');s.src='data:text/javascript;charset=utf-8," + encodeURIComponent(rawJS) + "';document.head.appendChild(s);})();";
-
-    document.getElementById('codeBlock').innerText = bookmarkletCode;
-
     function copyScript() {
       const codeText = document.getElementById('codeBlock').innerText;
       const btn = document.getElementById('btnCopy');
@@ -146,13 +131,10 @@
       navigator.clipboard.writeText(codeText).then(() => {
         btn.classList.add('copied');
         btn.innerHTML = '✓ Copiado com Sucesso!';
-        
         setTimeout(() => {
           btn.classList.remove('copied');
-          btn.innerHTML = '📋 Copiar Código Completo';
+          btn.innerHTML = '📋 Copiar Código';
         }, 2000);
-      }).catch(err => {
-        console.error('Erro ao copiar:', err);
       });
     }
   </script>
