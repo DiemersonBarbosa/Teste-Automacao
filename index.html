@@ -3,25 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bookmarklet - Automação SAP EWM Pro</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+  <title>Bookmarklet Panel SAP</title>
   <style>
     :root {
-      --bg: #030712;
-      --card-bg: #0b0f19;
-      --border: #1e293b;
-      --primary: #38bdf8;
-      --text: #f8fafc;
-      --muted: #64748b;
+      --bg: #0b1120;
+      --card-bg: #111927;
+      --border: #1e2d4a;
+      --text: #e2e8f0;
+      --accent: #00f0ff;
+      --accent-hover: #00b8cc;
       --success: #10b981;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       display: flex;
@@ -32,164 +33,118 @@
     }
 
     .container {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-      max-width: 500px;
       width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(14, 165, 233, 0.05);
+      max-width: 800px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
     }
 
-    h1 {
-      font-size: 1.25rem;
-      color: var(--text);
-      margin-bottom: 6px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-    }
-
-    h1::before {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--primary);
-      box-shadow: 0 0 10px var(--primary);
-    }
-
-    p {
-      font-size: 0.875rem;
-      color: var(--muted);
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-
-    .action-area {
-      display: flex;
-      flex-direction: column;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .btn {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 0.875rem;
-      padding: 12px 20px;
+    .title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    .copy-btn {
+      background: var(--accent);
+      color: #050811;
       border: none;
-      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      font-weight: 800;
+      border-radius: 6px;
       cursor: pointer;
-      display: flex;
+      transition: all 0.2s ease;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 6px;
     }
 
-    .btn-preview {
-      background: rgba(30, 41, 59, 0.6);
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .copy-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
     }
 
-    .btn-preview:hover {
-      background: rgba(51, 65, 85, 0.8);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-copy {
-      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    .copy-btn.copied {
+      background: var(--success);
       color: #ffffff;
-      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
     }
 
-    .btn-copy:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
-    }
-
-    .btn-copy.copied {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-    }
-
-    textarea {
-      width: 100%;
-      height: 80px;
-      background-color: #030712;
+    .code-box {
+      background: #050811;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      padding: 12px;
-      resize: none;
-      outline: none;
+      border-radius: 8px;
+      padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    pre {
+      white-space: pre-wrap;
       word-break: break-all;
+      font-family: "Fira Code", Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .instructions {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.4;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Automação SAP EWM Pro</h1>
-    <p>Interface moderna estilo HUD com contador digital de LED e execução direta sem senha.</p>
-
-    <div class="action-area">
-      <button id="preview-btn" class="btn btn-preview">
-        <span>⚡</span> Visualizar Interface do Robô
+    <div class="header">
+      <h1 class="title">Painel SAP Bookmarklet</h1>
+      <button class="copy-btn" id="btnCopy" onclick="copyScript()">
+        📋 Copiar Código
       </button>
-
-      <button id="copy-btn" class="btn btn-copy">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-        Copiar Bookmarklet Pro
-      </button>
-
-      <textarea id="code-box" readonly></textarea>
     </div>
+
+    <div class="code-box">
+      <pre id="codeBlock">javascript:(function(){if(document.getElementById('p-sap'))return;var n1='',n2='',fx=!1,cL=0,p=!1,tI=1500,lH,iAP=!1,lCT=0,m='FARDO',s=document.createElement('style');s.innerHTML='@keyframes dSB{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}#p-sap{position:fixed;top:20px;right:20px;z-index:999999;background:linear-gradient(145deg,#0b1120,#050811);color:#fff;padding:12px;border-radius:12px;font-family:sans-serif;width:180px;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 35px rgba(0,0,0,.7);box-sizing:border-box;touch-action:none;user-select:none}#p-sap *::-webkit-scrollbar,#p-sap::-webkit-scrollbar{display:none}#p-sap *{-ms-overflow-style:none;scrollbar-width:none}#p-sap .b-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}#p-sap .b-rect-bg{fill:none;stroke:rgba(0,240,255,.12);stroke-width:2;rx:12}#p-sap .b-rect-anim{fill:none;stroke:#00f0ff;stroke-width:2;stroke-linecap:round;rx:12;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 4px #00f0ff);transition:stroke .5s,filter .5s}#p-sap.active .b-rect-anim{animation:dSB 2.4s cubic-bezier(.2,.8,.2,1) forwards}#p-sap.paused .b-rect-anim{stroke:#ff2a2a;filter:drop-shadow(0 0 4px #ff2a2a);animation:dSB 2.4s cubic-bezier(.2,.8,.2,1) forwards}#p-sap .hd{display:flex;justify-content:center;align-items:center;position:relative;z-index:2;cursor:move;touch-action:none}#p-sap input,#p-sap select,#p-sap button{background:#111927;border:1px solid #1e2d4a;color:#e2e8f0;border-radius:6px;text-align:center;font-size:10px;font-weight:700;outline:0;height:26px;width:100%;position:relative;z-index:2;box-sizing:border-box;transition:all .2s ease;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}#p-sap select{cursor:pointer;background-image:linear-gradient(135deg,#111927 0%,#1e2d4a 100%);color:#00f0ff;border-color:rgba(0,240,255,.3)}#p-sap select:hover{border-color:#00f0ff;box-shadow:0 0 8px rgba(0,240,255,.3)}#p-sap input:focus,#p-sap select:focus{border-color:#00f0ff;box-shadow:0 0 8px rgba(0,240,255,.5)}#p-sap .m-btn{background:#111927;border:1px solid #1e2d4a;color:#64748b;cursor:pointer;font-weight:700}#p-sap .m-btn.act{background:linear-gradient(135deg,#00f0ff,#0077aa);color:#050811;border-color:#00f0ff;font-weight:900;box-shadow:0 0 10px rgba(0,240,255,.4)}#p-sap .lst{display:none;position:absolute;top:28px;left:0;width:100%;background:#0b1120;border:1px solid #00f0ff;border-radius:8px;max-height:110px;overflow-y:auto;z-index:100;box-shadow:0 8px 25px rgba(0,240,255,.25)}#p-sap .opt{padding:6px;cursor:pointer;font-size:10px;color:#00f0ff;text-align:center;font-weight:700;transition:all .2s;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}#p-sap .opt:hover{background:#00f0ff;color:#050811;font-weight:900}#p-sap .bc{border:0;cursor:pointer;color:#fff;font-weight:800;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,.3)}#p-sap .bc:hover{filter:brightness(1.2);transform:translateY(-1px)}#p-sap .bc:active{transform:translateY(0)}';document.head.appendChild(s);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<svg class="b-svg"><rect class="b-rect-bg" x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"></rect><rect id="b-path" class="b-rect-anim" x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"></rect></svg><div class="hd" id="s-hdr"><span id="s-st" style="font-size:10px;font-weight:900;color:#00f0ff;letter-spacing:1px;text-shadow:0 0 6px rgba(0,240,255,0.6);pointer-events:none"> ● ATIVADO</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2"><button id="b-frd" class="m-btn act">Fardo</button><button id="b-bob" class="m-btn">Bobina</button></div><div style="position:relative;z-index:20"><div style="display:flex;gap:4px"><input id="s-fx" placeholder="Destino" autocomplete="off"><button id="s-btn" style="width:28px;cursor:pointer;background:#1e2d4a;border-color:#2a3b5c;color:#00f0ff">▼</button></div><div id="s-lst" class="lst"><div class="opt">001-01-090</div><div class="opt">001-01-011</div><div class="opt">001-01-012</div><div class="opt">LOBO</div><div class="opt">STAGE1</div><div class="opt">STAGE2</div><div class="opt">STAGE3</div></div></div><input id="s-mat" placeholder="Filtro Material" autocomplete="off"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2"><select id="s-tm"><option value="1500">⚡ 1.5s</option><option value="2000">⏱️ 2.0s</option><option value="3000">🐢 3.0s</option></select><button id="s-ps" class="bc" style="background:linear-gradient(135deg,#10b981,#047857)">Pausar</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;position:relative;z-index:2;align-items:center"><span id="s-cnt" style="font-size:13px;font-weight:800;color:#00f0ff;background:#111927;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(0,240,255,0.3);box-sizing:border-box">00</span><button id="s-rz" class="bc" style="background:linear-gradient(135deg,#ff2a2a,#b30000)">Zerar</button></div>';document.body.appendChild(a);function tB(){a.classList.remove('active');void a.offsetWidth;a.classList.add('active')}tB();var fxI=a.querySelector('#s-fx'),mtI=a.querySelector('#s-mat'),mB=a.querySelector('#s-btn'),mL=a.querySelector('#s-lst'),psB=a.querySelector('#s-ps'),tmS=a.querySelector('#s-tm'),stT=a.querySelector('#s-st'),bFrd=a.querySelector('#b-frd'),bBob=a.querySelector('#b-bob'),hdr=a.querySelector('#s-hdr'),op=!1,isD=!1,sX=0,sY=0,iL=0,iT=0;function sDrg(e){var v=e.touches?e.touches[0]:e;isD=!0;sX=v.clientX;sY=v.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top;a.style.right='auto';a.style.bottom='auto';a.style.left=iL+'px';a.style.top=iT+'px'}function mDrg(e){if(!isD)return;var v=e.touches?e.touches[0]:e;a.style.left=Math.min(Math.max(10,iL+(v.clientX-sX)),window.innerWidth-a.offsetWidth-10)+'px';a.style.top=Math.min(Math.max(10,iT+(v.clientY-sY)),window.innerHeight-a.offsetHeight-10)+'px'}function eDrg(){isD=!1}hdr.addEventListener('mousedown',sDrg);document.addEventListener('mousemove',mDrg);document.addEventListener('mouseup',eDrg);hdr.addEventListener('touchstart',sDrg,{passive:!0});document.addEventListener('touchmove',mDrg,{passive:!0});document.addEventListener('touchend',eDrg);bFrd.onclick=function(){m='FARDO';bFrd.classList.add('act');bBob.classList.remove('act')};bBob.onclick=function(){m='BOBINA';bBob.classList.add('act');bFrd.classList.remove('act')};mB.onclick=function(e){e.stopPropagation();op=!op;mL.style.display=op?'block':'none'};document.onclick=function(e){a.contains(e.target)||(op=!1,mL.style.display='none')};a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();fxI.value=o.innerText.trim();op=!1;mL.style.display='none';fxI.dispatchEvent(new Event('input',{bubbles:!0}))}});function uC(v){var n=Date.now();if(n-lCT<1500)return;lCT=n;cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psB.onclick=function(){p=!p;if(p){psB.innerText='Play';psB.style.background='linear-gradient(135deg,#ff6600,#cc5200)';stT.innerText=' ● DESATIVADO';stT.style.color='#ff2a2a';stT.style.textShadow='0 0 6px rgba(255,42,42,0.6)';a.classList.remove('active');a.classList.add('paused');void a.offsetWidth;a.classList.add('active')}else{psB.innerText='Pausar';psB.style.background='linear-gradient(135deg,#10b981,#047857)';stT.innerText=' ● ATIVADO';stT.style.color='#00f0ff';stT.style.textShadow='0 0 6px rgba(0,240,255,0.6)';a.classList.remove('paused');tB()}};tmS.onchange=function(){tI=parseInt(tmS.value,10);rL()};function trg(e){['mousedown','mouseup','click'].forEach(function(t){e.dispatchEvent(new MouseEvent(t,{bubbles:!0}))})}document.addEventListener('keydown',function(e){p||iAP||('Enter'===e.key&&document.activeElement&&!a.contains(document.activeElement)&&uC('BOBINA'===m?1:2))},!0);function cM(){var f=mtI.value.trim();if(!f)return!1===0||!0;var t=f.split(',').map(function(k){return k.trim().toUpperCase()}).filter(Boolean),s=['[id*="Mat"]','[id*="MAT"]','[id*="Product"]','.sapMText','.sapMInputBaseInner','span'];for(var i=0;i<s.length;i++){var el=document.querySelectorAll(s[i]);for(var j=0;j<el.length;j++){if(el[j].id==='s-mat'||el[j].closest('#p-sap'))continue;var v=(el[j].value||el[j].innerText||'').trim().toUpperCase();if(v&&t.some(function(x){return v.includes(x)}))return!0}}return!1}function run(){if(p||iAP)return;var lL=document.querySelector('.sapMList, .sapMTable, [id*="faixasDisponiveis"]');if(lL&&lL.id!=='p-sap'){lL.style.setProperty('display','none','important');var pE=lL.closest('.sapMVBox, .sapMHBox');pE&&pE.style.setProperty('display','none','important')}var oF=document.querySelector('[id$="AjusNlpla-inner"]');if(oF&&fxI.value&&oF.value!==fxI.value&&!fx){if(cM()){fx=!0;try{var sC=window.sap.ui.getCore().byId(oF.id.replace('-inner',''));sC&&(sC.setSelectedKey&&sC.setSelectedKey(fxI.value),sC.setValue&&sC.setValue(fxI.value))}catch(e){}oF.value=fxI.value;oF.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(function(){fx=!1},1500)}}var b='BOBINA'===m,i2=document.querySelector('[id$="LoteInput2-inner"]'),i1=document.querySelector('[id$="LoteInput1-inner"]')||document.querySelector('[id*="LoteInput"]');function proc(el,ref,inc){var v=el.value.trim();v&&'Relative'!==v&&v!==ref&&(ref=v,setTimeout(function(){el.value.trim()&&cM()?(iAP=!0,el.dispatchEvent(new Event('change',{bubbles:!0})),(function(){var bn=document.querySelector('[id$="nextButton-BDI-content"]');if(bn){trg(bn);var b2=document.querySelector('[id$="_IDGenButton2-BDI-content"]');b2&&trg(b2);uC(inc);setTimeout(function(){fx=!1;iAP=!1},2000)}else iAP=!1})()):iAP=!1},1000))}i2&&!b?proc(i2,n2,2):i1&&(b||!i2)&&proc(i1,n1,1)}function rL(){lH&&clearInterval(lH);lH=setInterval(run,tI)}rL();})();</pre>
+    </div>
+
+    <p class="instructions">
+      Clique no botão acima para copiar o script completo e adicione aos seus favoritos (Bookmarklet) do navegador.
+    </p>
   </div>
 
   <script>
-    // Código Javascript sem validação de senha
-    const codeJs = "if(document.getElementById('p-sap'))return;var t1,t2,n1='',n2='',fx=!1,cL=0,iAP=!1,isP=!1,tI=300,lH=null,st=document.createElement('style'),fnt=document.createElement('link');fnt.rel='stylesheet';fnt.href='https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@800&display=swap';document.head.appendChild(fnt);st.innerHTML='#p-sap{position:fixed;top:60px;right:15px;z-index:999999;background:rgba(11,15,25,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#f8fafc;padding:12px;border-radius:16px;font-family:\"Inter\",system-ui,sans-serif;width:176px;box-shadow:0 20px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.08),inset 0 1px 0 rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:10px;cursor:move;user-select:none}#p-sap *{box-sizing:border-box}#p-sap input,#p-sap select{background:#030712;border:1px solid rgba(255,255,255,0.1);color:#f8fafc;border-radius:8px;text-align:center;font-size:11px;font-weight:600;outline:0;height:28px;width:100%;transition:all .2s ease}#p-sap input:focus,#p-sap select:focus{border-color:#38bdf8;box-shadow:0 0 10px rgba(56,189,248,0.25)}#p-sap .hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:2px}#p-sap .ttl{font-weight:700;color:#f8fafc;font-size:10px;letter-spacing:0.5px;text-transform:uppercase;display:flex;align-items:center;gap:5px}#p-sap .ttl::before{content:\"\";display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8}#p-sap .st-badge{font-size:8px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(16,185,129,0.12);color:#34d399;border:1px solid rgba(16,185,129,0.3);letter-spacing:0.5px}#p-sap .lbl{color:#64748b;font-size:8px;font-weight:700;display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}#p-sap .m-lst{display:none;position:absolute;top:44px;left:0;width:100%;background:#090d16;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-height:120px;overflow-y:auto;z-index:1000000;box-shadow:0 10px 25px rgba(0,0,0,0.8)}#p-sap .opt{padding:6px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center;font-size:10px;color:#cbd5e1;font-weight:500}#p-sap .opt:hover{background:rgba(56,189,248,0.15);color:#38bdf8}#p-sap .ctrl-grid{display:grid;grid-template-columns:1fr 28px 1fr 28px;gap:5px;align-items:center}#p-sap .cnt-box{background:#020617;border:1px solid rgba(255,255,255,0.08);border-radius:8px;height:32px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:inset 0 2px 4px rgba(0,0,0,0.8)}#p-sap .cnt-txt{font-family:\"JetBrains Mono\",monospace;font-size:16px;font-weight:800;color:#10b981;text-shadow:0 0 10px rgba(16,185,129,0.5);letter-spacing:0.5px}#p-sap .btn-c{border:none;color:#fff;border-radius:8px;height:32px;width:100%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;font-size:11px;transition:all .15s ease}#p-sap .btn-c:active{transform:scale(0.94)}#p-sap select.tm-sel{height:32px;background:#030712;border:1px solid rgba(255,255,255,0.1);color:#38bdf8;font-weight:700;font-size:10px;border-radius:8px}';document.head.appendChild(st);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class=\"hdr\"><span class=\"ttl\">EWM ROBÔ</span><span id=\"s-st\" class=\"st-badge\">ONLINE</span></div><div style=\"position:relative\"><span class=\"lbl\">FAIXA DESTINO</span><div style=\"display:flex;gap:4px;height:28px\"><input id=\"s-fx\" type=\"text\" placeholder=\"Escolha...\" style=\"flex-grow:1\"><button id=\"s-btn\" style=\"width:28px;height:28px;background:#030712;border:1px solid rgba(255,255,255,0.1);color:#38bdf8;border-radius:8px;cursor:pointer;font-size:9px\">▼</button></div><div id=\"sap-menu-list\" class=\"m-lst\"><div class=\"opt\">001-01-090</div><div class=\"opt\">001-01-011</div><div class=\"opt\">001-01-012</div><div class=\"opt\">LOBO</div><div class=\"opt\">STAGE1</div><div class=\"opt\">STAGE2</div><div class=\"opt\">STAGE3</div></div></div><div><span class=\"lbl\">FILTRAR MATERIAL</span><input id=\"s-mat\" type=\"text\" placeholder=\"Todos\"></div><div class=\"ctrl-grid\"><div class=\"cnt-box\"><span id=\"s-cnt\" class=\"cnt-txt\">00</span></div><button id=\"s-rz\" class=\"btn-c\" style=\"background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.3)\" title=\"Zerar\">X</button><select id=\"s-tm\" class=\"tm-sel\" title=\"Intervalo\"><option value=\"300\">0.3s</option><option value=\"500\">0.5s</option><option value=\"1000\">1.0s</option></select><button id=\"s-ps\" class=\"btn-c\" style=\"background:rgba(14,165,233,0.2);color:#38bdf8;border:1px solid rgba(56,189,248,0.3)\" title=\"Pausar\">||</button></div>';document.body.appendChild(a);var selInput=a.querySelector('#s-fx'),matFiltroInput=a.querySelector('#s-mat'),menuBtn=a.querySelector('#s-btn'),menuList=a.querySelector('#sap-menu-list'),stBadge=a.querySelector('#s-st'),psBtn=a.querySelector('#s-ps'),tmSel=a.querySelector('#s-tm'),isOpen=!1;menuBtn.onclick=function(e){e.stopPropagation();isOpen=!isOpen;menuList.style.display=isOpen?'block':'none'};document.addEventListener('click',function(e){if(!a.contains(e.target)){isOpen=!1;menuList.style.display='none'}});a.querySelectorAll('.opt').forEach(function(o){o.onclick=function(e){e.stopPropagation();selInput.value=e.target.innerText.trim();isOpen=!1;menuList.style.display='none';selInput.dispatchEvent(new Event('input',{bubbles:!0}))}});function updateCnt(v){cL+=v;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL}a.querySelector('#s-rz').onclick=function(){cL=0;a.querySelector('#s-cnt').innerText='00'};psBtn.onclick=function(){isP=!isP;if(isP){stBadge.innerText='PAUSA';stBadge.style.background='rgba(234,179,8,0.12)';stBadge.style.color='#facc15';stBadge.style.borderColor='rgba(234,179,8,0.3)';psBtn.innerText='>';psBtn.style.background='rgba(234,179,8,0.2)';psBtn.style.color='#facc15';psBtn.style.borderColor='rgba(234,179,8,0.3)'}else{stBadge.innerText='ONLINE';stBadge.style.background='rgba(16,185,129,0.12)';stBadge.style.color='#34d399';stBadge.style.borderColor='rgba(16,185,129,0.3)';psBtn.innerText='||';psBtn.style.background='rgba(14,165,233,0.2)';psBtn.style.color='#38bdf8';psBtn.style.borderColor='rgba(56,189,248,0.3)'}};tmSel.onchange=function(){tI=parseInt(tmSel.value,10)};var isD=!1,sX,sY,iL,iT,stD=function(e){if(['s-fx','s-btn','s-mat','s-rz','s-ps','s-tm'].includes(e.target.id)||e.target.closest('.btn-c')||e.target.classList.contains('opt'))return;isD=!0;var c=e.touches?e.touches[0]:e;sX=c.clientX;sY=c.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top},doD=function(e){if(!isD)return;var c=e.touches?e.touches[0]:e;a.style.left=(iL+c.clientX-sX)+'px';a.style.top=(iT+c.clientY-sY)+'px';a.style.right='auto'},enD=function(){isD=!1};a.addEventListener('mousedown',stD);document.addEventListener('mousemove',doD);document.addEventListener('mouseup',enD);a.addEventListener('touchstart',stD,{passive:!0});document.addEventListener('touchmove',doD,{passive:!0});document.addEventListener('touchend',enD);";
+    function copyScript() {
+      const codeText = document.getElementById('codeBlock').innerText;
+      const btn = document.getElementById('btnCopy');
 
-    const bookmarkletCode = "javascript:(function(){" + codeJs + "})();";
-
-    document.getElementById('code-box').value = bookmarkletCode;
-
-    // Testar direto na página
-    document.getElementById('preview-btn').addEventListener('click', () => {
-      new Function(codeJs)();
-    });
-
-    document.getElementById('copy-btn').addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(bookmarkletCode);
-        const copyBtn = document.getElementById('copy-btn');
-        copyBtn.classList.add('copied');
-        copyBtn.innerText = 'Copiado com Sucesso!';
+      navigator.clipboard.writeText(codeText).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '✓ Copiado!';
+        
         setTimeout(() => {
-          copyBtn.classList.remove('copied');
-          copyBtn.innerHTML = `
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            Copiar Bookmarklet Pro
-          `;
+          btn.classList.remove('copied');
+          btn.innerHTML = '📋 Copiar Código';
         }, 2000);
-      } catch (err) {
-        document.getElementById('code-box').select();
-        document.execCommand('copy');
-      }
-    });
+      }).catch(err => {
+        console.error('Erro ao copiar:', err);
+      });
+    }
   </script>
 </body>
 </html>
