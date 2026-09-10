@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Acesso SAP</title>
+  <title>Portal de Acesso SAP Fiori</title>
   <style>
     :root {
       --bg: #0b1120;
@@ -31,7 +31,7 @@
 
     .container {
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -67,7 +67,7 @@
       color: var(--accent);
       padding: 10px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
       font-weight: bold;
       width: 100%;
@@ -147,7 +147,7 @@
     }
 
     .user-list {
-      max-height: 120px;
+      max-height: 160px;
       overflow-y: auto;
       margin-top: 8px;
       display: flex;
@@ -160,7 +160,7 @@
       justify-content: space-between;
       align-items: center;
       background: #050811;
-      padding: 6px 10px;
+      padding: 8px 10px;
       border-radius: 6px;
       border: 1px solid var(--border);
       font-size: 0.8rem;
@@ -170,7 +170,7 @@
       background: var(--danger);
       color: #fff;
       border: none;
-      padding: 3px 8px;
+      padding: 4px 8px;
       border-radius: 4px;
       font-size: 0.7rem;
       font-weight: bold;
@@ -182,11 +182,9 @@
 
   <div class="container">
     
-    <!-- TELAS DO SISTEMA -->
-
-    <!-- 1. TELA DE CONSULTA DO FUNCIONÁRIO -->
+    <!-- 1. PAINEL DO OPERADOR -->
     <div id="view-user-login">
-      <h1 class="title">🔐 Portal do Operador SAP</h1>
+      <h1 class="title">🔒 Autenticação Robô SAP</h1>
 
       <div class="form-group">
         <label for="userSelect">Selecione seu Nome:</label>
@@ -200,44 +198,51 @@
 
       <div id="user-err" class="error-msg">SENHA INCORRETA</div>
 
-      <button class="btn-action" style="margin-top: 8px;" onclick="verifyUserPIN()">Obter PIN de Hoje</button>
+      <button class="btn-action" style="margin-top: 8px;" onclick="verifyUserPIN()">Obter PIN do Dia</button>
 
       <div class="pin-card" id="userPinCard">
         <div class="pin-title">Seu PIN Válido Hoje:</div>
         <div class="pin-value" id="userPinDisplay">----</div>
       </div>
 
-      <div class="nav-link" onclick="showScreen('view-admin-login')">Acesso Administrativo</div>
+      <div class="nav-link" onclick="showScreen('view-admin-login')">Painel do Administrador</div>
     </div>
 
-    <!-- 2. TELA DE LOGIN ADMIN -->
+    <!-- 2. TELA DE LOGIN DO ADMIN -->
     <div id="view-admin-login" style="display: none;">
-      <h1 class="title">🛡️ Autenticação Admin</h1>
+      <h1 class="title">🛡️ Acesso Administrativo</h1>
 
       <div class="form-group">
-        <label for="adminPassInput">Senha Mestre do Administrador:</label>
+        <label for="adminPassInput">Senha Mestre do Admin:</label>
         <input type="password" id="adminPassInput" placeholder="••••••••" onkeydown="if(event.key==='Enter') verifyAdminLogin()">
       </div>
 
       <div id="admin-err" class="error-msg">SENHA MESTRE INCORRETA</div>
 
-      <button class="btn-action" style="margin-top: 8px;" onclick="verifyAdminLogin()">Entrar na Gestão</button>
+      <button class="btn-action" style="margin-top: 8px;" onclick="verifyAdminLogin()">Acessar Gestão</button>
       <div class="nav-link" onclick="showScreen('view-user-login')">Voltar ao Portal do Operador</div>
     </div>
 
-    <!-- 3. TELA DE GESTÃO ADMIN -->
+    <!-- 3. PAINEL GESTOR ADMIN -->
     <div id="view-admin-dashboard" style="display: none;">
-      <h1 class="title">Gestão de Contas e Acessos</h1>
+      <h1 class="title">Gestão de Contas & Trava Fiori</h1>
 
       <div class="section-box">
-        <div style="font-size: 0.8rem; color: var(--accent); font-weight: bold; margin-bottom: 8px;">➕ Cadastrar Novo Usuário</div>
+        <div style="font-size: 0.8rem; color: var(--accent); font-weight: bold; margin-bottom: 8px;">➕ Cadastrar Funcionário</div>
+        
         <div class="form-group">
           <input type="text" id="new-name" placeholder="Nome Completo (ex: João Silva)">
         </div>
+
         <div class="form-group">
-          <input type="password" id="new-pass" placeholder="Senha Pessoal do Usuário">
+          <input type="text" id="new-fiori-id" placeholder="Login SAP Fiori / E-mail (ex: F123456 ou joao@empresa.com)">
         </div>
-        <button class="btn-action" onclick="addUser()">Cadastrar Funcionário</button>
+
+        <div class="form-group">
+          <input type="password" id="new-pass" placeholder="Senha Pessoal do Funcionário">
+        </div>
+
+        <button class="btn-action" onclick="addUser()">Cadastrar e Criar Trava</button>
       </div>
 
       <div class="section-box">
@@ -251,20 +256,21 @@
   </div>
 
   <script>
-    const ADMIN_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
+    // Senha padrão de admin: admin123 (SHA-256)
+    const ADMIN_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
     const MASTER_KEY = 'SISTEMA_SAP_MASTER_OFFLINE_KEY';
 
     const defaultUsers = [
-      { id: "JOAO_01", name: "João Silva", passHash: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", secret: "SALT_JOAO_01" } // senha: 123
+      { id: "USER_01", name: "João Silva", fioriUser: "F123456", passHash: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", secret: "SALT_JOAO_01" }
     ];
 
     function getUsers() {
-      const saved = localStorage.getItem('sap_users_db_v2');
+      const saved = localStorage.getItem('sap_fiori_users_db');
       return saved ? JSON.parse(saved) : defaultUsers;
     }
 
     function saveUsers(users) {
-      localStorage.setItem('sap_users_db_v2', JSON.stringify(users));
+      localStorage.setItem('sap_fiori_users_db', JSON.stringify(users));
     }
 
     async function hashString(str) {
@@ -347,28 +353,34 @@
 
     async function addUser() {
       const nameInput = document.getElementById('new-name');
+      const fioriInput = document.getElementById('new-fiori-id');
       const passInput = document.getElementById('new-pass');
+
       const name = nameInput.value.trim();
+      const fioriUser = fioriInput.value.trim().toUpperCase();
       const pass = passInput.value.trim();
 
-      if (!name || !pass) return alert('Preencha o nome e a senha do novo usuário.');
+      if (!name || !fioriUser || !pass) {
+        return alert('Preencha Nome, Usuário Fiori/E-mail e Senha.');
+      }
 
       const users = getUsers();
       const id = 'USER_' + Math.floor(1000 + Math.random() * 9000);
       const passHash = await hashString(pass);
       const secret = 'SALT_' + id + '_' + Date.now();
 
-      users.push({ id, name, passHash, secret });
+      users.push({ id, name, fioriUser, passHash, secret });
       saveUsers(users);
 
       nameInput.value = '';
+      fioriInput.value = '';
       passInput.value = '';
       renderAdminUserList();
-      alert(`Usuário ${name} cadastrado com sucesso!`);
+      alert(`Usuário ${name} cadastrado com sucesso com trava para o Fiori: ${fioriUser}`);
     }
 
     function removeUser(index) {
-      if (!confirm('Deseja excluir esta conta? O Bookmarklet desse usuário parará de funcionar.')) return;
+      if (!confirm('Deseja excluir esta conta? O Bookmarklet vinculado deixará de funcionar.')) return;
       const users = getUsers();
       users.splice(index, 1);
       saveUsers(users);
@@ -385,8 +397,8 @@
         item.className = 'user-item';
         item.innerHTML = `
           <div>
-            <strong>${u.name}</strong>
-            <div style="font-size:0.65rem; color:#64748b; cursor:pointer;" onclick="copyBookmarklet('${u.id}', '${u.name}', '${u.secret}')">📋 Copiar Bookmarklet</div>
+            <strong>${u.name}</strong> <span style="color:#00f0ff;">(${u.fioriUser})</span>
+            <div style="font-size:0.68rem; color:#64748b; cursor:pointer; margin-top:2px;" onclick="copyBookmarklet('${u.id}', '${u.name}', '${u.fioriUser}', '${u.secret}')">📋 Copiar Bookmarklet Trava Fiori</div>
           </div>
           <button class="btn-del" onclick="removeUser(${index})">Excluir</button>
         `;
@@ -394,15 +406,15 @@
       });
     }
 
-    function copyBookmarklet(username, displayName, secret) {
-      const bookmarkletCode = `javascript:(async function(){if(document.getElementById('sap-auth-overlay')||document.getElementById('p-sap'))return;var _0xU='${username}',_0xS='${secret}',_0xM='${MASTER_KEY}',_0xD=new Date().toISOString().slice(0,10),_0xBuf=new TextEncoder().encode(_0xD+_0xU+_0xS+_0xM),_0xH=await crypto.subtle.digest('SHA-256',_0xBuf),_0xArr=Array.from(new Uint8Array(_0xH)),_0xHex=_0xArr.map(b=>b.toString(16).padStart(2,'0')).join(''),_0xPIN=parseInt(_0xHex.slice(-6),16).toString().slice(-4).padStart(4,'0');var askPIN=()=>new Promise(res=>{var ov=document.createElement('div');ov.id='sap-auth-overlay';ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,8,17,0.75);backdrop-filter:blur(4px);z-index:9999999;display:flex;align-items:center;justify-content:center;font-family:sans-serif;';var mb=document.createElement('div');mb.style.cssText='background:#0b1120;border:1px solid #00f0ff;border-radius:10px;padding:14px;width:220px;box-shadow:0 0 20px rgba(0,240,255,0.3);display:flex;flex-direction:column;gap:8px;color:#e2e8f0;text-align:center;';mb.innerHTML='<div style="font-size:11px;font-weight:800;color:#00f0ff;">🔒 PIN SAP - ${displayName}</div><input type="password" id="sap-in" maxlength="4" style="background:#111927;border:1px solid #1e2d4a;color:#00f0ff;font-size:18px;text-align:center;letter-spacing:6px;padding:6px;border-radius:6px;outline:none;width:100%;box-sizing:border-box;" placeholder="••••"><div id="sap-e" style="color:#ff2a2a;font-size:9px;display:none;font-weight:bold;">PIN INCORRETO</div><div style="display:flex;gap:6px;"><button id="sap-c" style="flex:1;background:#1e2d4a;border:none;color:#94a3b8;padding:6px;border-radius:4px;font-size:10px;font-weight:bold;cursor:pointer;">Sair</button><button id="sap-ok" style="flex:1;background:#00f0ff;border:none;color:#050811;padding:6px;border-radius:4px;font-size:10px;font-weight:bold;cursor:pointer;">OK</button></div>';ov.appendChild(mb);document.body.appendChild(ov);var inp=document.getElementById('sap-in'),err=document.getElementById('sap-e');inp.focus();var v=()=>{if(inp.value.trim()===_0xPIN){document.body.removeChild(ov);res(true);}else{err.style.display='block';inp.style.borderColor='#ff2a2a';inp.value='';inp.focus();}};document.getElementById('sap-ok').onclick=v;inp.onkeydown=e=>{if(e.key==='Enter')v();if(e.key==='Escape'){document.body.removeChild(ov);res(false);}};document.getElementById('sap-c').onclick=()=>{document.body.removeChild(ov);res(false);};});if(!(await askPIN()))return;var n1='',n2='',fx=!1,cL=0,p=!1,tI=1500,lH,iAP=!1,lCT=0,m='FARDO',s=document.createElement('style');s.innerHTML='#p-sap{position:fixed;top:20px;right:20px;z-index:999999;background:#0b1120;color:#fff;padding:12px;border-radius:12px;font-family:sans-serif;width:180px;display:flex;flex-direction:column;gap:8px;border:1px solid #00f0ff;box-shadow:0 0 15px rgba(0,240,255,.3);user-select:none;transition:all .3s}#p-sap.off{border-color:#ff2a2a;box-shadow:0 0 15px rgba(255,42,42,.3)}#p-sap .hd{text-align:center;cursor:move}#p-sap input,#p-sap select,#p-sap button{background:#111927;border:1px solid #1e2d4a;color:#e2e8f0;border-radius:6px;text-align:center;font-size:10px;font-weight:700;height:26px;width:100%;transition:all .2s}#p-sap input:focus,#p-sap select:focus{border-color:#00f0ff;outline:0}#p-sap select{color:#00f0ff}#p-sap .m-btn{color:#64748b;cursor:pointer}#p-sap .m-btn.act{background:#00f0ff;color:#050811;font-weight:900}#p-sap .lst{display:none;position:absolute;top:28px;left:0;width:100%;background:#0b1120;border:1px solid #00f0ff;border-radius:8px;max-height:110px;overflow-y:auto;z-index:100}#p-sap .opt{padding:6px;cursor:pointer;font-size:10px;color:#00f0ff;text-align:center}#p-sap .opt:hover{background:#00f0ff;color:#050811}#p-sap .bc{cursor:pointer;color:#fff;font-weight:800}';document.head.appendChild(s);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class="hd" id="s-hdr"><span id="s-st" style="font-size:10px;font-weight:900;color:#00f0ff">● ATIVADO</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><button id="b-frd" class="m-btn act">Fardo</button><button id="b-bob" class="m-btn">Bobina</button></div><div style="position:relative"><div style="display:flex;gap:4px"><input id="s-fx" placeholder="Destino"><button id="s-btn" style="width:28px;background:#1e2d4a;color:#00f0ff">▼</button></div><div id="s-lst" class="lst"><div class="opt">001-01-090</div><div class="opt">001-01-011</div><div class="opt">001-01-012</div><div class="opt">LOBO</div><div class="opt">STAGE1</div><div class="opt">STAGE2</div><div class="opt">STAGE3</div></div></div><input id="s-mat" placeholder="Filtro Material"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><select id="s-tm"><option value="1500">1.5s</option><option value="2000">2.0s</option><option value="3000">3.0s</option></select><button id="s-ps" class="bc" style="background:#10b981">Pausar</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center"><span id="s-cnt" style="font-size:13px;font-weight:800;color:#00f0ff;background:#111927;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid #00f0ff">00</span><button id="s-rz" class="bc" style="background:#ff2a2a">Zerar</button></div>';document.body.appendChild(a);var fxI=a.querySelector('#s-fx'),mtI=a.querySelector('#s-mat'),mB=a.querySelector('#s-btn'),mL=a.querySelector('#s-lst'),psB=a.querySelector('#s-ps'),tmS=a.querySelector('#s-tm'),stT=a.querySelector('#s-st'),bFrd=a.querySelector('#b-frd'),bBob=a.querySelector('#b-bob'),hdr=a.querySelector('#s-hdr'),op=!1,isD=!1,sX=0,sY=0,iL=0,iT=0;function sDrg(e){var t=e.touches?e.touches[0]:e;isD=!0;sX=t.clientX;sY=t.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top;a.style.right='auto';a.style.left=iL+'px';a.style.top=iT+'px';}function mDrg(e){if(!isD)return;var t=e.touches?e.touches[0]:e;a.style.left=Math.min(Math.max(10,iL+(t.clientX-sX)),window.innerWidth-a.offsetWidth-10)+'px';a.style.top=Math.min(Math.max(10,iT+(t.clientY-sY)),window.innerHeight-a.offsetHeight-10)+'px';}function eDrg(){isD=!1;}hdr.addEventListener('mousedown',sDrg);document.addEventListener('mousemove',mDrg);document.addEventListener('mouseup',eDrg);hdr.addEventListener('touchstart',sDrg,{passive:!0});document.addEventListener('touchmove',mDrg,{passive:!0});document.addEventListener('touchend',eDrg);bFrd.onclick=()=>{m='FARDO';bFrd.classList.add('act');bBob.classList.remove('act');};bBob.onclick=()=>{m='BOBINA';bBob.classList.add('act');bFrd.classList.remove('act');};mB.onclick=e=>{e.stopPropagation();op=!op;mL.style.display=op?'block':'none';};document.onclick=e=>{a.contains(e.target)||(op=!1,mL.style.display='none');};a.querySelectorAll('.opt').forEach(o=>{o.onclick=e=>{e.stopPropagation();fxI.value=o.innerText.trim();op=!1;mL.style.display='none';fxI.dispatchEvent(new Event('input',{bubbles:!0}));};});function uC(e){var t=Date.now();if(t-lCT<1500)return;lCT=t;cL+=e;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL;}a.querySelector('#s-rz').onclick=()=>{cL=0;a.querySelector('#s-cnt').innerText='00';};psB.onclick=()=>{p=!p;if(p){psB.innerText='Play';psB.style.background='#ff6600';stT.innerText='● DESATIVADO';stT.style.color='#ff2a2a';a.classList.add('off');}else{psB.innerText='Pausar';psB.style.background='#10b981';stT.innerText='● ATIVADO';stT.style.color='#00f0ff';a.classList.remove('off');}};tmS.onchange=()=>{tI=parseInt(tmS.value,10);rL();};document.addEventListener('keydown',e=>{p||iAP||('Enter'===e.key&&document.activeElement&&!a.contains(document.activeElement)&&uC('BOBINA'===m?1:2));},!0);function cM(){var e=mtI.value.trim();if(!e)return!0;var t=e.split(',').map(x=>x.trim().toUpperCase()).filter(Boolean),r=['[id*="Mat"]','[id*="MAT"]','[id*="Product"]','.sapMText','.sapMInputBaseInner','span'];for(var i=0;i<r.length;i++){var o=document.querySelectorAll(r[i]);for(var j=0;j<o.length;j++){if(o[j].id==='s-mat'||o[j].closest('#p-sap'))continue;var v=(o[j].value||o[j].innerText||'').trim().toUpperCase();if(v&&t.some(x=>v.includes(x)))return!0;}}return!1;}function run(){if(p||iAP)return;var e=document.querySelector('.sapMList, .sapMTable, [id*="faixasDisponiveis"]');if(e&&e.id!=='p-sap'){e.style.setProperty('display','none','important');var t=e.closest('.sapMVBox, .sapMHBox');t&&t.style.setProperty('display','none','important');}var r=document.querySelector('[id$="AjusNlpla-inner"]'),i=fxI.value.trim();if(r&&i){if(r.value!==i&&!fx){if(cM()){fx=!0;try{var o=window.sap.ui.getCore().byId(r.id.replace('-inner',''));o&&(o.setSelectedKey&&o.setSelectedKey(i),o.setValue&&o.setValue(i));}catch(x){}r.value=i;r.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(()=>{fx=!1;},1500);}}if(r.value!==i)return;}var f='BOBINA'===m,l2=document.querySelector('[id$="LoteInput2-inner"]'),l1=document.querySelector('[id$="LoteInput1-inner"]')||document.querySelector('[id*="LoteInput"]');function proc(inp,nVal,inc){var v=inp.value.trim();if(v&&'Relative'!==v&&v!==nVal){nVal=v;iAP=!0;setTimeout(()=>{if(inp.value.trim()&&cM()){inp.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(()=>{var b=document.querySelector('[id$="nextButton-BDI-content"]');if(b){b.click();uC(inc);setTimeout(()=>{var b2=document.querySelector('[id$="_IDGenButton2-BDI-content"]');if(b2)b2.click();setTimeout(()=>{fx=!1;iAP=!1;},2500);},500);}else{fx=!1;iAP=!1;}},1000);}else{iAP=!1;}},400);}}l2&&!f?proc(l2,n2,2):l1&&(f||!l2)&&proc(l1,n1,1);}function rL(){lH&&clearInterval(lH);lH=setInterval(run,tI);}rL();})();`;
+    function copyBookmarklet(username, displayName, fioriOwner, secret) {
+      // Código do Bookmarklet contendo a trava local de extração de usuário do Fiori
+      const bookmarkletCode = `javascript:(async function(){if(document.getElementById('sap-auth-overlay')||document.getElementById('p-sap'))return;var _0xActiveUser='';try{_0xActiveUser=window.sap.ushell.Container.getService("UserInfo").getUser().getId().toUpperCase();}catch(e){try{_0xActiveUser=window.sap.ushell.Container.getService("UserInfo").getUser().getEmail().toUpperCase();}catch(ex){var _btn=document.querySelector('.sapUshellMeAreaHeaderButton,[id*="meAreaHeaderButton"]');_0xActiveUser=_btn?(_btn.getAttribute('title')||_btn.innerText||'').trim().toUpperCase():'';}}var _0xOwner='${fioriOwner}';if(!_0xActiveUser||(_0xActiveUser!==_0xOwner&&!_0xActiveUser.includes(_0xOwner))){alert('❌ ACESSO BLOQUEADO\\n\\nEste Bookmarklet pertence a: '+_0xOwner+'\\nUsuário logado no Fiori: '+(_0xActiveUser||'Não identificado'));return;}var _0xU='${username}',_0xS='${secret}',_0xM='${MASTER_KEY}',_0xD=new Date().toISOString().slice(0,10),_0xBuf=new TextEncoder().encode(_0xD+_0xU+_0xS+_0xM),_0xH=await crypto.subtle.digest('SHA-256',_0xBuf),_0xArr=Array.from(new Uint8Array(_0xH)),_0xHex=_0xArr.map(b=>b.toString(16).padStart(2,'0')).join(''),_0xPIN=parseInt(_0xHex.slice(-6),16).toString().slice(-4).padStart(4,'0');var askPIN=()=>new Promise(res=>{var ov=document.createElement('div');ov.id='sap-auth-overlay';ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,8,17,0.75);backdrop-filter:blur(4px);z-index:9999999;display:flex;align-items:center;justify-content:center;font-family:sans-serif;';var mb=document.createElement('div');mb.style.cssText='background:#0b1120;border:1px solid #00f0ff;border-radius:10px;padding:14px;width:220px;box-shadow:0 0 20px rgba(0,240,255,0.3);display:flex;flex-direction:column;gap:8px;color:#e2e8f0;text-align:center;';mb.innerHTML='<div style="font-size:11px;font-weight:800;color:#00f0ff;">🔒 PIN SAP - ${displayName}</div><input type="password" id="sap-in" maxlength="4" style="background:#111927;border:1px solid #1e2d4a;color:#00f0ff;font-size:18px;text-align:center;letter-spacing:6px;padding:6px;border-radius:6px;outline:none;width:100%;box-sizing:border-box;" placeholder="••••"><div id="sap-e" style="color:#ff2a2a;font-size:9px;display:none;font-weight:bold;">PIN INCORRETO</div><div style="display:flex;gap:6px;"><button id="sap-c" style="flex:1;background:#1e2d4a;border:none;color:#94a3b8;padding:6px;border-radius:4px;font-size:10px;font-weight:bold;cursor:pointer;">Sair</button><button id="sap-ok" style="flex:1;background:#00f0ff;border:none;color:#050811;padding:6px;border-radius:4px;font-size:10px;font-weight:bold;cursor:pointer;">OK</button></div>';ov.appendChild(mb);document.body.appendChild(ov);var inp=document.getElementById('sap-in'),err=document.getElementById('sap-e');inp.focus();var v=()=>{if(inp.value.trim()===_0xPIN){document.body.removeChild(ov);res(true);}else{err.style.display='block';inp.style.borderColor='#ff2a2a';inp.value='';inp.focus();}};document.getElementById('sap-ok').onclick=v;inp.onkeydown=e=>{if(e.key==='Enter')v();if(e.key==='Escape'){document.body.removeChild(ov);res(false);}};document.getElementById('sap-c').onclick=()=>{document.body.removeChild(ov);res(false);};});if(!(await askPIN()))return;var n1='',n2='',fx=!1,cL=0,p=!1,tI=1500,lH,iAP=!1,lCT=0,m='FARDO',s=document.createElement('style');s.innerHTML='#p-sap{position:fixed;top:20px;right:20px;z-index:999999;background:#0b1120;color:#fff;padding:12px;border-radius:12px;font-family:sans-serif;width:180px;display:flex;flex-direction:column;gap:8px;border:1px solid #00f0ff;box-shadow:0 0 15px rgba(0,240,255,.3);user-select:none;transition:all .3s}#p-sap.off{border-color:#ff2a2a;box-shadow:0 0 15px rgba(255,42,42,.3)}#p-sap .hd{text-align:center;cursor:move}#p-sap input,#p-sap select,#p-sap button{background:#111927;border:1px solid #1e2d4a;color:#e2e8f0;border-radius:6px;text-align:center;font-size:10px;font-weight:700;height:26px;width:100%;transition:all .2s}#p-sap input:focus,#p-sap select:focus{border-color:#00f0ff;outline:0}#p-sap select{color:#00f0ff}#p-sap .m-btn{color:#64748b;cursor:pointer}#p-sap .m-btn.act{background:#00f0ff;color:#050811;font-weight:900}#p-sap .lst{display:none;position:absolute;top:28px;left:0;width:100%;background:#0b1120;border:1px solid #00f0ff;border-radius:8px;max-height:110px;overflow-y:auto;z-index:100}#p-sap .opt{padding:6px;cursor:pointer;font-size:10px;color:#00f0ff;text-align:center}#p-sap .opt:hover{background:#00f0ff;color:#050811}#p-sap .bc{cursor:pointer;color:#fff;font-weight:800}';document.head.appendChild(s);var a=document.createElement('div');a.id='p-sap';a.innerHTML='<div class="hd" id="s-hdr"><span id="s-st" style="font-size:10px;font-weight:900;color:#00f0ff">● ATIVADO</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><button id="b-frd" class="m-btn act">Fardo</button><button id="b-bob" class="m-btn">Bobina</button></div><div style="position:relative"><div style="display:flex;gap:4px"><input id="s-fx" placeholder="Destino"><button id="s-btn" style="width:28px;background:#1e2d4a;color:#00f0ff">▼</button></div><div id="s-lst" class="lst"><div class="opt">001-01-090</div><div class="opt">001-01-011</div><div class="opt">001-01-012</div><div class="opt">LOBO</div><div class="opt">STAGE1</div><div class="opt">STAGE2</div><div class="opt">STAGE3</div></div></div><input id="s-mat" placeholder="Filtro Material"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><select id="s-tm"><option value="1500">1.5s</option><option value="2000">2.0s</option><option value="3000">3.0s</option></select><button id="s-ps" class="bc" style="background:#10b981">Pausar</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center"><span id="s-cnt" style="font-size:13px;font-weight:800;color:#00f0ff;background:#111927;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid #00f0ff">00</span><button id="s-rz" class="bc" style="background:#ff2a2a">Zerar</button></div>';document.body.appendChild(a);var fxI=a.querySelector('#s-fx'),mtI=a.querySelector('#s-mat'),mB=a.querySelector('#s-btn'),mL=a.querySelector('#s-lst'),psB=a.querySelector('#s-ps'),tmS=a.querySelector('#s-tm'),stT=a.querySelector('#s-st'),bFrd=a.querySelector('#b-frd'),bBob=a.querySelector('#b-bob'),hdr=a.querySelector('#s-hdr'),op=!1,isD=!1,sX=0,sY=0,iL=0,iT=0;function sDrg(e){var t=e.touches?e.touches[0]:e;isD=!0;sX=t.clientX;sY=t.clientY;var r=a.getBoundingClientRect();iL=r.left;iT=r.top;a.style.right='auto';a.style.left=iL+'px';a.style.top=iT+'px';}function mDrg(e){if(!isD)return;var t=e.touches?e.touches[0]:e;a.style.left=Math.min(Math.max(10,iL+(t.clientX-sX)),window.innerWidth-a.offsetWidth-10)+'px';a.style.top=Math.min(Math.max(10,iT+(t.clientY-sY)),window.innerHeight-a.offsetHeight-10)+'px';}function eDrg(){isD=!1;}hdr.addEventListener('mousedown',sDrg);document.addEventListener('mousemove',mDrg);document.addEventListener('mouseup',eDrg);hdr.addEventListener('touchstart',sDrg,{passive:!0});document.addEventListener('touchmove',mDrg,{passive:!0});document.addEventListener('touchend',eDrg);bFrd.onclick=()=>{m='FARDO';bFrd.classList.add('act');bBob.classList.remove('act');};bBob.onclick=()=>{m='BOBINA';bBob.classList.add('act');bFrd.classList.remove('act');};mB.onclick=e=>{e.stopPropagation();op=!op;mL.style.display=op?'block':'none';};document.onclick=e=>{a.contains(e.target)||(op=!1,mL.style.display='none');};a.querySelectorAll('.opt').forEach(o=>{o.onclick=e=>{e.stopPropagation();fxI.value=o.innerText.trim();op=!1;mL.style.display='none';fxI.dispatchEvent(new Event('input',{bubbles:!0}));};});function uC(e){var t=Date.now();if(t-lCT<1500)return;lCT=t;cL+=e;a.querySelector('#s-cnt').innerText=cL<10?'0'+cL:cL;}a.querySelector('#s-rz').onclick=()=>{cL=0;a.querySelector('#s-cnt').innerText='00';};psB.onclick=()=>{p=!p;if(p){psB.innerText='Play';psB.style.background='#ff6600';stT.innerText='● DESATIVADO';stT.style.color='#ff2a2a';a.classList.add('off');}else{psB.innerText='Pausar';psB.style.background='#10b981';stT.innerText='● ATIVADO';stT.style.color='#00f0ff';a.classList.remove('off');}};tmS.onchange=()=>{tI=parseInt(tmS.value,10);rL();};document.addEventListener('keydown',e=>{p||iAP||('Enter'===e.key&&document.activeElement&&!a.contains(document.activeElement)&&uC('BOBINA'===m?1:2));},!0);function cM(){var e=mtI.value.trim();if(!e)return!0;var t=e.split(',').map(x=>x.trim().toUpperCase()).filter(Boolean),r=['[id*="Mat"]','[id*="MAT"]','[id*="Product"]','.sapMText','.sapMInputBaseInner','span'];for(var i=0;i<r.length;i++){var o=document.querySelectorAll(r[i]);for(var j=0;j<o.length;j++){if(o[j].id==='s-mat'||o[j].closest('#p-sap'))continue;var v=(o[j].value||o[j].innerText||'').trim().toUpperCase();if(v&&t.some(x=>v.includes(x)))return!0;}}return!1;}function run(){if(p||iAP)return;var e=document.querySelector('.sapMList, .sapMTable, [id*="faixasDisponiveis"]');if(e&&e.id!=='p-sap'){e.style.setProperty('display','none','important');var t=e.closest('.sapMVBox, .sapMHBox');t&&t.style.setProperty('display','none','important');}var r=document.querySelector('[id$="AjusNlpla-inner"]'),i=fxI.value.trim();if(r&&i){if(r.value!==i&&!fx){if(cM()){fx=!0;try{var o=window.sap.ui.getCore().byId(r.id.replace('-inner',''));o&&(o.setSelectedKey&&o.setSelectedKey(i),o.setValue&&o.setValue(i));}catch(x){}r.value=i;r.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(()=>{fx=!1;},1500);}}if(r.value!==i)return;}var f='BOBINA'===m,l2=document.querySelector('[id$="LoteInput2-inner"]'),l1=document.querySelector('[id$="LoteInput1-inner"]')||document.querySelector('[id*="LoteInput"]');function proc(inp,nVal,inc){var v=inp.value.trim();if(v&&'Relative'!==v&&v!==nVal){nVal=v;iAP=!0;setTimeout(()=>{if(inp.value.trim()&&cM()){inp.dispatchEvent(new Event('change',{bubbles:!0}));setTimeout(()=>{var b=document.querySelector('[id$="nextButton-BDI-content"]');if(b){b.click();uC(inc);setTimeout(()=>{var b2=document.querySelector('[id$="_IDGenButton2-BDI-content"]');if(b2)b2.click();setTimeout(()=>{fx=!1;iAP=!1;},2500);},500);}else{fx=!1;iAP=!1;}},1000);}else{iAP=!1;}},400);}}l2&&!f?proc(l2,n2,2):l1&&(f||!l2)&&proc(l1,n1,1);}function rL(){lH&&clearInterval(lH);lH=setInterval(run,tI);}rL();})();`;
 
       navigator.clipboard.writeText(bookmarkletCode).then(() => {
-        alert(`Bookmarklet exclusivo para ${displayName} copiado! Cole-o no favorito do tablet dele.`);
+        alert(`Bookmarklet blindado para ${displayName} (${fioriOwner}) copiado!\n\nEle só funcionará se este usuário específico estiver logado no SAP Fiori.`);
       });
     }
 
-    // Inicialização
     renderUserDropdown();
   </script>
 </body>
