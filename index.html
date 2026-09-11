@@ -404,7 +404,7 @@
         if (!res.ok) throw new Error("Erro na requisição: " + res.status);
         cachedUsers = users;
       } catch (e) {
-        alert("alert: Erro ao salvar dados no Firebase: " + e.message);
+        alert("Erro ao salvar dados no Firebase: " + e.message);
       } finally {
         toggleLoading(false);
       }
