@@ -256,6 +256,17 @@
       color: var(--primary);
       z-index: 10;
     }
+
+    .btn-reload {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
@@ -269,7 +280,10 @@
       <h1 class="title">Gerar PIN Diário</h1>
 
       <div class="form-group">
-        <label>Nome do Operador</label>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label>Nome do Operador</label>
+          <button class="btn-reload" onclick="showOperatorScreen()">🔄 Atualizar Lista</button>
+        </div>
         <select id="opUserSelect"></select>
       </div>
 
@@ -362,6 +376,17 @@
       document.getElementById('loading').style.display = show ? 'flex' : 'none';
     }
 
+    // Função para desempacotar recursivamente o JSON gerado pelo JSONBin
+    function normalizeUsers(obj) {
+      if (!obj) return [];
+      if (Array.isArray(obj)) return obj;
+      if (typeof obj === 'object') {
+        if (Array.isArray(obj.record)) return normalizeUsers(obj.record);
+        if (Array.isArray(obj.data)) return normalizeUsers(obj.data);
+      }
+      return [];
+    }
+
     async function fetchUsersFromCloud() {
       toggleLoading(true);
       try {
@@ -375,17 +400,8 @@
           }
         });
         
-        const data = await res.json();
-        
-        if (Array.isArray(data)) {
-          cachedUsers = data;
-        } else if (Array.isArray(data.record)) {
-          cachedUsers = data.record;
-        } else if (data.record && Array.isArray(data.record.record)) {
-          cachedUsers = data.record.record;
-        } else {
-          cachedUsers = [];
-        }
+        const responseData = await res.json();
+        cachedUsers = normalizeUsers(responseData);
       } catch (e) {
         console.error("Erro ao buscar dados na nuvem:", e);
       } finally {
