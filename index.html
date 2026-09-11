@@ -256,23 +256,12 @@
       color: var(--primary);
       z-index: 10;
     }
-
-    .btn-reload {
-      background: none;
-      border: none;
-      color: var(--primary);
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 4px;
-      display: inline-block;
-    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div id="loading" class="loading-overlay" style="display: none;">Sincronizando com Banco de Dados...</div>
+    <div id="loading" class="loading-overlay" style="display: none;">Sincronizando com Firebase...</div>
     
     <!-- TELA 1: PORTAL DO OPERADOR -->
     <div id="view-operator">
@@ -280,10 +269,7 @@
       <h1 class="title">Gerar PIN Diário</h1>
 
       <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <label>Nome do Operador</label>
-          <button class="btn-reload" onclick="showOperatorScreen()">🔄 Atualizar Lista</button>
-        </div>
+        <label>Nome do Operador</label>
         <select id="opUserSelect"></select>
       </div>
 
@@ -351,7 +337,7 @@
           <input type="password" id="newOpPass" placeholder="Senha Pessoal do Operador">
         </div>
 
-        <button class="btn-primary" onclick="addOperator()">Criar Conta e Salvar na Nuvem</button>
+        <button class="btn-primary" onclick="addOperator()">Criar Conta e Salvar no Firebase</button>
       </div>
 
       <div class="section-card">
@@ -365,8 +351,8 @@
   </div>
 
   <script>
-    const JSONBIN_BIN_ID = "6aa34736ffd5d16053f839ba"; 
-    const JSONBIN_API_KEY = "$2a$10$jyuXRfHNErQh6aQVpIqble.0basG/aLQPm5NicmZG6AVQK5Y0lKhS"; 
+    // URL DO BANCO DO FIREBASE CONFIGURADA
+    const FIREBASE_URL = "https://fiori-auth-default-rtdb.firebaseio.com/operators.json"; 
     
     const ADMIN_PASS_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; // admin123
     const SYSTEM_MASTER_KEY = "SAP_SECRET_OFFLINE_PROD_2026";
@@ -376,32 +362,21 @@
       document.getElementById('loading').style.display = show ? 'flex' : 'none';
     }
 
-    // Extrai o array de operadores independente do formato de empacotamento
-    function extractOperators(data) {
-      if (!data) return [];
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data.operators)) return data.operators;
-      if (data.record) return extractOperators(data.record);
-      return [];
-    }
-
     async function fetchUsersFromCloud() {
       toggleLoading(true);
       try {
-        const timestamp = new Date().getTime();
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest?nocache=${timestamp}`, {
-          method: 'GET',
-          headers: { 
-            "X-Master-Key": JSONBIN_API_KEY,
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache"
-          }
-        });
-        
+        const res = await fetch(FIREBASE_URL);
         const data = await res.json();
-        cachedUsers = extractOperators(data);
+        
+        if (data && typeof data === 'object') {
+          cachedUsers = Object.values(data);
+        } else if (Array.isArray(data)) {
+          cachedUsers = data;
+        } else {
+          cachedUsers = [];
+        }
       } catch (e) {
-        console.error("Erro ao carregar dados:", e);
+        console.error("Erro ao carregar dados do Firebase:", e);
       } finally {
         toggleLoading(false);
       }
@@ -410,25 +385,16 @@
     async function saveUsersToCloud(users) {
       toggleLoading(true);
       try {
-        // Envia com estrutura fixa de objeto "operators" para impedir que o JSONBin quebre o array
-        const payload = { operators: users };
-        
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+        const res = await fetch(FIREBASE_URL, {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": JSONBIN_API_KEY
-          },
-          body: JSON.stringify(payload)
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(users)
         });
 
-        if (!res.ok) {
-          throw new Error("Erro na gravação HTTP: " + res.status);
-        }
-
+        if (!res.ok) throw new Error("Erro na requisição: " + res.status);
         cachedUsers = users;
       } catch (e) {
-        alert("Erro ao salvar dados na nuvem: " + e.message);
+        alert("Erro ao salvar dados no Firebase: " + e.message);
       } finally {
         toggleLoading(false);
       }
@@ -539,11 +505,11 @@
       fioriInput.value = '';
       passInput.value = '';
       renderAdminDashboard();
-      alert(`Operador ${name} salvo na nuvem com sucesso!`);
+      alert(`Operador ${name} salvo no Firebase com sucesso!`);
     }
 
     async function removeOperator(index) {
-      if (!confirm('Deseja excluir este operador da nuvem?')) return;
+      if (!confirm('Deseja excluir este operador?')) return;
       const newUsersList = [...cachedUsers];
       newUsersList.splice(index, 1);
       await saveUsersToCloud(newUsersList);
