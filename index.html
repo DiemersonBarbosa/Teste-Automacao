@@ -376,14 +376,12 @@
       document.getElementById('loading').style.display = show ? 'flex' : 'none';
     }
 
-    // Função para desempacotar recursivamente o JSON gerado pelo JSONBin
-    function normalizeUsers(obj) {
-      if (!obj) return [];
-      if (Array.isArray(obj)) return obj;
-      if (typeof obj === 'object') {
-        if (Array.isArray(obj.record)) return normalizeUsers(obj.record);
-        if (Array.isArray(obj.data)) return normalizeUsers(obj.data);
-      }
+    // Extrai o array de operadores independente do formato de empacotamento
+    function extractOperators(data) {
+      if (!data) return [];
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.operators)) return data.operators;
+      if (data.record) return extractOperators(data.record);
       return [];
     }
 
@@ -400,10 +398,10 @@
           }
         });
         
-        const responseData = await res.json();
-        cachedUsers = normalizeUsers(responseData);
+        const data = await res.json();
+        cachedUsers = extractOperators(data);
       } catch (e) {
-        console.error("Erro ao buscar dados na nuvem:", e);
+        console.error("Erro ao carregar dados:", e);
       } finally {
         toggleLoading(false);
       }
@@ -412,17 +410,25 @@
     async function saveUsersToCloud(users) {
       toggleLoading(true);
       try {
-        await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+        // Envia com estrutura fixa de objeto "operators" para impedir que o JSONBin quebre o array
+        const payload = { operators: users };
+        
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
             "X-Master-Key": JSONBIN_API_KEY
           },
-          body: JSON.stringify(users)
+          body: JSON.stringify(payload)
         });
+
+        if (!res.ok) {
+          throw new Error("Erro na gravação HTTP: " + res.status);
+        }
+
         cachedUsers = users;
       } catch (e) {
-        alert("Erro ao salvar dados na nuvem.");
+        alert("Erro ao salvar dados na nuvem: " + e.message);
       } finally {
         toggleLoading(false);
       }
