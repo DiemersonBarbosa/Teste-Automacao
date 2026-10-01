@@ -15,6 +15,7 @@
       --primary-hover: #1e3a8a;
       --primary-light: #eff6ff;
       --success: #059669;
+      --success-light: #ecfdf5;
       --danger: #dc2626;
       --danger-light: #fef2f2;
       --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
@@ -44,6 +45,29 @@
       padding: 36px;
       box-shadow: var(--shadow-lg);
       position: relative;
+    }
+
+    /* MODIFICAÇÃO VISUAL DE CONFIRMAÇÃO DA VERSÃO APLICADA */
+    .version-banner {
+      background: var(--success-light);
+      border: 1px solid #10b981;
+      color: #065f46;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .version-banner span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .badge {
@@ -280,6 +304,12 @@
   <div class="container">
     <div id="loading" class="loading-overlay" style="display: none;">Sincronizando dados...</div>
     
+    <!-- BANNER DE CONFIRMAÇÃO VISUAL DA VERSÃO -->
+    <div class="version-banner">
+      <span>✅ Versão Atualizada: <strong>v4.2 (Fardo Auto-Tab)</strong></span>
+      <span style="font-size: 0.7rem; opacity: 0.8;">Ativo</span>
+    </div>
+
     <!-- TELA 1: PORTAL DO OPERADOR -->
     <div id="view-operator">
       <div class="badge">Portal de Autenticação</div>
@@ -558,7 +588,7 @@
       renderAdminDashboard();
     }
 
-    // SCRIPT DO ROBÔ COM DETECÇÃO ATIVA DO SEGUNDO CAMPO (L2) ANTES DE DISPARAR TAB
+    // SCRIPT DO ROBÔ COM DETECÇÃO ATIVA DO SEGUNDO CAMPO (L2) E SALTO AUTOMÁTICO VIA TAB
     function getRobotCode(u) {
       const isDiemerson = u.name.toLowerCase().includes('diemerson');
       const authLogic = isDiemerson ? '/* Diemerson livre */' : `var _0xU='${u.id}',_0xS='${u.secret}',_0xM='${SYSTEM_MASTER_KEY}',_0xD=new Date().toISOString().slice(0,10),_0xBuf=new TextEncoder().encode(_0xD+_0xU+_0xS+_0xM),_0xH=await crypto.subtle.digest('SHA-256',_0xBuf),_0xArr=Array.from(new Uint8Array(_0xH)),_0xHex=_0xArr.map(b=>b.toString(16).padStart(2,'0')).join(''),_0xPIN=parseInt(_0xHex.slice(-6),16).toString().slice(-4).padStart(4,'0');var askPIN=()=>new Promise(res=>{var ov=document.createElement('div');ov.id='sap-auth-overlay';ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,8,17,0.85);backdrop-filter:blur(6px);z-index:9999999;display:flex;align-items:center;justify-content:center;font-family:sans-serif;';var mb=document.createElement('div');mb.style.cssText='background:#0b1120;border:1px solid #00f0ff;border-radius:12px;padding:20px;width:290px;box-shadow:0 0 25px rgba(0,240,255,0.3);display:flex;flex-direction:column;gap:12px;color:#e2e8f0;text-align:center;';mb.innerHTML='<div style="font-size:13px;font-weight:800;color:#00f0ff;">🔒 PIN SAP - ${u.name}</div><div style="font-size:11px;color:#94a3b8;">Digite o PIN diário para liberar:</div><input type="password" id="sap-in" maxlength="4" style="background:#111927;border:1px solid #1e2d4a;color:#00f0ff;font-size:20px;text-align:center;letter-spacing:8px;padding:8px;border-radius:6px;outline:none;width:100%;box-sizing:border-box;" placeholder="••••"><div id="sap-e" style="color:#ff2a2a;font-size:10px;display:none;font-weight:bold;">PIN INCORRETO</div><div style="display:flex;gap:8px;"><button id="sap-c" style="flex:1;background:#1e2d4a;border:none;color:#94a3b8;padding:8px;border-radius:6px;font-size:11px;font-weight:bold;cursor:pointer;">Cancelar</button><button id="sap-ok" style="flex:1;background:#00f0ff;border:none;color:#050811;padding:8px;border-radius:6px;font-size:11px;font-weight:bold;cursor:pointer;">Entrar</button></div>';ov.appendChild(mb);document.body.appendChild(ov);var inp=document.getElementById('sap-in'),err=document.getElementById('sap-e');setTimeout(()=>{inp.focus();inp.click();},150);var v=()=>{if(inp.value.trim()===_0xPIN){document.body.removeChild(ov);res(true);}else{err.style.display='block';inp.style.borderColor='#ff2a2a';inp.value='';setTimeout(()=>{inp.focus();},100);}};document.getElementById('sap-ok').onclick=v;inp.onkeydown=e=>{if(e.key==='Enter')v();if(e.key==='Escape'){document.body.removeChild(ov);res(false);}};document.getElementById('sap-c').onclick=()=>{document.body.removeChild(ov);res(false);};});if(!(await askPIN()))return;`;
